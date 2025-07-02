@@ -13,11 +13,16 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".ImcActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <!-- esto es un comentario en XML / HTML -->
 
             <intent-filter>
+
                 <!-- con estas estiquetas, Android sabe que ésta es mi Actividad Principal (pantalla inicio) -->
                 <action android:name="android.intent.action.MAIN" />
 
