@@ -1,6 +1,7 @@
 package edu.adf.profe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,5 +20,9 @@ class ImcActivity : AppCompatActivity() {
         }
     }
 
-    fun calcularImc(view: View) {}
+    fun calcularImc(view: View) {
+        //TODO hacer el cálculo del IMC
+        Log.d("MIAPP", "El usuario ha tocado el botón de calcular IMC")
+
+    }
 }

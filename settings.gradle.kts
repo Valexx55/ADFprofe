@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Adf profe"
 include(":app")
- 
+include(":pruebaskt")
