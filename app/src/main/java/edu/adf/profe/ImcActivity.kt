@@ -10,6 +10,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+/**
+ * SI TU IMC ESTÁ POR DEBAJO DE 16 , TU IMC ES DESNUTRIDO
+ * SI TU IMC ES MAYOR O IGUAL A 16 Y MENOR QUE 18 --> DELGADO
+ * SI TU IMC ES MAYOR O IGUAL A 18 Y MENOR QUE 25 --> IDEAL
+ * SI TU IMC ES MAYOR O IGUAL A 25 Y MENOR QUE 31 --> SOBREPESO
+ * SI TU IMC ES MAYOR O IGUAL que 31 --> OBESO
+ */
+
+//TODO pasar del valo número al valor nominal 20 --> ESTÁS IDEAL O BIEN CON IF O BIEN CON WHEN
+
+
 class ImcActivity : AppCompatActivity() {
 
     var numeroVecesBoton: Int = 0 //PARA LLEVAR LA CUENTA de veces que el usuario toca el botón
