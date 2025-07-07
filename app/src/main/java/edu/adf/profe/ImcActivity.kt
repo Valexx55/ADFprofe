@@ -114,6 +114,29 @@ class ImcActivity : AppCompatActivity() {
         toast.show()
     }
 
+    fun traducirResultadoImcVersionIF(resultado:Float):String
+    {
+        var imcResultado:String = ""
+
+        //TODO completar el cuerpo de la función o con IF o con WHEN
+        if (resultado<16) {
+            imcResultado = "DESNUTRIDO"
+        } else if (resultado>=16 && resultado<18)
+        {
+            imcResultado = "DELGADO"
+        } else if (resultado>=18 && resultado <25)
+        {
+            imcResultado = "IDEAL"
+        } else if (resultado>=25 && resultado<31)
+        {
+            imcResultado = "SOBREPESO"
+        } else if (resultado>=31)
+        {
+            imcResultado = "OBESO"
+        }
+
+        return imcResultado
+    }
 
 
     /**
