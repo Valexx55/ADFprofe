@@ -17,6 +17,10 @@ fun main() {
     resultadoCadena = traducirResultadoImcVersionWhen(15.0f)
     println(resultadoCadena)
 
+    resultadoCadena = traducirResultadoImcVersionWhen2(24.0f)
+    println(resultadoCadena)
+    resultadoCadena = traducirResultadoImcVersionWhen2(15.0f)
+    println(resultadoCadena)
 
 }
 
@@ -74,13 +78,47 @@ fun traducirResultadoImcVersionWhen (resultado:Float):String
             resultado >= 16 && resultado < 18 -> "DELGADO"
             resultado >= 18 && resultado < 25 -> "IDEAL"
             resultado >= 25 && resultado < 31 -> "SOBREPESO"
-            else -> "OBESO"
+            else -> "OBESO" // mayor o igual q 31
         }
 
     return imcResultado
 }
 
 
+fun traducirResultadoImcVersionWhen2 (resultado:Float):String
+{
+    var imcResultado:String = ""
+
+    val resultadoInt = resultado.toInt()
+
+    imcResultado = when (resultadoInt) {
+        in 1 until 16  -> "DESNUTRIDO"
+        in 16 until  18 -> "DELGADO"
+        in 18 until 25-> "IDEAL"
+        in 25 until 31 -> "SOBREPESO"
+        else -> "OBESO" // mayor o igual q 31
+    }
+
+    return imcResultado
+}
+
+
+//EJERICICIOS BÁSICOS
+/*
+1) HACED UNA FUNCIÓN QUE RECIBA UNA EDAD Y DIGA SI ES MAYOR DE EDAD O NO
+2) HACED UNA FUNCIÓN, QUE RECIBA UNA NOTA NUMÉRICA Y DIGA LA NOMINAL CORRESPONDIENTE,
+BASÁNDOSE EN ESTE RANGO
+
+0-4 SUSPENSO
+5- APROBADO
+6 - BIEN
+7, 8 - NOTABLE
+9, 10 - SOBRESALIENTE
+
+3) HACED UNA FUNCIÓN QUE RECIBA 3 NÚMEROS Y DIGA CUÁL ES EL MAYOR
+4) ENUNCIADO DE GOOGLE : PRECIO DE LAS ENTRADAS DE CINE
+https://developer.android.com/codelabs/basic-android-kotlin-compose-kotlin-fundamentals-practice-problems?hl=es-419#2
+*/
 
 
 
