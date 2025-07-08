@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +53,11 @@ class ImcActivity : AppCompatActivity() {
         Log.d("MIAPP", "ALTURA introducido $resultadoImc")
         //4 mostrar el resultado
         mostrarResultado(resultadoImc)
-
+        var resultadoNombre = traducirResultadoImcVersionIF(resultadoImc)
+        Log.d("MIAPP", "RESULTADO IMC = $resultadoNombre")
+        val tvresultado =  findViewById<TextView>(R.id.imcResultado)
+        tvresultado.text = resultadoNombre
+        tvresultado.visibility = View.VISIBLE
 
     }
 
