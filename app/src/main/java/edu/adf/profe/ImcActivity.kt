@@ -1,5 +1,6 @@
 package edu.adf.profe
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -58,6 +59,10 @@ class ImcActivity : AppCompatActivity() {
         val tvresultado =  findViewById<TextView>(R.id.imcResultado)
         tvresultado.text = resultadoNombre
         tvresultado.visibility = View.VISIBLE
+        //TODO transitar a la ventana nueva ImagenResultadoActivity
+        val intent:Intent = Intent(this, ImagenResultadoActivity::class.java)
+        intent.putExtra("resultado", resultadoNombre)//"guardando en el saco"
+        startActivity(intent)
 
     }
 

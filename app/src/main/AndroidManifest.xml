@@ -13,9 +13,11 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".ImagenResultadoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ImcActivity"
-            android:exported="true" >
-
+            android:exported="true">
             <intent-filter>
 
                 <!-- con estas estiquetas, Android sabe que ésta es mi Actividad Principal (pantalla inicio) -->
@@ -23,7 +25,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"
@@ -31,13 +32,15 @@
 
             <!-- esto es un comentario en XML / HTML -->
 
+
             <!--
             <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
+            </intent-filter>
+            -->
         </activity>
     </application>
 
