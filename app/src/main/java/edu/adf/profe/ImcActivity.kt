@@ -28,6 +28,7 @@ class ImcActivity : AppCompatActivity() {
     var numeroVecesBoton: Int = 0 //PARA LLEVAR LA CUENTA de veces que el usuario toca el botón
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("MIAPP", "en OnCreate")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_imc)
@@ -37,6 +38,33 @@ class ImcActivity : AppCompatActivity() {
             insets
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MIAPP", "en onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MIAPP", "en onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MIAPP", "en onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MIAPP", "en onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MIAPP", "en onDestroy")
+    }
+
+
 
     fun calcularImc(view: View) {
 

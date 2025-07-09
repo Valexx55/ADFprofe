@@ -144,6 +144,15 @@ Un precio para adultos mayores de USD 20 para personas de 61 años o más (asumi
 Un valor de -1 para indicar que el precio no es válido cuando un usuario ingresa una edad fuera de las especificaciones
  */
 
+/**
+ * Calcula el precio de la entrada al cine según la edad
+ * y el día de la semana
+ * @param age la edad de la persona
+ * @param isMonday indica si es lunes o no
+ * @return el precio de la entrada calculado
+ * @author Val
+ * @since version 1 (9/7/2025)
+ */
 fun ticketPrice(age: Int, isMonday: Boolean): Int {
     var precioEntrada:Int = -1
     when (age) {
