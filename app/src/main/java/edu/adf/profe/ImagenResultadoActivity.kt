@@ -20,6 +20,7 @@ class ImagenResultadoActivity : AppCompatActivity() {
 
     fun cambiarTextoEImagen (resultado:String)
     {
+        //TODO completar esta función para que muestre una imagen y un texto adecuados al string resultado recibido
         val imageView:ImageView = findViewById<ImageView>(R.id.fotoResultado)
         imageView.setImageResource(R.drawable.imc_obeso)
     }
