@@ -7,6 +7,21 @@ fun main() {
     printNotificationSummary(morningNotification)
     printNotificationSummary(eveningNotification)*/
 
+    val child = 5
+    val adult = 28
+    val senior = 87
+
+    val isMonday = false
+
+
+    println("The movie ticket price for a person aged $child is \$${ticketPrice(child, isMonday)}.")
+    println("The movie ticket price for a person aged $adult is \$${ticketPrice(adult, isMonday)}.")
+    println("The movie ticket price for a person aged $senior is \$${ticketPrice(senior, isMonday)}.")
+
+    println(" CON 18 eres ${mayordeEdad(17)}")
+    println(" CON 36 eres ${mayordeEdad(36)}")
+
+
 
     var resultadoCadena = traducirResultadoImcVersionIF(24.0f)
     println(resultadoCadena)
@@ -116,12 +131,47 @@ BASÁNDOSE EN ESTE RANGO
 9, 10 - SOBRESALIENTE
 
 3) HACED UNA FUNCIÓN QUE RECIBA 3 NÚMEROS Y DIGA CUÁL ES EL MAYOR
-4) ENUNCIADO DE GOOGLE : PRECIO DE LAS ENTRADAS DE CINE
+*/
+
+/*4) ENUNCIADO DE GOOGLE : PRECIO DE LAS ENTRADAS DE CINE
 https://developer.android.com/codelabs/basic-android-kotlin-compose-kotlin-fundamentals-practice-problems?hl=es-419#2
 */
 
+/*
+Un precio de entrada infantil de USD 15 para personas de 12 años o menos.
+Un precio de entrada estándar de USD 30 para personas de entre 13 y 60 años. Los lunes, un precio estándar con descuento de USD 25 para el mismo grupo etario
+Un precio para adultos mayores de USD 20 para personas de 61 años o más (asumimos que la edad máxima de un espectador es de 100 años)
+Un valor de -1 para indicar que el precio no es válido cuando un usuario ingresa una edad fuera de las especificaciones
+ */
+
+fun ticketPrice(age: Int, isMonday: Boolean): Int {
+    var precioEntrada:Int = -1
+    when (age) {
+        in 0..12 -> precioEntrada = 15
+        in 13..60 -> {
+            if (isMonday)
+            {
+                precioEntrada = 25
+            } else
+                precioEntrada = 30
+        }
+        in 61..100 -> precioEntrada = 20
+    }
+    return precioEntrada
+}
 
 
+//1) HACED UNA FUNCIÓN QUE RECIBA UNA EDAD Y DIGA SI ES MAYOR DE EDAD O NO
+fun mayordeEdad(edad:Int):String
+{
+    var resultado:String=""
+
+    if (edad<18){
+        resultado= "MENOR"
+    } else resultado = "MAYOR"
+
+    return resultado
+}
 
 
 
