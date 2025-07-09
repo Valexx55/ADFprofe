@@ -2,6 +2,7 @@ package edu.adf.profe
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,12 +13,14 @@ class ImagenResultadoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val resultado = intent.getStringExtra("resultado")//"Leyendo del saco"
         Log.d("MIAPP", "RESULTADO = $resultado")
-        enableEdgeToEdge()
+        //resultado?.length;
         setContentView(R.layout.activity_imagen_resultado)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        cambiarTextoEImagen(resultado!!)
+    }
+
+    fun cambiarTextoEImagen (resultado:String)
+    {
+        val imageView:ImageView = findViewById<ImageView>(R.id.fotoResultado)
+        imageView.setImageResource(R.drawable.imc_obeso)
     }
 }
