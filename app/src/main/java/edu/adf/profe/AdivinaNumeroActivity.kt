@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import kotlin.random.Random
 
 
 /**
@@ -25,14 +26,28 @@ import androidx.core.view.WindowInsetsCompat
  * Si el usuario acierta, le mostramos un mensaje de ENHORABUENA
  */
 class AdivinaNumeroActivity : AppCompatActivity() {
+
+    var numeroSecreto:Int = 0
+    var numeroVidas: Int = 5
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adivina_numero)
+        numeroSecreto = generarNumeroSecreto()
 
     }
 
     fun intentoAdivina(view: View) {
         Log.d ("MIAPP", "El usuario ha dado a probar")
+        //TODO continuar con la APP
+    }
 
+    fun generarNumeroSecreto(): Int
+    {
+        var numeroSecreto: Int = 0
+
+            numeroSecreto = Random.nextInt(1,100)
+
+        return numeroSecreto
     }
 }
