@@ -44,10 +44,10 @@ class AdivinaNumeroActivity : AppCompatActivity() {
 
     fun generarNumeroSecreto(): Int
     {
-        var numeroSecreto: Int = 0
+        var numeroSecretoLocal: Int = 0
 
-            numeroSecreto = Random.nextInt(1,100)
+            numeroSecretoLocal = Random.nextInt(1,100)
 
-        return numeroSecreto
+        return numeroSecretoLocal
     }
 }
