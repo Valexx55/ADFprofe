@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdivinaNumeroActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADIVINA UN NÚMERO "
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="36dp" />
+
+    <EditText
+        android:id="@+id/numeroUsuario"
+        android:layout_width="80dp"
+        android:hint="Intro Nº"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        />
+
+    <Button
+        android:onClick="intentoAdivina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="PRUEBA"
+        android:layout_marginTop="12dp"
+        />
+
+    <TextView
+        android:id="@+id/numVidas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="5 VIDAS"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        />
+    <TextView
+        android:id="@+id/textoFinal"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"/>
+
+
+</LinearLayout>

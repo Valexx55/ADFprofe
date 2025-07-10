@@ -1,5 +1,5 @@
 package com.example.pruebaskotlin
-
+//val child = 5//ámbito global
 fun main() {
     /*val morningNotification = 51
     val eveningNotification = 135

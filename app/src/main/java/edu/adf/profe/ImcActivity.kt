@@ -2,6 +2,7 @@ package edu.adf.profe
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -26,17 +27,30 @@ import androidx.core.view.WindowInsetsCompat
 class ImcActivity : AppCompatActivity() {
 
     var numeroVecesBoton: Int = 0 //PARA LLEVAR LA CUENTA de veces que el usuario toca el botón
+    var resultadoNombre:String = "" //ámbito global/de clase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("MIAPP", "en OnCreate")
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_imc)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        //si bundle está a nulll
+         //no hago nada
+        //si es distinto de null
+            //pillo el resultadoNombre
+            //actualizo el valor de la caja
+        if (savedInstanceState!=null)
+        {
+            Log.d("MIAPP", "El saco tiene cosas. La actividad viene de recrearse")
+            resultadoNombre = savedInstanceState.getString("resultadoNombre", "")
+            val cajaResultado = findViewById<TextView>(R.id.imcResultado)
+            cajaResultado.text = resultadoNombre
+            cajaResultado.visibility = View.VISIBLE
+        } else {
+            Log.d("MIAPP", "La actividad se ha creado por primera vez")
         }
+        //usando caracterísitcas "avanzadas" de Kotlin
+        resultadoNombre = savedInstanceState?.getString("resultadoNombre") ?: "" //Operador ELVIS operator
+
     }
 
     override fun onStart() {
@@ -66,13 +80,21 @@ class ImcActivity : AppCompatActivity() {
 
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("MIAPP", "en onSaveInstanceState")
+        //guardo resultadoNombre en el saco "Bundle"
+        outState.putString("resultadoNombre", resultadoNombre)
+    }
+
+
     fun calcularImc(view: View) {
 
         Log.d("MIAPP", "El usuario ha tocado el botón de calcular IMC")
         informarNumVecesBoton()
         //IMC = peso / (altura al cuadrado)  DIVISIÓN --> / multiplicación *
         //1 obtener el peso introducido
-        val peso:Float = obtenerPeso()
+        val peso:Float = obtenerPeso() //variable local
         Log.d("MIAPP", "PESO introducido $peso")
         //2 obtener la altura introducida
         val altura = obtenerAltura()
@@ -82,7 +104,7 @@ class ImcActivity : AppCompatActivity() {
         Log.d("MIAPP", "ALTURA introducido $resultadoImc")
         //4 mostrar el resultado
         mostrarResultado(resultadoImc)
-        var resultadoNombre = traducirResultadoImcVersionIF(resultadoImc)
+        resultadoNombre = traducirResultadoImcVersionIF(resultadoImc)
         Log.d("MIAPP", "RESULTADO IMC = $resultadoNombre")
         val tvresultado =  findViewById<TextView>(R.id.imcResultado)
         tvresultado.text = resultadoNombre

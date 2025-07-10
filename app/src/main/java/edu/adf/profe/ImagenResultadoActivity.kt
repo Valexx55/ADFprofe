@@ -35,5 +35,7 @@ class ImagenResultadoActivity : AppCompatActivity() {
 
         val tvLeyenda: TextView = findViewById<TextView>(R.id.leyenda)
         tvLeyenda.text = resultado
+
+
     }
 }
