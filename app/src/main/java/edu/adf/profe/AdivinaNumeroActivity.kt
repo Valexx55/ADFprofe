@@ -36,11 +36,40 @@ class AdivinaNumeroActivity : AppCompatActivity() {
     var haGanado: Boolean = false //variables miembro/"globales"
     lateinit var cajaNumeroUsuario: EditText
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    //TODO MODIFICAR LA APP, PARA QUE AL DAR LA VUELTA EL MÓVIL, NO SE PIERDAN
+    //NI EL NÚMERO DE VIDAS, NI EL NÚMERO SECRETO
+
+    override fun onCreate(saquito: Bundle?) {
+        super.onCreate(saquito)
         setContentView(R.layout.activity_adivina_numero) // hasta que no se ejecuta esta instrucción, no puedo referirme a ninguna
         this.cajaNumeroUsuario = findViewById<EditText>(R.id.numeroUsuario)
-        numeroSecreto = generarNumeroSecreto()
+        this.numeroSecreto =  saquito?.getInt("numerosecreto") ?:  generarNumeroSecreto()
+        this.numeroVidas =  saquito?.getInt("numvidas") ?: 5
+        findViewById<TextView>(R.id.numVidas).text= "$numeroVidas VIDAS"
+        if (this.numeroVidas==0)
+        {
+            findViewById<Button>(R.id.botonJugar).isEnabled = false
+        }
+        var textoFinal = saquito?.getString("textoFinal") ?: ""
+        if (textoFinal.isNotEmpty())
+        {
+            findViewById<TextView>(R.id.textoFinal).text = textoFinal
+            findViewById<TextView>(R.id.textoFinal).visibility = View.VISIBLE
+        }
+
+
+    }
+
+    override fun onSaveInstanceState(saquito: Bundle) {
+        super.onSaveInstanceState(saquito)
+        saquito.putInt("numerosecreto", this.numeroSecreto)
+        saquito.putInt("numvidas", this.numeroVidas)
+        var textoFinal =  findViewById<TextView>(R.id.textoFinal).text.toString()
+        if (textoFinal!="null" && textoFinal.isNotEmpty())
+        {
+            saquito.putString("textoFinal", textoFinal)
+        }
+
 
     }
 
