@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="minaranja">#FF6600</color>
+    <color name="miazul">#0033cc</color>
+    <color name="mirojo">#FF6961</color>
 </resources>
