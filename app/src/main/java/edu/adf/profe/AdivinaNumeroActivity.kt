@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlin.random.Random
+import com.bumptech.glide.Glide
 
 
 /**
@@ -34,6 +36,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
     var numeroSecreto:Int = 0
     var numeroVidas: Int = 5
     var haGanado: Boolean = false //variables miembro/"globales"
+    var haPerdido: Boolean =false
     lateinit var cajaNumeroUsuario: EditText
 
     //TODO MODIFICAR LA APP, PARA QUE AL DAR LA VUELTA EL MÓVIL, NO SE PIERDAN
@@ -57,6 +60,18 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.textoFinal).visibility = View.VISIBLE
         }
 
+        this.haGanado = saquito?.getBoolean("haGanado") ?: false
+        this.haPerdido = saquito?.getBoolean("haPerdido") ?: false
+
+        if (this.haGanado)
+        {
+            actualizarImagen(R.drawable.imagen_victoria)
+        } else if (this.haPerdido)
+        {
+            actualizarImagen(R.drawable.imagen_derrota)
+        }
+
+
 
     }
 
@@ -69,6 +84,9 @@ class AdivinaNumeroActivity : AppCompatActivity() {
         {
             saquito.putString("textoFinal", textoFinal)
         }
+        saquito.putBoolean("haPerdido", this.haPerdido)
+        saquito.putBoolean("haGanado", this.haGanado)
+
 
 
     }
@@ -111,11 +129,12 @@ class AdivinaNumeroActivity : AppCompatActivity() {
 
     fun informarGameOver()
     {
+        this.haPerdido = true
         val cajaMensajeFinal =  findViewById<TextView>(R.id.textoFinal)
         cajaMensajeFinal.text = "HAS PERDIDO, EL NÚMERO BUSCADO ERA $numeroSecreto"
         cajaMensajeFinal.visibility = View.VISIBLE
         findViewById<Button>(R.id.botonJugar).isEnabled = false
-
+        actualizarImagen(R.drawable.imagen_derrota)
     }
 
     fun ganador ()
@@ -124,6 +143,21 @@ class AdivinaNumeroActivity : AppCompatActivity() {
         cajaMensajeFinal.text = "HAS ACERTADO, ENHORABUENA"
         cajaMensajeFinal.visibility = View.VISIBLE
         findViewById<Button>(R.id.botonJugar).isEnabled = false
+        actualizarImagen(R.drawable.imagen_victoria)
+    }
+
+    fun actualizarImagen (imagen: Int)
+    {
+       // findViewById<ImageView>(R.id.imagenAdivina).setImageResource(imagen)
+       /* findViewById<ImageView>(R.id.imagenAdivina).load(imagen) {
+            crossfade(true)
+        }*/ //no funciona con COIL
+
+        Glide.with(this)
+            .asGif()
+            .load(imagen) // puede ser un recurso o una URL
+            .into(findViewById<ImageView>(R.id.imagenAdivina))
+
     }
 
     fun generarNumeroSecreto(): Int
