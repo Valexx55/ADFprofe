@@ -1,6 +1,8 @@
 package edu.adf.profe
 
 
+import android.app.ActivityOptions
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -108,8 +110,14 @@ class AdivinaNumeroActivity : AppCompatActivity() {
         //val cajaNumUsuario = findViewById<EditText>(R.id.numeroUsuario)
         val numeroUsuario = this.cajaNumeroUsuario.text.toString().toInt()
         when {
-            numeroUsuario > numeroSecreto -> informarMenor()
-            numeroUsuario < numeroSecreto -> informarMayor ()
+            numeroUsuario > numeroSecreto -> {
+                informarMenor()
+                this.cajaNumeroUsuario.setText("")
+            }
+            numeroUsuario < numeroSecreto -> {
+                informarMayor ()
+                this.cajaNumeroUsuario.setText("")
+            }
             else -> {
                 findViewById<ImageButton>(R.id.botonReinicio).visibility = View.VISIBLE
                 ganador()
@@ -176,9 +184,17 @@ class AdivinaNumeroActivity : AppCompatActivity() {
 
     fun reiniciarPartida(view: View) {
         //recreate()//esto reinicia la pantalla, pero llama a onSaveInstanceState y en este caso, no me interesa, porque la partida ha terminado y no quiero guardar nada
-        overridePendingTransition(0, 0)
-        finish()//cierro la pantalla
-        startActivity(intent)// creo la pantalla otra vez
-        overridePendingTransition(0, 0)
+        finish()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+        {
+            val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
+            startActivity(intent, options.toBundle())
+        } else {
+            startActivity(intent)// creo la pantalla otra vez
+            overridePendingTransition(0, 0)
+        }
+
+
+
     }
 }

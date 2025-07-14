@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -52,6 +54,33 @@ class ImcActivity : AppCompatActivity() {
         resultadoNombre = savedInstanceState?.getString("resultadoNombre") ?: "" //Operador ELVIS operator
 
     }
+
+    //para dibujar un menú en la parte superior debo definir el  método onCreateOptionsMenu
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_imc, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    //este método es invocado cuando el usuario toca una opción del menú
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.opcionSalir -> {
+                Log.d("MIAPP", "El usuario quiere salir")
+                finish()
+            }
+            R.id.opcionLimpiar -> {
+                Log.d("MIAPP", "El usuario quiere limpiar el formulario")
+                //cojo las cajas de texto
+                findViewById<EditText>(R.id.cajaPeso).setText("")
+                // y las pongo a vacío
+                findViewById<EditText>(R.id.cajaAltura).setText("")
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
     override fun onStart() {
         super.onStart()
