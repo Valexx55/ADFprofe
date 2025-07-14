@@ -46,6 +46,18 @@
         android:layout_marginTop="12dp"
         />
 
+    <ImageButton
+        android:layout_margin="5dp"
+        android:visibility="invisible"
+        android:onClick="reiniciarPartida"
+        android:backgroundTint="?attr/colorPrimary"
+        android:id="@+id/botonReinicio"
+        android:layout_gravity="center"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/outline_autorenew_24" />
+
+
     <TextView
         android:id="@+id/numVidas"
         android:layout_width="wrap_content"
@@ -71,6 +83,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="40dp"/>
+
 
 
 </LinearLayout>

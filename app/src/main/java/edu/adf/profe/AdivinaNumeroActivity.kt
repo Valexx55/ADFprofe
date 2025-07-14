@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -110,7 +111,9 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             numeroUsuario > numeroSecreto -> informarMenor()
             numeroUsuario < numeroSecreto -> informarMayor ()
             else -> {
+                findViewById<ImageButton>(R.id.botonReinicio).visibility = View.VISIBLE
                 ganador()
+                //
                 haGanado = true
             }
         }
@@ -121,7 +124,9 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.numVidas).text = "$numeroVidas VIDAS"
             if (this.numeroVidas==0)
             {
+                findViewById<ImageButton>(R.id.botonReinicio).visibility = View.VISIBLE
                 informarGameOver()
+                //findViewById<Button>(R.id.botonReinicio).visibility = View.VISIBLE
             }
         }
 
@@ -167,5 +172,13 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             numeroSecretoLocal = Random.nextInt(1,100)
 
         return numeroSecretoLocal
+    }
+
+    fun reiniciarPartida(view: View) {
+        //recreate()//esto reinicia la pantalla, pero llama a onSaveInstanceState y en este caso, no me interesa, porque la partida ha terminado y no quiero guardar nada
+        overridePendingTransition(0, 0)
+        finish()//cierro la pantalla
+        startActivity(intent)// creo la pantalla otra vez
+        overridePendingTransition(0, 0)
     }
 }
