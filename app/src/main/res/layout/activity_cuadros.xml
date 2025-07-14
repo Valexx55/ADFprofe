@@ -14,7 +14,8 @@
         android:layout_height="0px"
         android:layout_weight="50"
         android:background="@color/minaranja"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="dibujaTextView">
 
     </LinearLayout>
 

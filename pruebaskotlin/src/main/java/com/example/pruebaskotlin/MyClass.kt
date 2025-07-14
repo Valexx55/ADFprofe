@@ -129,8 +129,34 @@ BASÁNDOSE EN ESTE RANGO
 6 - BIEN
 7, 8 - NOTABLE
 9, 10 - SOBRESALIENTE
+*/
 
-3) HACED UNA FUNCIÓN QUE RECIBA 3 NÚMEROS Y DIGA CUÁL ES EL MAYOR
+fun notaCorrespondiente(resultado:Int):String {
+    var notaResoltado: String = ""
+
+    if (resultado <= 4){
+        notaResoltado = "SUSPENSO"
+    }
+
+    else if (resultado == 5)
+    {
+        notaResoltado = "APROBADO"
+    }
+
+
+    else if (resultado == 6)
+
+        notaResoltado = "BIEN"
+    else if (resultado == 7 || resultado == 8)
+
+        notaResoltado = "NOTABLE"
+    else if (resultado == 9 || resultado == 10)
+
+        notaResoltado = "SOBRESALIENTE"
+
+    return notaResoltado
+}
+/*3) HACED UNA FUNCIÓN QUE RECIBA 3 NÚMEROS Y DIGA CUÁL ES EL MAYOR
 */
 
 /*4) ENUNCIADO DE GOOGLE : PRECIO DE LAS ENTRADAS DE CINE
