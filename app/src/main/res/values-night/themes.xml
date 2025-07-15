@@ -4,6 +4,8 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorPrimary" >@color/miazul</item>
+        <item name="colorOnSurface">@color/minaranja</item>
+
     </style>
     <style name="Theme.AdfProfe" parent="Base.Theme.AdfProfe" />
 </resources>
