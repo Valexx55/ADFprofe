@@ -1,14 +1,13 @@
 package edu.adf.profe
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
@@ -43,6 +42,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     }
 
+
+
     //este método se invoca al tocar la hamburguesa
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId)
@@ -53,11 +54,12 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 {
                     //cerrar
                     this.drawerLayout.closeDrawers()
-                    this.menuVisible=false
+                   this.menuVisible=false
                 } else {
                     this.drawerLayout.openDrawer(GravityCompat.START)
-                    this.menuVisible=true
+                   this.menuVisible=true
                 }
+               // this.menuVisible = !this.menuVisible
             }
         }
         return super.onOptionsItemSelected(item)
@@ -65,6 +67,30 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d("MIAPP", "Opción ${item.order} seleccionada")
+
+        var intent:Intent = when(item.order) {
+            2 -> Intent(this, AdivinaNumeroActivity::class.java)
+            3 -> Intent(this, ImcActivity::class.java)
+            4 -> Intent(this, CuadrosActivity::class.java)
+            else /*1*/ -> Intent(this, VersionActivity::class.java)
+
+        }
+
+        startActivity(intent)//voy a otra pantalla
+
+        // más avanzando, con genéricos <>
+       /* var objeto:Class<out Activity> = when(item.order) { //Class<*>
+            2 ->  AdivinaNumeroActivity::class.java
+            3 ->  ImcActivity::class.java
+            4 -> CuadrosActivity::class.java
+            else /*1*/ -> VersionActivity::class.java
+
+        }
+        val miIntent: Intent = Intent(this, objeto)
+        startActivity(miIntent) */
+
+
+
         this.drawerLayout.closeDrawers()
         this.menuVisible = false
         return true

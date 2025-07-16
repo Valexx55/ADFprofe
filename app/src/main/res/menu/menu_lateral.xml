@@ -9,6 +9,24 @@
             android:orderInCategory="1"
             android:title="VERSIONES"
             ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="2"
+            android:title="ADIVINA NÚMERO"
+            ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="3"
+            android:title="CÁLCULO IMC"
+            ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="4"
+            android:title="CAJAS COLORES"
+            ></item>
     </menu>
 </item>
 </menu>

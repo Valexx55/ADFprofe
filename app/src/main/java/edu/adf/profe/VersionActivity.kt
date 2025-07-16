@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat
  * ESTO ES LA PARTE FUNCIONAL, LA PARTE DE PROGRAMACIÓN
  * EN EL XML, TENEMOS LA PARTE VISUAL
  */
-class MainActivity : AppCompatActivity() // esto es un comentario
+class VersionActivity : AppCompatActivity() // esto es un comentario
 {
 
     //ATRIBUTOS / campos
