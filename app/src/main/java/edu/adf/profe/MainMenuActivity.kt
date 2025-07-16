@@ -72,6 +72,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             2 -> Intent(this, AdivinaNumeroActivity::class.java)
             3 -> Intent(this, ImcActivity::class.java)
             4 -> Intent(this, CuadrosActivity::class.java)
+            5 -> Intent(this, SumaActivity::class.java)
             else /*1*/ -> Intent(this, VersionActivity::class.java)
 
         }

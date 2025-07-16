@@ -27,6 +27,12 @@
             android:orderInCategory="4"
             android:title="CAJAS COLORES"
             ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="5"
+            android:title="SUMAR ACTIVITY"
+            ></item>
     </menu>
 </item>
 </menu>

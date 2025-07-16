@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical" android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SumaActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="50"
+        android:orientation="vertical"
+        android:gravity="center"
+    >
+        <EditText
+            android:id="@+id/cajaUno"
+        android:hint="Intro N1"
+            android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            ></EditText>
+
+        <EditText
+            android:id="@+id/cajaDos"
+            android:inputType="number"
+            android:layout_marginTop="40dp"
+            android:hint="Intro N2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></EditText>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="25"
+        android:gravity="center"
+        >
+
+        <Button
+            android:onClick="sumar"
+            android:text="SUMAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="25"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/resultadoSuma"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>
