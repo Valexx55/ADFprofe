@@ -20,7 +20,7 @@
             android:id="@+id/cajaUno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Intro N1"
+            android:hint="@string/hint_caja_uno"
             android:inputType="number"/>
 
 
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:hint="Intro N2"
+            android:hint="@string/hint_caja_dos"
             android:inputType="number"/>
 
     </LinearLayout>
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="sumar"
-            android:text="SUMAR" />
+            android:text="@string/boton_sumar" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,6 +59,7 @@
             android:id="@+id/resultadoSuma"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textSize="22sp" />
 
     </LinearLayout>

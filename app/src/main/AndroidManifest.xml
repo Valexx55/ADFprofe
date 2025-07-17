@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
-            android:label="SUMA"
+            android:label="@string/titulo_actividad_suma"
             android:name=".SumaActivity"
             android:exported="false" />
         <activity

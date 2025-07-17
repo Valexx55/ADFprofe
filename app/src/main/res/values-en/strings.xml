@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Adf teacher</string>
+    <string name="titulo_actividad_suma">"ADD "</string>
+    <string name="hint_caja_uno">Number 1</string>
+    <string name="hint_caja_dos">Number 2</string>
+    <string name="boton_sumar">ADD</string>
+    <string name="mensaje_resultado_suma">The result of adding\n%1$d and %2$d is %3$d</string>
+</resources>
