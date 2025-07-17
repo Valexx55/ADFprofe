@@ -15,9 +15,20 @@ fun main() {
         println("NOMBRE ${al.nombre} EDAD ${al.edad} NOTA ${al.nota}")
     }
 
+    println("RECORRIDO CON FOR TRADICIONAL")
     for (a in listaAlumnos)
     {
         edadAlumno(a)
+    }
+
+    println("RECORRIDO CON FOREACH CON FUNCIÓN ANÓNIMA")
+    listaAlumnos.forEach ( fun (a: Alumno) {
+        println("La edad es ${a.edad}")
+    })
+
+    println("RECORRIDO CON FOREACH CON FUNCIÓN LAMBDA")
+    listaAlumnos.forEach { //el parámetro es una variable predefinidad que se llama it (iterador)
+        println("La edad es ${it.edad}")
     }
 
     var media = calculaMedia(listaAlumnos)
