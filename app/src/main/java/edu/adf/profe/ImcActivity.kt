@@ -75,6 +75,8 @@ class ImcActivity : AppCompatActivity() {
                     //si nos confirma --> haremos finish
                     //si no quiere --> borrar el cuadro de dialogo
                 //preparo el dialogo
+                //TODO: 1 ) añadir el botón de neutro y usar el cancel del dialogo para el neutro
+                //TODO: 2 ) hacerlo i18N con inglés o el que queráis
                  var dialogo = AlertDialog.Builder(this)
                     .setTitle("AVISO")
                     .setMessage("¿Desea Salir?")
