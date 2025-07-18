@@ -13,9 +13,13 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
-            android:label="@string/titulo_actividad_suma"
-            android:name=".SumaActivity"
+            android:name=".BusquedaActivity"
+            android:label="Búsqueda en Google"
             android:exported="false" />
+        <activity
+            android:name=".SumaActivity"
+            android:exported="false"
+            android:label="@string/titulo_actividad_suma" />
         <activity
             android:name=".MainMenuActivity"
             android:exported="true">
@@ -36,7 +40,7 @@
         <activity
             android:name=".AdivinaNumeroActivity"
             android:exported="true"
-            android:label="Juego Adivina"></activity>
+            android:label="Juego Adivina" />
         <activity
             android:name=".ImagenResultadoActivity"
             android:exported="false" />

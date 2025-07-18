@@ -33,6 +33,12 @@
             android:orderInCategory="5"
             android:title="SUMAR ACTIVITY"
             ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="6"
+            android:title="BÚSQUEDA"
+            ></item>
     </menu>
 </item>
 </menu>
