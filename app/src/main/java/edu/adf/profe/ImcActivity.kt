@@ -1,5 +1,6 @@
 package edu.adf.profe
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -68,7 +70,34 @@ class ImcActivity : AppCompatActivity() {
         {
             R.id.opcionSalir -> {
                 Log.d("MIAPP", "El usuario quiere salir")
-                finish()
+                //finish()
+                //preguntarle si quiere salir
+                    //si nos confirma --> haremos finish
+                    //si no quiere --> borrar el cuadro de dialogo
+                //preparo el dialogo
+                 var dialogo = AlertDialog.Builder(this)
+                    .setTitle("AVISO")
+                    .setMessage("¿Desea Salir?")
+                    .setIcon(R.drawable.imagen_derrota)
+                    .setPositiveButton("SÍ"){ dialogo, opcion ->
+                        Log.d("MIAPP", "Opción positiva salir =  $opcion")
+                        this.finish()
+                    }
+                    .setNegativeButton("NO"){ dialogo: DialogInterface, opcion: Int ->
+                        Log.d("MIAPP", "Opción negativa  =  $opcion")
+                        dialogo.dismiss()
+                    }
+                     /*
+                    .setPositiveButton("SÍ", fun (dialogo: DialogInterface, opcion: Int){
+                        this.finish()
+                    })
+                    .setNegativeButton("NO",fun (dialogo: DialogInterface, opcion: Int){
+                        dialogo.cancel()
+                        //dialogo.dismiss()
+                    })*/
+
+                dialogo.show()//lo muestro
+
             }
             R.id.opcionLimpiar -> {
                 Log.d("MIAPP", "El usuario quiere limpiar el formulario")

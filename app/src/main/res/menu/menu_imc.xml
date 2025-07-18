@@ -5,7 +5,6 @@
     <item android:id="@+id/opcionLimpiar"
         android:orderInCategory="1"
         android:title="LIMPIAR"
-
         android:icon="@drawable/outline_cleaning_services_24"
         app:showAsAction="always"/>
 

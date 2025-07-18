@@ -32,9 +32,28 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         //en esta actividad (this) escuchamos la selección sobre el menú Navigation
         //this.navigationView.setNavigationItemSelectedListener(this)
-        //TODO tarea opcional: Haced esta función (setNavigationItemSelectedListener) en versión función anónima
 
-        this.navigationView.setNavigationItemSelectedListener{
+
+        this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {
+            Log.d("MIAPP", "Opción ${item.order} seleccionada")
+
+            var intent:Intent = when(item.order) {
+                2 -> Intent(this, AdivinaNumeroActivity::class.java)
+                3 -> Intent(this, ImcActivity::class.java)
+                4 -> Intent(this, CuadrosActivity::class.java)
+                5 -> Intent(this, SumaActivity::class.java)
+                else /*1*/ -> Intent(this, VersionActivity::class.java)
+
+            }
+
+            startActivity(intent)//voy a otra pantalla
+
+            this.drawerLayout.closeDrawers()
+            this.menuVisible = false
+            return true //en una lambda, no hace poner return
+        })
+        //con función lambda
+       /* this.navigationView.setNavigationItemSelectedListener{
             Log.d("MIAPP", "Opción ${it.order} seleccionada")
 
             var intent:Intent = when(it.order) {
@@ -51,7 +70,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             this.drawerLayout.closeDrawers()
             this.menuVisible = false
             true //en una lambda, no hace poner return
-        }
+        }*/
 
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)//dibuja el incono de menú sólo la flecha
         this.supportActionBar?.setHomeAsUpIndicator(R.drawable.outline_menu_24)//le digo que me dibuje la hamburguesa
