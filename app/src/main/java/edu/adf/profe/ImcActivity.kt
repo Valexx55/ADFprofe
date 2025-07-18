@@ -75,20 +75,32 @@ class ImcActivity : AppCompatActivity() {
                     //si nos confirma --> haremos finish
                     //si no quiere --> borrar el cuadro de dialogo
                 //preparo el dialogo
-                //TODO: 1 ) añadir el botón de neutro y usar el cancel del dialogo para el neutro
-                //TODO: 2 ) hacerlo i18N con inglés o el que queráis
                  var dialogo = AlertDialog.Builder(this)
-                    .setTitle("AVISO")
-                    .setMessage("¿Desea Salir?")
+                    .setTitle(R.string.titulo_dialogo_salir) //i18n
+                    //.setTitle("AVISO")
+                    .setMessage(R.string.mensaje_dialogo_salir)
+                    //.setMessage("¿Desea Salir?")
                     .setIcon(R.drawable.imagen_derrota)
-                    .setPositiveButton("SÍ"){ dialogo, opcion ->
+                    .setPositiveButton(R.string.boton_si){ dialogo, opcion ->
                         Log.d("MIAPP", "Opción positiva salir =  $opcion")
                         this.finish()
                     }
-                    .setNegativeButton("NO"){ dialogo: DialogInterface, opcion: Int ->
+                    .setNegativeButton(R.string.boton_no){ dialogo: DialogInterface, opcion: Int ->
                         Log.d("MIAPP", "Opción negativa  =  $opcion")
                         dialogo.dismiss()
                     }
+                    .setNeutralButton(R.string.boton_neutro){ dialogo: DialogInterface, opcion: Int ->
+                        Log.d("MIAPP", "Opción neutra  =  $opcion")
+                        dialogo.cancel()
+                    }
+                    /*
+                    dialogo.setOnCancelListener {
+                        Log.d("MIAPP", "HA CANCELADO EL DIALOGO")
+                    }
+                    dialogo.setOnCancelListener ( fun (dialogo: DialogInterface){
+                        Log.d("MIAPP", "HA CANCELADO EL DIALOGO")
+                    })*/
+
                      /*
                     .setPositiveButton("SÍ", fun (dialogo: DialogInterface, opcion: Int){
                         this.finish()

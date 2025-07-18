@@ -75,6 +75,7 @@ class SumaActivity : AppCompatActivity() {
         //findViewById<TextView>(R.id.resultadoSuma).text = suma.toString()
         var mensaje:String = resources.getString(R.string.mensaje_resultado_suma, numero1, numero2, suma)
         binding.resultadoSuma.text = mensaje
+        binding.resultadoSuma.text = R.string.mensaje_resultado_suma.toString()
 
     }
 }

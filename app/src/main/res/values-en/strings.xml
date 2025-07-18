@@ -6,4 +6,9 @@
     <string name="hint_caja_dos">Number 2</string>
     <string name="boton_sumar">ADD</string>
     <string name="mensaje_resultado_suma">The result of adding\n%1$d and %2$d is %3$d</string>
+    <string name="titulo_dialogo_salir">WARNING</string>
+    <string name="mensaje_dialogo_salir">Do you want to exit?</string>
+    <string name="boton_si">YES</string>
+    <string name="boton_no">NO</string>
+    <string name="boton_neutro">CANCEL</string>
 </resources>
