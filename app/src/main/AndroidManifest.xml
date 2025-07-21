@@ -18,7 +18,25 @@
         <activity
             android:label="WEB ADF"
             android:name=".WebViewActivity"
-            android:exported="false" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="adf-formacion.es"
+                    />
+                <data
+                    android:scheme="https"
+                    android:host="adf-formacion.es"
+                    />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".BusquedaActivity"
             android:exported="false"

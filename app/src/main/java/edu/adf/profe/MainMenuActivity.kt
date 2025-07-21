@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -43,7 +44,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 4 -> Intent(this, CuadrosActivity::class.java)
                 5 -> Intent(this, SumaActivity::class.java)
                 6 -> Intent(this, BusquedaActivity::class.java)
-                7 -> Intent(this, WebViewActivity::class.java)
+                7 -> {
+                    val intentImplicito = Intent(Intent.ACTION_VIEW, "https://adf-formacion.es/".toUri())//intent implicito
+                    Intent.createChooser(intentImplicito, "Elige APP para ver ADF WEB")
+                    //Intent(this, WebViewActivity::class.java)//intent explícito
+                }
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }
