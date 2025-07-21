@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- declaro que mi app necesita conectarse a internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,10 +15,13 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
-            android:label="WEB ADF"
+            android:label="Spinner Visiblidad"
+            android:name=".SpinnerActivity"
+            android:exported="false" />
+        <activity
             android:name=".WebViewActivity"
-            android:exported="true">
-
+            android:exported="true"
+            android:label="WEB ADF">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -27,15 +29,12 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="http"
                     android:host="adf-formacion.es"
-                    />
+                    android:scheme="http" />
                 <data
-                    android:scheme="https"
                     android:host="adf-formacion.es"
-                    />
+                    android:scheme="https" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".BusquedaActivity"

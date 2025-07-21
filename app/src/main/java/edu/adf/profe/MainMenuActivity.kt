@@ -34,6 +34,9 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //en esta actividad (this) escuchamos la selección sobre el menú Navigation
         //this.navigationView.setNavigationItemSelectedListener(this)
 
+       // intentCompartir()
+
+
 
         this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {
             Log.d("MIAPP", "Opción ${item.order} seleccionada")
@@ -49,6 +52,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     Intent.createChooser(intentImplicito, "Elige APP para ver ADF WEB")
                     //Intent(this, WebViewActivity::class.java)//intent explícito
                 }
+                8 -> Intent(this, SpinnerActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }
@@ -88,7 +92,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     }
 
-
+/*
+    fun intentCompartir()
+    {
+        val intentEnviarTexto = Intent(Intent.ACTION_SEND)//ENVIAR
+        intentEnviarTexto.type="text/plain"//TIPO MIME  de qué tipo es la información -- "extensión"
+        intentEnviarTexto.putExtra(Intent.EXTRA_TEXT, "Hola desde Android :)")
+        startActivity(Intent.createChooser(intentEnviarTexto, "Enviar mensaje con ..."))
+    }*/
 
     //este método se invoca al tocar la hamburguesa
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
