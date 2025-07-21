@@ -42,7 +42,8 @@ class BusquedaActivity : AppCompatActivity() {
         val intentBusqueda = Intent(Intent.ACTION_VIEW, web) //INTENT IMPLÍCITO
         if (intentBusqueda.resolveActivity(packageManager) != null) {
             Log.d("MIAPP", "El dispositivo puede navegar por internet")
-            startActivity(intentBusqueda)
+            startActivity(Intent.createChooser(intentBusqueda, "ELIGE NAVEGADOR..."))
+            //startActivity(intentBusqueda)
         } else {
             Toast.makeText(this, "No se ha detectado un navegador", Toast.LENGTH_LONG).show()
         }

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- declaro que mi app necesita conectarse a internet -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,9 +16,13 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
-            android:name=".BusquedaActivity"
-            android:label="Búsqueda en Google"
+            android:label="WEB ADF"
+            android:name=".WebViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".BusquedaActivity"
+            android:exported="false"
+            android:label="Búsqueda en Google" />
         <activity
             android:name=".SumaActivity"
             android:exported="false"

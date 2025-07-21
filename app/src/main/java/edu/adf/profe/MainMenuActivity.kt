@@ -43,6 +43,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 4 -> Intent(this, CuadrosActivity::class.java)
                 5 -> Intent(this, SumaActivity::class.java)
                 6 -> Intent(this, BusquedaActivity::class.java)
+                7 -> Intent(this, WebViewActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

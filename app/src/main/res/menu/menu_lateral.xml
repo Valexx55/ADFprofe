@@ -39,6 +39,12 @@
             android:orderInCategory="6"
             android:title="BÚSQUEDA"
             ></item>
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="7"
+            android:title="WEB ADF"
+            ></item>
     </menu>
 </item>
 </menu>
