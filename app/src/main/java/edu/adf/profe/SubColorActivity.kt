@@ -14,6 +14,8 @@ class SubColorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sub_color)
+        //ocultar el APPBar programáticamente
+        supportActionBar?.hide()
         //finish()
     }
 

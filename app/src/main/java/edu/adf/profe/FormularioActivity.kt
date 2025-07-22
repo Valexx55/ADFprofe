@@ -26,7 +26,7 @@ class FormularioActivity : AppCompatActivity() {
 
         binding = ActivityFormularioBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //TODO ocultar el APPBar programáticamente
+        //he ocultado la barra desde el tema del manifest específico para esta actividad
         //TODO formulario dinámico / ANIMADO
 
         lanzador = registerForActivityResult (
@@ -53,6 +53,12 @@ class FormularioActivity : AppCompatActivity() {
         //startActivity(intent)
         //startActivityForResult(intent, 99)
         lanzador.launch(intent)//aquí lanzo la subactividad
+    }
+
+    fun mostrarInfoFormulario(view: View) {
+        //mostrar los datos del formulario
+        Log.d("MIAPP", "NOMBRE = ${binding.editTextNombreFormulario.text.toString()} EDAD = ${binding.editTextEdadFormulario.text.toString()} HOMBRE = ${binding.radioButtonHombre.isChecked} MUJER = ${binding.radioButtonMujer.isChecked} MAYOR EDAD = ${binding.checkBox.isChecked}" )
+        //TODO crear una clase Usuario, para albergar toda la información obtenidad en el formulario
     }
 
     /**

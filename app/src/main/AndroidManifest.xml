@@ -18,6 +18,7 @@
             android:name=".SubColorActivity"
             android:exported="false" />
         <activity
+            android:theme="@style/Theme.AdfProfe.SinBarra"
             android:name=".FormularioActivity"
             android:exported="false" />
         <activity
