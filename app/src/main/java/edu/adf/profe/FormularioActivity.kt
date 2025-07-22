@@ -1,20 +1,70 @@
 package edu.adf.profe
 
+import android.app.Activity
+import android.app.ComponentCaller
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class FormularioActivity : AppCompatActivity() {
+
+    //para lanzar una subactividad (un actividad que me da un resultado)
+    lateinit var lanzador: ActivityResultLauncher<Intent>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_formulario)
         //TODO ocultar el APPBar programáticamente
         //TODO formulario dinámico / ANIMADO
+
+        lanzador = registerForActivityResult (
+            ActivityResultContracts.StartActivityForResult() //lo que lanzo es una actividad
+        ){
+            //la función que recibe el resultado
+            result ->
+            if (result.resultCode == Activity.RESULT_OK)
+            {
+                Log.d("MIAPP", "La subactividad ha FINALIZADO BIEN ${result.resultCode}")
+            } else {
+                Log.d("MIAPP", "La subactividad ha FINALIZADO MAL ${result.resultCode}")
+            }
+
+        }
     }
 
-    fun seleccionarColorFavorito(view: View) {}
+    fun seleccionarColorFavorito(view: View) {
+        //DEBEMOS LANZAR LA OTRA ACTIVIDAD SUBCOLOR ACTIVITY, PERO COMO SUBACTIVIDAD
+        val intent = Intent(this, SubColorActivity::class.java)
+        //startActivity(intent)
+        //startActivityForResult(intent, 99)
+        lanzador.launch(intent)//aquí lanzo la subactividad
+    }
+
+    /**
+     *
+     versión antigua
+    */
+    /*
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?,
+        caller: ComponentCaller
+    ) {
+        super.onActivityResult(requestCode, resultCode, data, caller)
+        //obtenía el resultado
+    }
+
+     */
+
+
 }
