@@ -50,7 +50,14 @@
             android:icon="@drawable/outline_arrow_forward_ios_24"
             app:showAsAction="always"
             android:orderInCategory="8"
-            android:title="Spinner"
+            android:title="SPINNER SELECTOR"
+            />
+
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="9"
+            android:title="FORMULARIO"
             />
     </menu>
 </item>

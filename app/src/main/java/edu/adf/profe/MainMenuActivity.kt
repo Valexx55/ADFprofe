@@ -53,6 +53,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     //Intent(this, WebViewActivity::class.java)//intent explícito
                 }
                 8 -> Intent(this, SpinnerActivity::class.java)
+                9 -> Intent(this, FormularioActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

@@ -15,9 +15,15 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
-            android:label="Spinner Visiblidad"
-            android:name=".SpinnerActivity"
+            android:name=".SubColorActivity"
             android:exported="false" />
+        <activity
+            android:name=".FormularioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SpinnerActivity"
+            android:exported="false"
+            android:label="Spinner Visiblidad" />
         <activity
             android:name=".WebViewActivity"
             android:exported="true"
