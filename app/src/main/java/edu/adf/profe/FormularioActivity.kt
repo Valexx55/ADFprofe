@@ -13,16 +13,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import edu.adf.profe.databinding.ActivityFormularioBinding
 
 class FormularioActivity : AppCompatActivity() {
 
     //para lanzar una subactividad (un actividad que me da un resultado)
     lateinit var lanzador: ActivityResultLauncher<Intent>
+    lateinit var binding: ActivityFormularioBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_formulario)
+        binding = ActivityFormularioBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //TODO ocultar el APPBar programáticamente
         //TODO formulario dinámico / ANIMADO
 
@@ -34,6 +37,9 @@ class FormularioActivity : AppCompatActivity() {
             if (result.resultCode == Activity.RESULT_OK)
             {
                 Log.d("MIAPP", "La subactividad ha FINALIZADO BIEN ${result.resultCode}")
+                val intent_resultado = result.data
+                val color: Int = intent_resultado?.getIntExtra("COLOR_ELEGIDO", 0) ?: 0
+                binding.colorFavorito.setBackgroundColor(color)
             } else {
                 Log.d("MIAPP", "La subactividad ha FINALIZADO MAL ${result.resultCode}")
             }
