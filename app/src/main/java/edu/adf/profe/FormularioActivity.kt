@@ -15,11 +15,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import edu.adf.profe.databinding.ActivityFormularioBinding
 
+//TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
 class FormularioActivity : AppCompatActivity() {
 
     //para lanzar una subactividad (un actividad que me da un resultado)
     lateinit var lanzador: ActivityResultLauncher<Intent>
     lateinit var binding: ActivityFormularioBinding
+    var color: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,7 @@ class FormularioActivity : AppCompatActivity() {
         binding = ActivityFormularioBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //he ocultado la barra desde el tema del manifest específico para esta actividad
-        //TODO formulario dinámico / ANIMADO
+       //TODO validación / snackBar
 
         lanzador = registerForActivityResult (
             ActivityResultContracts.StartActivityForResult() //lo que lanzo es una actividad
@@ -38,7 +40,7 @@ class FormularioActivity : AppCompatActivity() {
             {
                 Log.d("MIAPP", "La subactividad ha FINALIZADO BIEN ${result.resultCode}")
                 val intent_resultado = result.data
-                val color: Int = intent_resultado?.getIntExtra("COLOR_ELEGIDO", 0) ?: 0
+                color = intent_resultado?.getIntExtra("COLOR_ELEGIDO", 0) ?: 0
                 binding.colorFavorito.setBackgroundColor(color)
             } else {
                 Log.d("MIAPP", "La subactividad ha FINALIZADO MAL ${result.resultCode}")
@@ -59,6 +61,22 @@ class FormularioActivity : AppCompatActivity() {
         //mostrar los datos del formulario
         Log.d("MIAPP", "NOMBRE = ${binding.editTextNombreFormulario.text.toString()} EDAD = ${binding.editTextEdadFormulario.text.toString()} HOMBRE = ${binding.radioButtonHombre.isChecked} MUJER = ${binding.radioButtonMujer.isChecked} MAYOR EDAD = ${binding.checkBox.isChecked}" )
         //TODO crear una clase Usuario, para albergar toda la información obtenidad en el formulario
+        val nombre:String = binding.editTextNombreFormulario.text.toString()
+        val edad: Int = binding.editTextEdadFormulario.text.toString().toInt()
+        val sexo: Char = if (binding.radioButtonHombre.isChecked)
+        {
+            'M'
+        } else if (binding.radioButtonMujer.isChecked) {
+            'F'
+        } else {
+            'M'
+        }
+
+        val mayorEdad: Boolean = binding.checkBox.isChecked
+        val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad, this.color)
+        //val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad)
+        Log.d("MIAPP", "USUARIO = $usuario" )
+
     }
 
     /**

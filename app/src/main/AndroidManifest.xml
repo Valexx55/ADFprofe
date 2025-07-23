@@ -41,6 +41,9 @@
                 <data
                     android:host="adf-formacion.es"
                     android:scheme="https" />
+                <!--
+                <data android:mimeType="text/plain"/>
+                -->
             </intent-filter>
         </activity>
         <activity
