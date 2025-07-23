@@ -76,7 +76,7 @@ class FormularioActivity : AppCompatActivity() {
         val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad, this.color)
         //val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad)
         Log.d("MIAPP", "USUARIO = $usuario" )
-
+        guardarUsuario(usuario)
     }
 
     /**
@@ -96,5 +96,17 @@ class FormularioActivity : AppCompatActivity() {
 
      */
 
+    fun guardarUsuario (usuario: Usuario)
+    {
+        //1 accedo al fichero (se crea automáticamente si no existe)
+        val ficheroUsuario = getSharedPreferences("usuario", MODE_PRIVATE)
+        val editor = ficheroUsuario.edit()//obtengo un editor para poder escribir a través de él en el fichero
+        editor.putString("nombre", usuario.nombre)
+        editor.putInt("edad", usuario.edad)
+        editor.putString ("sexo", usuario.sexo.toString())
+        editor.putInt ("color", usuario.colorFavorito)
+        editor.apply()//o commit - guardo los cambios de verdad en el ficheros- se confirman, se hacen efectivos
+
+    }
 
 }
