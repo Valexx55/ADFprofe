@@ -13,14 +13,57 @@
 
     <ImageView
         android:id="@+id/imagenFormulario"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilnombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenFormulario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNombreFormulario"
+            android:layout_gravity="center"
+            android:hint="Intro nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiledad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilnombre">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEdadFormulario"
+            android:layout_gravity="center"
+            android:hint="Intro edad"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--
     <EditText
         android:id="@+id/editTextNombreFormulario"
         android:layout_width="wrap_content"
@@ -44,7 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNombreFormulario" />
-
+-->
     <Button
         android:onClick="seleccionarColorFavorito"
         android:id="@+id/colorFavorito"
@@ -55,7 +98,7 @@
         android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEdadFormulario" />
+        app:layout_constraintTop_toBottomOf="@+id/tiledad" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
