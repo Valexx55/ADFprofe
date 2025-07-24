@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -43,5 +44,17 @@ class VideoActivity : AppCompatActivity() {
             controller.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    }
+
+    fun saltarPresentacion(view: View) {
+        finish()//vuelvo al menú
+
+    }
+    fun noVolverAMostrar(view: View) {
+        val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS_INICIO, MODE_PRIVATE)
+        fichero.edit (true){
+            putBoolean("SALTAR_VIDEO", true)
+        }
+
     }
 }

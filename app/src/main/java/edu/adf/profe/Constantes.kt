@@ -8,4 +8,5 @@ object Constantes {
     val ETIQUETA_LOG: String = "MIAPP"
     val NUM_VIDAS_JUEGO_ADIVINA:Int = 5
     val FICHERO_PREFERENCIAS:String = "usuario"
+    val FICHERO_PREFERENCIAS_INICIO:String = "video"
 }

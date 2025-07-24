@@ -35,8 +35,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //this.navigationView.setNavigationItemSelectedListener(this)
 
        // intentCompartir()
-        val intentvideo = Intent(this, VideoActivity::class.java)
-        startActivity(intentvideo)
+        val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS_INICIO, MODE_PRIVATE)
+        val saltarVideo: Boolean =  fichero.getBoolean("SALTAR_VIDEO", false)
+        if (!saltarVideo)//==false
+        {
+            val intentvideo = Intent(this, VideoActivity::class.java)
+            startActivity(intentvideo)
+        }
+
 
 
         this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {
