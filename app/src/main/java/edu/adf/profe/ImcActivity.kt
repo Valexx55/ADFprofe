@@ -34,7 +34,7 @@ class ImcActivity : AppCompatActivity() {
     var resultadoNombre:String = "" //ámbito global/de clase
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("MIAPP", "en OnCreate")
+        Log.d(Constantes.ETIQUETA_LOG, "en OnCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_imc)
         //si bundle está a nulll
@@ -44,13 +44,13 @@ class ImcActivity : AppCompatActivity() {
             //actualizo el valor de la caja
         if (savedInstanceState!=null)
         {
-            Log.d("MIAPP", "El saco tiene cosas. La actividad viene de recrearse")
+            Log.d(Constantes.ETIQUETA_LOG, "El saco tiene cosas. La actividad viene de recrearse")
             resultadoNombre = savedInstanceState.getString("resultadoNombre", "")
             val cajaResultado = findViewById<TextView>(R.id.imcResultado)
             cajaResultado.text = resultadoNombre
             cajaResultado.visibility = View.VISIBLE
         } else {
-            Log.d("MIAPP", "La actividad se ha creado por primera vez")
+            Log.d(Constantes.ETIQUETA_LOG, "La actividad se ha creado por primera vez")
         }
         //usando caracterísitcas "avanzadas" de Kotlin
         resultadoNombre = savedInstanceState?.getString("resultadoNombre") ?: "" //Operador ELVIS operator
@@ -69,7 +69,7 @@ class ImcActivity : AppCompatActivity() {
         when(item.itemId)
         {
             R.id.opcionSalir -> {
-                Log.d("MIAPP", "El usuario quiere salir")
+                Log.d(Constantes.ETIQUETA_LOG, "El usuario quiere salir")
                 //finish()
                 //preguntarle si quiere salir
                     //si nos confirma --> haremos finish
@@ -82,23 +82,23 @@ class ImcActivity : AppCompatActivity() {
                     //.setMessage("¿Desea Salir?")
                     .setIcon(R.drawable.imagen_derrota)
                     .setPositiveButton(R.string.boton_si){ dialogo, opcion ->
-                        Log.d("MIAPP", "Opción positiva salir =  $opcion")
+                        Log.d(Constantes.ETIQUETA_LOG, "Opción positiva salir =  $opcion")
                         this.finish()
                     }
                     .setNegativeButton(R.string.boton_no){ dialogo: DialogInterface, opcion: Int ->
-                        Log.d("MIAPP", "Opción negativa  =  $opcion")
+                        Log.d(Constantes.ETIQUETA_LOG, "Opción negativa  =  $opcion")
                         dialogo.dismiss()
                     }
                     .setNeutralButton(R.string.boton_neutro){ dialogo: DialogInterface, opcion: Int ->
-                        Log.d("MIAPP", "Opción neutra  =  $opcion")
+                        Log.d(Constantes.ETIQUETA_LOG, "Opción neutra  =  $opcion")
                         dialogo.cancel()
                     }
                     /*
                     dialogo.setOnCancelListener {
-                        Log.d("MIAPP", "HA CANCELADO EL DIALOGO")
+                        Log.d(Constantes.ETIQUETA_LOG, "HA CANCELADO EL DIALOGO")
                     }
                     dialogo.setOnCancelListener ( fun (dialogo: DialogInterface){
-                        Log.d("MIAPP", "HA CANCELADO EL DIALOGO")
+                        Log.d(Constantes.ETIQUETA_LOG, "HA CANCELADO EL DIALOGO")
                     })*/
 
                      /*
@@ -114,7 +114,7 @@ class ImcActivity : AppCompatActivity() {
 
             }
             R.id.opcionLimpiar -> {
-                Log.d("MIAPP", "El usuario quiere limpiar el formulario")
+                Log.d(Constantes.ETIQUETA_LOG, "El usuario quiere limpiar el formulario")
                 //cojo las cajas de texto
                 findViewById<EditText>(R.id.cajaPeso).setText("")
                 // y las pongo a vacío
@@ -127,34 +127,34 @@ class ImcActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("MIAPP", "en onStart")
+        Log.d(Constantes.ETIQUETA_LOG, "en onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("MIAPP", "en onResume")
+        Log.d(Constantes.ETIQUETA_LOG, "en onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("MIAPP", "en onPause")
+        Log.d(Constantes.ETIQUETA_LOG, "en onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("MIAPP", "en onStop")
+        Log.d(Constantes.ETIQUETA_LOG, "en onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("MIAPP", "en onDestroy")
+        Log.d(Constantes.ETIQUETA_LOG, "en onDestroy")
     }
 
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("MIAPP", "en onSaveInstanceState")
+        Log.d(Constantes.ETIQUETA_LOG, "en onSaveInstanceState")
         //guardo resultadoNombre en el saco "Bundle"
         outState.putString("resultadoNombre", resultadoNombre)
     }
@@ -162,22 +162,22 @@ class ImcActivity : AppCompatActivity() {
 
     fun calcularImc(view: View) {
 
-        Log.d("MIAPP", "El usuario ha tocado el botón de calcular IMC")
+        Log.d(Constantes.ETIQUETA_LOG, "El usuario ha tocado el botón de calcular IMC")
         informarNumVecesBoton()
         //IMC = peso / (altura al cuadrado)  DIVISIÓN --> / multiplicación *
         //1 obtener el peso introducido
         val peso:Float = obtenerPeso() //variable local
-        Log.d("MIAPP", "PESO introducido $peso")
+        Log.d(Constantes.ETIQUETA_LOG, "PESO introducido $peso")
         //2 obtener la altura introducida
         val altura = obtenerAltura()
-        Log.d("MIAPP", "ALTURA introducido $altura")
+        Log.d(Constantes.ETIQUETA_LOG, "ALTURA introducido $altura")
         //3 hacer la fórmula del imc - PARÁMETROS ACTUALES
         val resultadoImc : Float = calculoImcNumerico(peso, altura) //LLAMADA/INVOKE - debe haber una coincidencia entre el tipo, número y el orden de los parámetros/variables
-        Log.d("MIAPP", "ALTURA introducido $resultadoImc")
+        Log.d(Constantes.ETIQUETA_LOG, "ALTURA introducido $resultadoImc")
         //4 mostrar el resultado
         mostrarResultado(resultadoImc)
         resultadoNombre = traducirResultadoImcVersionIF(resultadoImc)
-        Log.d("MIAPP", "RESULTADO IMC = $resultadoNombre")
+        Log.d(Constantes.ETIQUETA_LOG, "RESULTADO IMC = $resultadoNombre")
         val tvresultado =  findViewById<TextView>(R.id.imcResultado)
         tvresultado.text = resultadoNombre
         tvresultado.visibility = View.VISIBLE

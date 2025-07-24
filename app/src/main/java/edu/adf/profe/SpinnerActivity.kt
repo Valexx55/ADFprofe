@@ -36,11 +36,11 @@ class SpinnerActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             ) {
                 if (primeraVez)
                 {
-                    Log.d("MIAPP", "ES LA PRIMERA VEZ (el usuario en realidad no ha tocado el spinner)")
+                    Log.d(Constantes.ETIQUETA_LOG, "ES LA PRIMERA VEZ (el usuario en realidad no ha tocado el spinner)")
                     primeraVez = false
                 } else {
 
-                    Log.d("MIAPP", "OPCIÓN $position SELECCIONADA")
+                    Log.d(Constantes.ETIQUETA_LOG, "OPCIÓN $position SELECCIONADA")
                     //si toca el cero --> visible - la imagen la dejo visible
                     //si toca el uno --> invisible - la imagen la dejo en invisible
                     //si toca el dos --> gone -- la imagen la dejo en gone
@@ -56,7 +56,7 @@ class SpinnerActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Log.d("MIAPP", "OPCIÓN ELIMINADA DEL SPINNER")
+                Log.d(Constantes.ETIQUETA_LOG, "OPCIÓN ELIMINADA DEL SPINNER")
             }
         }
 
@@ -71,11 +71,11 @@ class SpinnerActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     ) {
         if (primeraVez)
         {
-            Log.d("MIAPP", "ES LA PRIMERA VEZ (el usuario en realidad no ha tocado el spinner)")
+            Log.d(Constantes.ETIQUETA_LOG, "ES LA PRIMERA VEZ (el usuario en realidad no ha tocado el spinner)")
             primeraVez = false
         } else {
 
-            Log.d("MIAPP", "OPCIÓN $position SELECCIONADA")
+            Log.d(Constantes.ETIQUETA_LOG, "OPCIÓN $position SELECCIONADA")
             //si toca el cero --> visible - la imagen la dejo visible
             //si toca el uno --> invisible - la imagen la dejo en invisible
             //si toca el dos --> gone -- la imagen la dejo en gone
@@ -90,6 +90,6 @@ class SpinnerActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        Log.d("MIAPP", "OPCIÓN ELIMINADA DEL SPINNER")
+        Log.d(Constantes.ETIQUETA_LOG, "OPCIÓN ELIMINADA DEL SPINNER")
     }
 }

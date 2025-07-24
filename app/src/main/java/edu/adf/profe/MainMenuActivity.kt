@@ -39,7 +39,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
         this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {
-            Log.d("MIAPP", "Opción ${item.order} seleccionada")
+            Log.d(Constantes.ETIQUETA_LOG, "Opción ${item.order} seleccionada")
 
             var intent:Intent = when(item.order) {
                 2 -> Intent(this, AdivinaNumeroActivity::class.java)
@@ -66,7 +66,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         })
         //con función lambda
        /* this.navigationView.setNavigationItemSelectedListener{
-            Log.d("MIAPP", "Opción ${it.order} seleccionada")
+            Log.d(Constantes.ETIQUETA_LOG, "Opción ${it.order} seleccionada")
 
             var intent:Intent = when(it.order) {
                 2 -> Intent(this, AdivinaNumeroActivity::class.java)
@@ -107,7 +107,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         when(item.itemId)
         {
             android.R.id.home -> {
-                Log.d("MIAPP", "Botón Hamburguesa tocado")
+                Log.d(Constantes.ETIQUETA_LOG, "Botón Hamburguesa tocado")
                 if (this.menuVisible)
                 {
                     //cerrar
@@ -124,7 +124,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d("MIAPP", "Opción ${item.order} seleccionada")
+        Log.d(Constantes.ETIQUETA_LOG, "Opción ${item.order} seleccionada")
 
         var intent:Intent = when(item.order) {
             2 -> Intent(this, AdivinaNumeroActivity::class.java)

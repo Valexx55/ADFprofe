@@ -37,7 +37,7 @@ import com.bumptech.glide.Glide
 class AdivinaNumeroActivity : AppCompatActivity() {
 
     var numeroSecreto:Int = 0
-    var numeroVidas: Int = 5
+    var numeroVidas: Int = Constantes.NUM_VIDAS_JUEGO_ADIVINA
     var haGanado: Boolean = false //variables miembro/"globales"
     var haPerdido: Boolean =false
     lateinit var cajaNumeroUsuario: EditText
@@ -105,7 +105,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
     }
 
     fun intentoAdivina(view: View) {
-        Log.d ("MIAPP", "El usuario ha dado a probar")
+        Log.d (Constantes.ETIQUETA_LOG, "El usuario ha dado a probar")
         //TODO continuar con la APP
         //val cajaNumUsuario = findViewById<EditText>(R.id.numeroUsuario)
         val numeroUsuario = this.cajaNumeroUsuario.text.toString().toInt()
@@ -127,7 +127,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
         }
         if (!haGanado) //haGando == false
         {
-            Log.d ("MIAPP", "El usuario no ha acertado")
+            Log.d (Constantes.ETIQUETA_LOG, "El usuario no ha acertado")
             this.numeroVidas = this.numeroVidas-1
             findViewById<TextView>(R.id.numVidas).text = "$numeroVidas VIDAS"
             if (this.numeroVidas==0)

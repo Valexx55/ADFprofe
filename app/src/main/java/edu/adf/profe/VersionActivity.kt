@@ -23,7 +23,7 @@ class VersionActivity : AppCompatActivity() // esto es un comentario
     //MÉTODOS / FUNCIONES
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("MIAPP", "Entrando en oncreate ()")
+        Log.d(Constantes.ETIQUETA_LOG, "Entrando en oncreate ()")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -33,6 +33,6 @@ class VersionActivity : AppCompatActivity() // esto es un comentario
             insets
         }
 
-        Log.d("MIAPP", "Saliendo de oncreate ()")
+        Log.d(Constantes.ETIQUETA_LOG, "Saliendo de oncreate ()")
     }
 }

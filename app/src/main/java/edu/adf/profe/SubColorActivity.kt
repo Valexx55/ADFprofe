@@ -24,7 +24,7 @@ class SubColorActivity : AppCompatActivity() {
         val fondo = view.background
         val colorfondo = fondo as ColorDrawable//casting
         val color = colorfondo.color
-        Log.d("MIAPP", "COLOR SELECCIONADO = $color")
+        Log.d(Constantes.ETIQUETA_LOG, "COLOR SELECCIONADO = $color")
 
         //guardar el color seleccioando como la resultado de la actividad
         //y finalizar la actividad

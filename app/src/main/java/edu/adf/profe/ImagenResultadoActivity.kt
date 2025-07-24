@@ -13,7 +13,7 @@ class ImagenResultadoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val resultado = intent.getStringExtra("resultado")//"Leyendo del saco"
-        Log.d("MIAPP", "RESULTADO = $resultado")
+        Log.d(Constantes.ETIQUETA_LOG, "RESULTADO = $resultado")
         //resultado?.length;
         setContentView(R.layout.activity_imagen_resultado)
         cambiarTextoEImagen(resultado!!)

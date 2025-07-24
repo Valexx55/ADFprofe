@@ -34,25 +34,25 @@ class BusquedaActivity : AppCompatActivity() {
         //obtener el término de búsqueda introducido por el usuario
         val busqueda: String = binding.textoBusqueda.text.toString()
         //lanzar un intent para buscar en google
-        Log.d("MIAPP", "El usuario quiere buscar $busqueda")
+        Log.d(Constantes.ETIQUETA_LOG, "El usuario quiere buscar $busqueda")
 
         //https://www.google.com/search?q=real+madrid
         val url: String = "https://www.google.com/search?q=$busqueda"
         val web: Uri = url.toUri() //  Uri.parse(url) //para eliminar espacios, tildes, la url la formamos bien con este método
         val intentBusqueda = Intent(Intent.ACTION_VIEW, web) //INTENT IMPLÍCITO
         if (intentBusqueda.resolveActivity(packageManager) != null) {
-            Log.d("MIAPP", "El dispositivo puede navegar por internet")
+            Log.d(Constantes.ETIQUETA_LOG, "El dispositivo puede navegar por internet")
             startActivity(Intent.createChooser(intentBusqueda, "ELIGE NAVEGADOR..."))
             //startActivity(intentBusqueda)
         } else {
             Toast.makeText(this, "No se ha detectado un navegador", Toast.LENGTH_LONG).show()
         }
          /*   val intentTienda = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.android.chrome"))
-            Log.d("MIAPP", "Le invitamos a que instale Google Chrome de la tienda")
+            Log.d(Constantes.ETIQUETA_LOG, "Le invitamos a que instale Google Chrome de la tienda")
             if (intentTienda.resolveActivity(packageManager) != null) {
                 startActivity(intentTienda)
             } else {
-                Log.d("MIAPP", "El dispositivo ni tiene navegador ni tiene Play Store")
+                Log.d(Constantes.ETIQUETA_LOG, "El dispositivo ni tiene navegador ni tiene Play Store")
 
             }
     */
