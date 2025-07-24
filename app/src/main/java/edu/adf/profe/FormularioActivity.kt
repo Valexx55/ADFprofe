@@ -14,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import edu.adf.profe.databinding.ActivityFormularioBinding
 
 
@@ -57,11 +59,13 @@ class FormularioActivity : AppCompatActivity() {
                 Log.d(Constantes.ETIQUETA_LOG, "La caja de nombre tiene el foco")
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "La caja de nombre ha perdido el foco")
-                if (!esNombreValido(binding.editTextNombreFormulario.text.toString()))
+                if (!esNombreValido(binding.editTextNombreFormulario.text.toString()))//esNombreValido==false
                 {
                     binding.tilnombre.error = "Nombre incorrecto - longitud menor que 3"
+
                 } else {
-                    binding.tilnombre.isErrorEnabled = false
+
+                    binding.tilnombre.isErrorEnabled = false//borro el rojo del error
                 }
             }
 
@@ -74,7 +78,7 @@ class FormularioActivity : AppCompatActivity() {
                 Log.d(Constantes.ETIQUETA_LOG, "La caja de nombre tiene el foco")
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "La caja de nombre ha perdido el foco")
-                if (this.esNombreValido(this.binding.editTextNombreFormulario.text.toString()))
+                if (esNombreValido(this.binding.editTextNombreFormulario.text.toString()))
                 {
                     binding.tilnombre.error = "Nombre incorrecto"
                 } else {
@@ -164,6 +168,15 @@ class FormularioActivity : AppCompatActivity() {
         //val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad)
         Log.d(Constantes.ETIQUETA_LOG, "USUARIO = $usuario" )
         guardarUsuario(usuario)
+        //mostrar el SNACKBAR -> Mensaje Guardado
+        val snackbar: Snackbar = Snackbar.make(binding.main, "USUARIO GUARDADO", BaseTransientBottomBar.LENGTH_LONG)
+        snackbar.setAction ("DESHACER"){ v: View ->
+
+            Log.d(Constantes.ETIQUETA_LOG, "HA TOCAO DESHACER")
+            //borrar los datos guardados en el fichero
+        }
+        //snackbar.setTextColor(getColor(R.color.mirojo))//color de la acción
+        snackbar.show()
     }
 
     /**
