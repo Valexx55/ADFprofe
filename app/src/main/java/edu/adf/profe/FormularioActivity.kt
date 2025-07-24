@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -173,10 +174,23 @@ class FormularioActivity : AppCompatActivity() {
         snackbar.setAction ("DESHACER"){ v: View ->
 
             Log.d(Constantes.ETIQUETA_LOG, "HA TOCAO DESHACER")
-            //borrar los datos guardados en el fichero
+            //TODO borrar los datos guardados en el fichero
+            /*val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS, MODE_PRIVATE)
+            fichero.edit(true) {
+                clear()
+            }*/
+            borrarUsuarioFichero()
         }
         //snackbar.setTextColor(getColor(R.color.mirojo))//color de la acción
         snackbar.show()
+    }
+
+    fun borrarUsuarioFichero ()
+    {
+        val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS, MODE_PRIVATE)
+        fichero.edit(true) {
+            clear()
+        }
     }
 
     /**
