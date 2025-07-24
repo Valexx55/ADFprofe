@@ -21,7 +21,9 @@ class VideoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityVideoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //enableEdgeToEdge()
         supportActionBar?.hide()//oculto la appbar
+        //window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN //forma antigua  - deprecated
         ocultarBarraEstado()
 
         //var rutaUriVideo = "android.resource://$packageName/"+R.raw.video_inicio
