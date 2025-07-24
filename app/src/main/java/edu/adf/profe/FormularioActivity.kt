@@ -35,7 +35,6 @@ class FormularioActivity : AppCompatActivity() {
         setContentView(binding.root)
         //he ocultado la barra desde el tema del manifest específico para esta actividad
         //TODO gestión automática del checkbox mayor de edad
-        //TODO validación / snackBar / BORRAR DESHACER
         //TODO VideoView + SharedPrefs de saltar intro
         //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
 

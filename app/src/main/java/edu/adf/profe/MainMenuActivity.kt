@@ -35,7 +35,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //this.navigationView.setNavigationItemSelectedListener(this)
 
        // intentCompartir()
-
+        val intentvideo = Intent(this, VideoActivity::class.java)
+        startActivity(intentvideo)
 
 
         this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {

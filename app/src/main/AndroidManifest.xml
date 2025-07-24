@@ -15,12 +15,15 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".VideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".SubColorActivity"
             android:exported="false" />
         <activity
-            android:theme="@style/Theme.AdfProfe.SinBarra"
             android:name=".FormularioActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AdfProfe.SinBarra" />
         <activity
             android:name=".SpinnerActivity"
             android:exported="false"
@@ -41,9 +44,7 @@
                 <data
                     android:host="adf-formacion.es"
                     android:scheme="https" />
-                <!--
-                <data android:mimeType="text/plain"/>
-                -->
+                <!--                 <data android:mimeType="text/plain"/> -->
             </intent-filter>
         </activity>
         <activity
