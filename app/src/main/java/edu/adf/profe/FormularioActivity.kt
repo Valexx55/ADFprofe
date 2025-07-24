@@ -191,6 +191,11 @@ class FormularioActivity : AppCompatActivity() {
         fichero.edit(true) {
             clear()
         }
+
+        //versión alternativa "tradicional"
+        //val editor =  fichero.edit()
+        //editor.clear()
+        //editor.commit()
     }
 
     /**
