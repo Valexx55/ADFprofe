@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -32,7 +33,7 @@ class Ejercicio1VacasActivity : AppCompatActivity() {
             arrayInts.iterator().forEach { this.arrayIdsTocados.add(it) } //paso de array de kotlin a array de java (el array de java me permite crecer dinámicamnete sin complicaciones)
             this.arrayIdsTocados.iterator().forEach {  //recorremos las vistas
                 var vista = findViewById<LinearLayout>(it) //y las vistas aquí guardadas han sido tocadas
-                vista.setBackgroundColor(resources.getColor(R.color.black)) //y las pintamos de negro (tocadas)
+                vista.setBackgroundColor(ContextCompat.getColor(this, R.color.black)) //y las pintamos de negro (tocadas)
 
             }
             this.ncambios = this.arrayIdsTocados.size //para controlar el final del juego, hemos contabilizado el número de vistas y lo actualizamos
@@ -47,7 +48,7 @@ class Ejercicio1VacasActivity : AppCompatActivity() {
         Log.d(Constantes.ETIQUETA_LOG, "VISTA ID = ${view.id}")
         if (valor==null)//no tengo nada asociado, es la primera vez que toco es caja/vista
         {
-            view.setBackgroundColor(resources.getColor(R.color.black))
+            view.setBackgroundColor(ContextCompat.getColor(this, R.color.black)) //y las pintamos de negro (tocadas)
             view.tag=true
             arrayIdsTocados.add(view.id)//añado el id de la vista tocada para guardarla
             ncambios = ncambios+1//actualizamos el número de cajas tocadas
