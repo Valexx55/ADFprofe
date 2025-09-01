@@ -8,33 +8,39 @@
     tools:context=".VersionActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/mensajeSalida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="HOLA MUNDO"
+        android:gravity="center"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/botonSaludo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="SALUDO"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:textSize="22sp"
+        android:onClick="saludoTocado"
+        app:layout_constraintBottom_toTopOf="@+id/mensajeSalida"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/botonVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:onClick="informarVersion"
         android:text="VERSIÓN ANDROID"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/mensajeSalida" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
