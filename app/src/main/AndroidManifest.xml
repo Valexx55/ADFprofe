@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".Ejercicio1VacasActivity"
+            android:exported="false" />
+        <activity
             android:name=".VideoActivity"
             android:exported="false" />
         <activity
@@ -44,7 +47,7 @@
                 <data
                     android:host="adf-formacion.es"
                     android:scheme="https" />
-                <!--                 <data android:mimeType="text/plain"/> -->
+                <!-- <data android:mimeType="text/plain"/> -->
             </intent-filter>
         </activity>
         <activity

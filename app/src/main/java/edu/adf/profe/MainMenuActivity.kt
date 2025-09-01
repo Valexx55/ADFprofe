@@ -61,6 +61,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 }
                 8 -> Intent(this, SpinnerActivity::class.java)
                 9 -> Intent(this, FormularioActivity::class.java)
+                10 -> Intent(this, Ejercicio1VacasActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

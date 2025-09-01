@@ -34,6 +34,9 @@ class VideoActivity : AppCompatActivity() {
 
         binding.videoView.start()//reproduzco el vídeo
 
+        //cuando acabae el video, cerramos esta actividad
+        binding.videoView.setOnCompletionListener { mediaPlayer -> finish() }
+
 
     }
 
