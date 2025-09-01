@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".PrensaActivity"
+            android:exported="false" />
+        <activity
             android:name=".Ejercicio1VacasActivity"
             android:exported="false" />
         <activity
