@@ -34,9 +34,6 @@ class FormularioActivity : AppCompatActivity() {
         binding = ActivityFormularioBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //he ocultado la barra desde el tema del manifest específico para esta actividad
-        //TODO gestión automática del checkbox mayor de edad
-        //TODO VideoView + SharedPrefs de saltar intro
-        //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
 
         //si hay datos en el fichero
         val ficheroUsuario = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS, MODE_PRIVATE)
@@ -145,7 +142,6 @@ class FormularioActivity : AppCompatActivity() {
     fun mostrarInfoFormulario(view: View) {
         //mostrar los datos del formulario
         Log.d(Constantes.ETIQUETA_LOG, "NOMBRE = ${binding.editTextNombreFormulario.text.toString()} EDAD = ${binding.editTextEdadFormulario.text.toString()} HOMBRE = ${binding.radioButtonHombre.isChecked} MUJER = ${binding.radioButtonMujer.isChecked} MAYOR EDAD = ${binding.checkBox.isChecked}" )
-        //TODO crear una clase Usuario, para albergar toda la información obtenidad en el formulario
         val nombre:String = binding.editTextNombreFormulario.text.toString()
         val edad: Int = binding.editTextEdadFormulario.text.toString().toInt()
         val sexo: Char = if (binding.radioButtonHombre.isChecked)
@@ -173,7 +169,6 @@ class FormularioActivity : AppCompatActivity() {
         snackbar.setAction ("DESHACER"){ v: View ->
 
             Log.d(Constantes.ETIQUETA_LOG, "HA TOCAO DESHACER")
-            //TODO borrar los datos guardados en el fichero
             /*val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS, MODE_PRIVATE)
             fichero.edit(true) {
                 clear()

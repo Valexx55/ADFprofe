@@ -14,4 +14,5 @@
     <string name="boton_si">SÍ</string>
     <string name="boton_no">NO</string>
     <string name="boton_neutro">CANCELAR</string>
+    <string name="mensaje_web_visita">VISITAR WEB</string>
 </resources>

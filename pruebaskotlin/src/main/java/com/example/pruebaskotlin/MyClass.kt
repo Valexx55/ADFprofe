@@ -64,7 +64,6 @@ fun traducirResultadoImcVersionIF(resultado:Float):String
 {
     var imcResultado:String = ""
 
-        //TODO completar el cuerpo de la función o con IF o con WHEN
         if (resultado<16) {
             imcResultado = "DESNUTRIDO"
         } else if (resultado>=16 && resultado<18)

@@ -38,7 +38,7 @@ class BusquedaActivity : AppCompatActivity() {
 
         //https://www.google.com/search?q=real+madrid
         val url: String = "https://www.google.com/search?q=$busqueda"
-        val web: Uri = url.toUri() //  Uri.parse(url) //para eliminar espacios, tildes, la url la formamos bien con este método
+        val web: Uri = url.toUri()
         val intentBusqueda = Intent(Intent.ACTION_VIEW, web) //INTENT IMPLÍCITO
         if (intentBusqueda.resolveActivity(packageManager) != null) {
             Log.d(Constantes.ETIQUETA_LOG, "El dispositivo puede navegar por internet")

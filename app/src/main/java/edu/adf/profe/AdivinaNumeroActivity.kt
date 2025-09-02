@@ -42,8 +42,6 @@ class AdivinaNumeroActivity : AppCompatActivity() {
     var haPerdido: Boolean =false
     lateinit var cajaNumeroUsuario: EditText
 
-    //TODO MODIFICAR LA APP, PARA QUE AL DAR LA VUELTA EL MÓVIL, NO SE PIERDAN
-    //NI EL NÚMERO DE VIDAS, NI EL NÚMERO SECRETO
 
     override fun onCreate(saquito: Bundle?) {
         super.onCreate(saquito)
@@ -106,7 +104,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
 
     fun intentoAdivina(view: View) {
         Log.d (Constantes.ETIQUETA_LOG, "El usuario ha dado a probar")
-        //TODO continuar con la APP
+
         //val cajaNumUsuario = findViewById<EditText>(R.id.numeroUsuario)
         val numeroUsuario = this.cajaNumeroUsuario.text.toString().toInt()
         when {

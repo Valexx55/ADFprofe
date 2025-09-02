@@ -17,6 +17,24 @@ import com.google.android.material.navigation.NavigationView
  * DESDE AQUÍ, LANZAMOS EL RESTO DE ACTIVIDDES
  * EN UN FUTURO, PONDREMOS UN MENÚ HAMBURGUESA / LATERAL
  * DE MOMENTO, LO HACEMOS CON INTENTS
+ *
+ * //TODO TERMINAR PRENSA APP
+ * //TODO SERIALIZABLE VS PARCELABLE
+ * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
+ * //TODO RECYCLERVIEW - listas  LISTVIEW no
+ * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub
+ * //TODO FRAGMENTS - VIEWPAGER - TABS
+ * //TODO FIREBASE
+ * //TODO PERMISOS PELIGROSOS
+ * //TODO CÁMARA FOTOS / VIDEO
+ * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
+ * //TODO SERVICIOS DEL SISTEMA (DOWNLOAD MANAGER, ALARM MANAGER)
+ * //TODO SERVICIOS PROPIOS??
+ * //TODO RECIEVERS
+ * //TODO PROVIDERS
+ * //TODO SQLITE - ROOM
+ * //TODO LIVE DATA?
+ * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -111,7 +129,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(Intent.createChooser(intentEnviarTexto, "Enviar mensaje con ..."))
     }*/
 
-    //este método se invoca al tocar la hamburguesa
+    //este métod o se invoca al tocar la hamburguesa
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId)
         {

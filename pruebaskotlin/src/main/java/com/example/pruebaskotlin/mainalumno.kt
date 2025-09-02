@@ -36,7 +36,7 @@ fun main() {
     println("La media 2 es  ${listaAlumnos.map { a ->  a.edad}.average()}")
 }
 
-//TODO Haced una función que reciba un Alumno e imprima su edad. No devuelve nada
+
 fun edadAlumno (alumno: Alumno)
 {
     println("La edad es ${alumno.edad}")

@@ -25,7 +25,6 @@ import androidx.core.view.WindowInsetsCompat
  * SI TU IMC ES MAYOR O IGUAL que 31 --> OBESO
  */
 
-//TODO pasar del valo número al valor nominal 20 --> ESTÁS IDEAL O BIEN CON IF O BIEN CON WHEN
 
 
 class ImcActivity : AppCompatActivity() {
@@ -57,14 +56,14 @@ class ImcActivity : AppCompatActivity() {
 
     }
 
-    //para dibujar un menú en la parte superior debo definir el  método onCreateOptionsMenu
+    //para dibujar un menú en la parte superior debo definir el  métod o onCreateOptionsMenu
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_imc, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    //este método es invocado cuando el usuario toca una opción del menú
+    //este métod o es invocado cuando el usuario toca una opción del menú
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId)
         {
@@ -181,7 +180,7 @@ class ImcActivity : AppCompatActivity() {
         val tvresultado =  findViewById<TextView>(R.id.imcResultado)
         tvresultado.text = resultadoNombre
         tvresultado.visibility = View.VISIBLE
-        //TODO transitar a la ventana nueva ImagenResultadoActivity
+        // transitar a la ventana nueva ImagenResultadoActivity
         val intent:Intent = Intent(this, ImagenResultadoActivity::class.java)
         intent.putExtra("resultado", resultadoNombre)//"guardando en el saco"
         startActivity(intent)
@@ -250,7 +249,6 @@ class ImcActivity : AppCompatActivity() {
     {
         var imcResultado:String = ""
 
-        //TODO completar el cuerpo de la función o con IF o con WHEN
         if (resultado<16) {
             imcResultado = "DESNUTRIDO"
         } else if (resultado>=16 && resultado<18)
