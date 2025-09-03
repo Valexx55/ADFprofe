@@ -26,6 +26,9 @@ class FormularioActivity : AppCompatActivity() {
     lateinit var lanzador: ActivityResultLauncher<Intent>
     lateinit var binding: ActivityFormularioBinding
     var color: Int = 0
+    lateinit var usuario:Usuario
+    //var usuario:Usuario? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +44,11 @@ class FormularioActivity : AppCompatActivity() {
         {
             Log.d(Constantes.ETIQUETA_LOG, "NO ESTÁ VACÍO, el fichero tiene datos de un usuario")
             //leo el fichero y relleno el formulario
-            cargarFormularioConDatosFichero(ficheroUsuario)
+            this.usuario = cargarFormularioConDatosFichero(ficheroUsuario)
+            //NUEVO Como existe un usuario, queremos mostrar en otra actividad un mensaje de bienvenida
+            val intent = Intent(this, BienvenidaActivity::class.java)
+            intent.putExtra("USUARIO", usuario)
+            startActivity(intent)
         }
         else {
             Log.d(Constantes.ETIQUETA_LOG, "El fichero de preferencias está vacío")
@@ -106,7 +113,7 @@ class FormularioActivity : AppCompatActivity() {
         }
     }
 
-    fun cargarFormularioConDatosFichero (fichero: SharedPreferences)
+    fun cargarFormularioConDatosFichero (fichero: SharedPreferences):Usuario
     {
         val nombre = fichero.getString("nombre", "")//leo del fichero
         binding.editTextNombreFormulario.setText(nombre)//lo mento en la caja del nombre
@@ -128,7 +135,10 @@ class FormularioActivity : AppCompatActivity() {
         val mayorEdad = fichero.getBoolean("mayorEdad", false)
         binding.checkBox.isChecked = mayorEdad
 
+        val usuarioFichero = Usuario(nombre!!, edad, sexo!!.get(0), mayorEdad, color)
+
        // binding.checkBox.isChecked = fichero.getBoolean("mayorEdad", false)
+        return usuarioFichero
     }
 
     fun seleccionarColorFavorito(view: View) {
@@ -169,10 +179,6 @@ class FormularioActivity : AppCompatActivity() {
         snackbar.setAction ("DESHACER"){ v: View ->
 
             Log.d(Constantes.ETIQUETA_LOG, "HA TOCAO DESHACER")
-            /*val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS, MODE_PRIVATE)
-            fichero.edit(true) {
-                clear()
-            }*/
             borrarUsuarioFichero()
         }
         //snackbar.setTextColor(getColor(R.color.mirojo))//color de la acción
@@ -241,6 +247,10 @@ class FormularioActivity : AppCompatActivity() {
         return nombreValido
 
         //return nombre.length>2
+    }
+
+    fun borrarUsuarioPrefs(view: View) {
+        borrarUsuarioFichero()
     }
 
 }

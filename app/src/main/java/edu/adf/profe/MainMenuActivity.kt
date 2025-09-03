@@ -19,7 +19,7 @@ import com.google.android.material.navigation.NavigationView
  * DE MOMENTO, LO HACEMOS CON INTENTS
  *
  * //TODO TERMINAR PRENSA APP X
- * //TODO INFLAR
+ * //TODO INFLAR X
  * //TODO SERIALIZABLE VS PARCELABLE
  * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
  * //TODO RECYCLERVIEW - listas  LISTVIEW no
