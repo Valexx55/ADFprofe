@@ -18,7 +18,8 @@ import com.google.android.material.navigation.NavigationView
  * EN UN FUTURO, PONDREMOS UN MENÚ HAMBURGUESA / LATERAL
  * DE MOMENTO, LO HACEMOS CON INTENTS
  *
- * //TODO TERMINAR PRENSA APP
+ * //TODO TERMINAR PRENSA APP X
+ * //TODO INFLAR
  * //TODO SERIALIZABLE VS PARCELABLE
  * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
  * //TODO RECYCLERVIEW - listas  LISTVIEW no
@@ -81,6 +82,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 9 -> Intent(this, FormularioActivity::class.java)
                 10 -> Intent(this, Ejercicio1VacasActivity::class.java)
                 11 -> Intent(this, PrensaActivity::class.java)
+                12 -> Intent(this, InflarActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

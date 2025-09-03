@@ -71,6 +71,12 @@
             android:orderInCategory="11"
             android:title="PRENSA"
             />
+        <item
+            android:icon="@drawable/outline_arrow_forward_ios_24"
+            app:showAsAction="always"
+            android:orderInCategory="12"
+            android:title="INFLAR"
+            />
     </menu>
 </item>
 </menu>
