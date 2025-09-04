@@ -1,6 +1,7 @@
 package edu.adf.profe.lista
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -33,5 +34,20 @@ class ListaUsuariosActivity : AppCompatActivity() {
         //this.binding.recViewUsuarios.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, true  )
         //this.binding.recViewUsuarios.layoutManager = GridLayoutManager(this, 2)
 
+
     }
+
+    fun ordenarPorNombre(view: View) {
+        //this.listaUsuarios.sortedBy { usuario -> usuario.nombre }
+        this.listaUsuarios = this.listaUsuarios.sortedBy { it.nombre }
+        //this.listaUsuarios = this.listaUsuarios.sortedByDescending { it.nombre }//de mayor a menor
+        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+    }
+    fun ordenarPorEdad(view: View) {
+        this.listaUsuarios = this.listaUsuarios.sortedWith { usuario0, usuario1 -> usuario0.edad - usuario1.edad }
+        this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
+
+    }
+
+    //TODO ordenar por nombre y edad
 }
