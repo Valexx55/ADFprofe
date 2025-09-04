@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.adf.profe.R
@@ -28,6 +29,9 @@ class ListaUsuariosActivity : AppCompatActivity() {
 
         this.binding.recViewUsuarios.adapter = UsuariosAdapter(this.listaUsuarios)
         this.binding.recViewUsuarios.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false  )
+        //this.binding.recViewUsuarios.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, true  )
+        //this.binding.recViewUsuarios.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, true  )
+        //this.binding.recViewUsuarios.layoutManager = GridLayoutManager(this, 2)
 
     }
 }

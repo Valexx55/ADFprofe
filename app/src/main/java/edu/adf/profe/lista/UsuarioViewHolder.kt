@@ -32,8 +32,9 @@ class UsuarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
         this.tvSexoUsuario.text = usuario.sexo.toString()
         this.tvEdadUsuario.text = usuario.edad.toString()
         Log.d(Constantes.ETIQUETA_LOG, "COLOR FAV = ${usuario.colorFavorito}")
+        //this.lcolorfav.setBackgroundColor(usuario.colorFavorito)//este id es el id del recurso R.color y no lo coge bien. Espera un valor hexadecimal
+        this.lcolorfav.setBackgroundColor(this.lcolorfav.context.getColor(usuario.colorFavorito))//este sí lo coge bien, porque del id del recurso, coge el color y lo traduce al hexadecimal correcto
 
-        this.lcolorfav.setBackgroundColor(this.lcolorfav.context.getColor(usuario.colorFavorito))
     }
 
 
