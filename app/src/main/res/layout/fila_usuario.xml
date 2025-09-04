@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="70dp">
+
+    <TextView
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Valeriano"
+        android:id="@+id/nombreusuario"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="40"
+        />
+
+    <TextView
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="41"
+        android:id="@+id/edadusuario"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="15"
+        />
+
+    <TextView
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="M"
+        android:id="@+id/sexousuario"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="15"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/colorusuariofav"
+        android:background="@color/azulclaro"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        />
+
+
+</LinearLayout>

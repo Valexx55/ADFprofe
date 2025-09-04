@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import edu.adf.profe.lista.ListaUsuariosActivity
 
 /**
  * ESTA ES LA ACTIVIDAD DE INICIO
@@ -20,9 +21,9 @@ import com.google.android.material.navigation.NavigationView
  *
  * //TODO TERMINAR PRENSA APP X
  * //TODO INFLAR X
- * //TODO SERIALIZABLE VS PARCELABLE
+ * //TODO SERIALIZABLE VS PARCELABLE X
  * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
- * //TODO RECYCLERVIEW - listas  LISTVIEW no
+ * //TODO RECYCLERVIEW - listas  LISTVIEW no X
  * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub
  * //TODO FRAGMENTS - VIEWPAGER - TABS
  * //TODO FIREBASE
@@ -83,6 +84,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 10 -> Intent(this, Ejercicio1VacasActivity::class.java)
                 11 -> Intent(this, PrensaActivity::class.java)
                 12 -> Intent(this, InflarActivity::class.java)
+                13 -> Intent(this, ListaUsuariosActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }
