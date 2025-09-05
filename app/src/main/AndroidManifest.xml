@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- mi app necesita acceder al estado de la red para saber si hay internet o no o de qué tipo -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
+        <activity
+            android:name=".productos.ListaProductosActivity"
+            android:exported="false" />
         <activity
             android:name=".lista.ListaUsuariosActivity"
             android:exported="false" />
