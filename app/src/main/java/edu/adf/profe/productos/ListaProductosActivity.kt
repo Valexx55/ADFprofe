@@ -2,6 +2,7 @@ package edu.adf.profe.productos
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,13 +12,22 @@ import androidx.lifecycle.lifecycleScope
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.util.RedUtil
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.coroutines.CoroutineContext
+import kotlin.system.measureNanoTime
 
 class ListaProductosActivity : AppCompatActivity() {
 
     lateinit var listaProductos: ListaProductos
+    lateinit var job:Job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +40,19 @@ class ListaProductosActivity : AppCompatActivity() {
         }
         //preparo RetroFit
 
+
+        //unused param
+        //usando este handler en el contexto de la corutina, se derivan
+        //las excepciones que el try catch no captura
+        //igualmente, tenemos el comportamiento extraño de no hallar el detalle de la execepción si unsamos exception.cause como tercer parámetro (parace ser problema de hilos propagando excepciones)
+        val handler = CoroutineExceptionHandler { _, exception ->
+            Log.e("CorrutinaError", "Error en corrutina: ${exception.message}", exception.cause)
+
+        }
+
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://my-json-server.typicode.es")
+            .baseUrl("https://my-json-server.typicode.com")
+            //.baseUrl("https://my-json-server.typicode.es")//para probar la excepción
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -43,18 +64,20 @@ class ListaProductosActivity : AppCompatActivity() {
             Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 0")
 
 
-                lifecycleScope.launch {
-                    val res = try {
-
-                    Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
+               job = lifecycleScope.launch(Dispatchers.IO+handler+CoroutineName("RutinaProductos"), CoroutineStart.LAZY) {
+                   var t1 = System.currentTimeMillis();
+                   val res = try {
+                    delay(5000)
+                    Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1 ${coroutineContext[CoroutineName]?.name}")
                     listaProductos = productoService.obtenerProductos()
 
                     //TODO HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
                     listaProductos
-                    } catch (ex:Exception)
+                    } catch (ex:ClassNotFoundException)
                     {
                         Log.e(Constantes.ETIQUETA_LOG, "Error al obtener el listado", ex.cause) //IMPORTANTE USAR CAUSE PARA OBTENER EL DETALLE DEL FALLO
                         null
+                        throw ex
 
                     }
                     if (res!=null)
@@ -67,7 +90,13 @@ class ListaProductosActivity : AppCompatActivity() {
                         noti.show()
 
                     }
+                   var t2 = System.currentTimeMillis();
+                   var t = t2-t1;
+                   //Log.d(Constantes.ETIQUETA_LOG, "TIEMPO CON MAIN = $t ms")
+                   Log.d(Constantes.ETIQUETA_LOG, "TIEMPO CON IO = $t ms")
                 }
+
+                job.start()//Lanzo la corutina ahora, por haber usado el modo start lazy; hasta que no lo ejecute yo, no se lanza
 
 
 
@@ -86,5 +115,9 @@ class ListaProductosActivity : AppCompatActivity() {
         * */
 
 
+    }
+
+    fun cancelarPeticion(view: View) {
+        job.cancel()//aunque se cancele ya ejecutado, no falla
     }
 }
