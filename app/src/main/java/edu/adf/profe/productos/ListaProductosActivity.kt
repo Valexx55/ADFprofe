@@ -31,7 +31,7 @@ class ListaProductosActivity : AppCompatActivity() {
         //preparo RetroFit
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://my-json-server.typicode.com")
+            .baseUrl("https://my-json-server.typicode.es")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -41,13 +41,35 @@ class ListaProductosActivity : AppCompatActivity() {
         {
             //el bloque que va dentro de este métod o, se ejecuta en un segundo plano (proceso a parte)
             Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 0")
-            lifecycleScope.launch {
-                Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
-                listaProductos = productoService.obtenerProductos()
-                Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
-                listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
-                //TODO HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
-            }
+
+
+                lifecycleScope.launch {
+                    val res = try {
+
+                    Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
+                    listaProductos = productoService.obtenerProductos()
+
+                    //TODO HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
+                    listaProductos
+                    } catch (ex:Exception)
+                    {
+                        Log.e(Constantes.ETIQUETA_LOG, "Error al obtener el listado", ex.cause) //IMPORTANTE USAR CAUSE PARA OBTENER EL DETALLE DEL FALLO
+                        null
+
+                    }
+                    if (res!=null)
+                    {
+                        Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
+                        listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
+                    } else {
+
+                        val noti = Toast.makeText(this@ListaProductosActivity, "ERROR AL OBTENER EL LISTADO DE PRODUCTOS", Toast.LENGTH_LONG)
+                        noti.show()
+
+                    }
+                }
+
+
 
         }else
         {
