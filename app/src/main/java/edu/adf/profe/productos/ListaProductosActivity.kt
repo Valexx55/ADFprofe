@@ -10,24 +10,40 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
+import edu.adf.profe.databinding.ActivityListaProductosBinding
 import edu.adf.profe.util.RedUtil
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/*
+PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
+
+-- fase estática/compilación
+1) DEFINIR EL RECYCLERVIEW EN EL XML
+2) CREAR EL LAYOUT/FILA ITEM - ASPECTO
+3) CREAR EL ADAPTER
+4) CREAR EL VIEWHOLDER
+-- fase dinámica/ejecución
+5) OBTENER DATOS (RETROFIT HTTP https://my-json-server.typicode.com/miseon920/json-api/products)
+6) INSTANCIAR EL ADAPTER PASÁNDOLE LOS DATOS DEL PUNTO 5
+7) ASOCIO EL ADAPTER AL RECYCLER
+8) DEFINIMOS UN LAYOUT MANAGER PARA EL RECYCLER
+
+
+
+ */
+
 class ListaProductosActivity : AppCompatActivity() {
 
     lateinit var listaProductos: ListaProductos
+    lateinit var binding: ActivityListaProductosBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_lista_productos)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityListaProductosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         //preparo RetroFit
 
         val retrofit = Retrofit.Builder()
@@ -46,7 +62,7 @@ class ListaProductosActivity : AppCompatActivity() {
                 listaProductos = productoService.obtenerProductos()
                 Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
                 listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
-                //TODO HACER UN RECYCLER PARA MOSTRAR LA LISTA DE PRODUCTOS
+                mostrarListaProductos (listaProductos)
             }
 
         }else
@@ -63,6 +79,10 @@ class ListaProductosActivity : AppCompatActivity() {
             MUESTRO UN TOAST O MENSAJE DE ERROR
         * */
 
+
+    }
+
+    private fun mostrarListaProductos(listaProductos: ListaProductos) {
 
     }
 }
