@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityListaProductosBinding
@@ -22,8 +25,8 @@ PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
 -- fase estática/compilación
 1) DEFINIR EL RECYCLERVIEW EN EL XML
 2) CREAR EL LAYOUT/FILA ITEM - ASPECTO
-3) CREAR EL ADAPTER
-4) CREAR EL VIEWHOLDER
+3) CREAR EL VIEWHOLDER
+4) CREAR EL ADAPTER
 -- fase dinámica/ejecución
 5) OBTENER DATOS (RETROFIT HTTP https://my-json-server.typicode.com/miseon920/json-api/products)
 6) INSTANCIAR EL ADAPTER PASÁNDOLE LOS DATOS DEL PUNTO 5
@@ -38,6 +41,7 @@ class ListaProductosActivity : AppCompatActivity() {
 
     lateinit var listaProductos: ListaProductos
     lateinit var binding: ActivityListaProductosBinding
+    lateinit var adapter: ProductosAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,9 @@ class ListaProductosActivity : AppCompatActivity() {
         if (RedUtil.hayInternet(this))
         {
             //el bloque que va dentro de este métod o, se ejecuta en un segundo plano (proceso a parte)
-            Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 0")
+            Log.d(Constantes.ETIQUETA_LOG, "Hay internet, vamos a pedir ")
+            val haywifi = RedUtil.hayWifi(this)
+            Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
             lifecycleScope.launch {
                 Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
                 listaProductos = productoService.obtenerProductos()
@@ -71,18 +77,12 @@ class ListaProductosActivity : AppCompatActivity() {
             noti.show()
         }
         Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 2")
-        /*
-        SI HAY CONEXIÓN A INTERNET
-            PIDO EL LISTADO DE PRODUCTOS
-            DESPUÉS, MUESTRO EL LISTADO RX
-          SI NO
-            MUESTRO UN TOAST O MENSAJE DE ERROR
-        * */
-
 
     }
 
     private fun mostrarListaProductos(listaProductos: ListaProductos) {
-
+        this.adapter = ProductosAdapter(listaProductos)
+        binding.recViewProductos.adapter = this.adapter
+        binding.recViewProductos.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false )
     }
 }
