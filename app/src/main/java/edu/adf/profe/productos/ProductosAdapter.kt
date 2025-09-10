@@ -8,8 +8,8 @@ import edu.adf.profe.databinding.FilaProductoBinding
 
 class ProductosAdapter(var listaProductos: ListaProductos):RecyclerView.Adapter<ProductoViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductoViewHolder {
-        val binding = FilaProductoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductoViewHolder(binding)
+        val filaProducto = FilaProductoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ProductoViewHolder(filaProducto)
     }
 
     override fun getItemCount(): Int {

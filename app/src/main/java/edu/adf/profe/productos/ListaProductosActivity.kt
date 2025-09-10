@@ -2,6 +2,7 @@ package edu.adf.profe.productos
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -61,15 +62,23 @@ class ListaProductosActivity : AppCompatActivity() {
         {
             //el bloque que va dentro de este métod o, se ejecuta en un segundo plano (proceso a parte)
             Log.d(Constantes.ETIQUETA_LOG, "Hay internet, vamos a pedir ")
-            val haywifi = RedUtil.hayWifi(this)
-            Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
-            lifecycleScope.launch {
+            //val haywifi = RedUtil.hayWifi(this)
+           // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
+           lifecycleScope.launch {
+                //this en este función NO es Activity , es la propia corrutina
+               //si necesito acceder al Contexto de la actvidad dentro
+               //de la corrutina, debo usar this@ListaProductosActivity
+                //val haywifi = RedUtil.hayWifi(this@ListaProductosActivity)
+               // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
                 Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
                 listaProductos = productoService.obtenerProductos()
                 Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
+               //ocultar progress bar
+               this@ListaProductosActivity.binding.barraProgreso.visibility= View.GONE
                 listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
                 mostrarListaProductos (listaProductos)
-            }
+
+           }
 
         }else
         {
