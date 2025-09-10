@@ -19,6 +19,7 @@ import edu.adf.profe.util.RedUtil
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.system.measureNanoTime
 
 /*
 PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
@@ -77,6 +78,7 @@ class ListaProductosActivity : AppCompatActivity() {
                this@ListaProductosActivity.binding.barraProgreso.visibility= View.GONE
                 listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
                 mostrarListaProductos (listaProductos)
+                dibujarSlider()
 
            }
 
@@ -86,6 +88,38 @@ class ListaProductosActivity : AppCompatActivity() {
             noti.show()
         }
         Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 2")
+
+    }
+
+    private fun dibujarSlider() {
+        this.binding.sliderPrecio.visibility = View.VISIBLE
+
+        //obtenemos el producto más caro
+        val productoMasCaro = this.listaProductos.maxBy { p:ListaProductosItem -> p.price.toFloat() }
+        val productoMasEconomico = this.listaProductos.minBy { p : ListaProductosItem -> p.price.toFloat() }
+        var precioMedio:Double = 0.0
+        val tlambdas =  measureNanoTime {
+             precioMedio = this.listaProductos.map { p->p.price.toFloat() }.average()
+
+        }
+
+        var tforClasico = measureNanoTime {
+            var sumaPrecio:Float = 0f
+            for (p in listaProductos.indices)
+            {
+                sumaPrecio = sumaPrecio + listaProductos[p].price.toFloat()
+            }
+            val media = sumaPrecio/listaProductos.size
+
+        }
+        Log.d(Constantes.ETIQUETA_LOG, "Tiempo lambdas ${tlambdas} vs Tiempo clásico ${tforClasico}")
+
+
+
+        this.binding.precioMasCaro.text = productoMasCaro.price
+        this.binding.precioMasBarato.text = productoMasEconomico.price
+        this.binding.precioMedio.text = precioMedio.toString()
+
 
     }
 

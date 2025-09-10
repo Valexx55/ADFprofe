@@ -17,6 +17,7 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:theme="@style/Theme.AdfProfe.SinBarra"
             android:name=".productos.ListaProductosActivity"
             android:exported="false" />
         <activity

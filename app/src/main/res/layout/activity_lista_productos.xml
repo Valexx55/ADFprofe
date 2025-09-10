@@ -7,7 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".productos.ListaProductosActivity">
 
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/sliderPrecio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/minaranja"
@@ -16,11 +30,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="PRODUCTO"
             android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="28dp"/>
+            android:text="PRODUCTO"
+            android:textSize="28dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -33,30 +48,27 @@
 
         <TextView
             style="@style/EstiloCabaceraLista"
-            android:layout_width="wrap_content"
             android:layout_weight="10"
             android:text="ID" />
 
         <TextView
             style="@style/EstiloCabaceraLista"
-            android:layout_width="wrap_content"
             android:layout_weight="40"
             android:text="NOMBRE" />
 
         <TextView
             style="@style/EstiloCabaceraLista"
-            android:layout_width="wrap_content"
-            android:layout_weight="20"
+            android:layout_weight="25"
             android:text="PRECIO" />
 
         <TextView
             style="@style/EstiloCabaceraLista"
-            android:layout_width="wrap_content"
-            android:layout_weight="40"
+            android:layout_weight="35"
             android:text="FOTO" />
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="315dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,20 +76,51 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:scrollbars="vertical"
-        android:id="@+id/recViewProductos"
-        android:layout_width="match_parent"
-        android:layout_height="315dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recViewProductos"
+            android:layout_width="match_parent"
+            android:layout_height="315dp"
+            android:scrollbars="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <ProgressBar
             android:id="@+id/barraProgreso"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/precioMasBarato"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <TextView
+        android:id="@+id/precioMasCaro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/precioMasBarato" />
+
+    <TextView
+        android:id="@+id/precioMedio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/precioMasCaro" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

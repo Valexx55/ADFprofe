@@ -29,16 +29,15 @@
         android:textSize="20sp"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="20"/>
+        android:layout_weight="25"/>
 
     <ImageView
         android:id="@+id/imagenProducto"
-        android:gravity="center"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_launcher"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="40"/>
+        android:layout_weight="35"/>
 
 
 </LinearLayout>
