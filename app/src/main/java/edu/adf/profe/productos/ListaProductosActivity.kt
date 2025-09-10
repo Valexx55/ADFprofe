@@ -19,6 +19,7 @@ import edu.adf.profe.util.RedUtil
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.roundToInt
 import kotlin.system.measureNanoTime
 
 /*
@@ -92,7 +93,7 @@ class ListaProductosActivity : AppCompatActivity() {
     }
 
     private fun dibujarSlider() {
-        this.binding.sliderPrecio.visibility = View.VISIBLE
+
 
         //obtenemos el producto más caro
         val productoMasCaro = this.listaProductos.maxBy { p:ListaProductosItem -> p.price.toFloat() }
@@ -114,12 +115,26 @@ class ListaProductosActivity : AppCompatActivity() {
         }
         Log.d(Constantes.ETIQUETA_LOG, "Tiempo lambdas ${tlambdas} vs Tiempo clásico ${tforClasico}")
 
-
-
         this.binding.precioMasCaro.text = productoMasCaro.price
         this.binding.precioMasBarato.text = productoMasEconomico.price
         this.binding.precioMedio.text = precioMedio.toString()
 
+        //INiciamos el Slider
+        this.binding.sliderPrecio.visibility = View.VISIBLE
+        this.binding.sliderPrecio.valueFrom = productoMasEconomico.price.toFloat()
+        this.binding.sliderPrecio.valueTo = productoMasCaro.price.toFloat()
+        this.binding.sliderPrecio.value = productoMasCaro.price.toFloat()
+
+        this.binding.sliderPrecio.setLabelFormatter { "${it.roundToInt()} precio máx" }
+
+        this.binding.sliderPrecio.addOnChangeListener { slider, value, fromUser ->
+
+            Log.d(Constantes.ETIQUETA_LOG, "Valor actual ${value} del usuario ${fromUser}")
+            var listaProductosFiltrados = ListaProductos()
+            this.listaProductos.filter { producto -> if (producto.price.toFloat()<=value) {true} else {false} }.toCollection(listaProductosFiltrados)
+            this.adapter.listaProductos = listaProductosFiltrados
+            this.adapter.notifyDataSetChanged()//"Emite una señal y RecyclerView se repinta"
+        }
 
     }
 
