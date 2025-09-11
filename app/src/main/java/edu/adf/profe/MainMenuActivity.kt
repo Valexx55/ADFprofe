@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.lista.ListaUsuariosActivity
+import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
 
 /**
@@ -88,6 +89,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 12 -> Intent(this, InflarActivity::class.java)
                 13 -> Intent(this, ListaUsuariosActivity::class.java)
                 14 -> Intent(this, ListaProductosActivity::class.java)
+                15 -> Intent(this, PerrosActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="razas">
+        <item>affenpinscher</item>
+        <item>african</item>
+        <item>airedale</item>
+        <item>akita</item>
+        <item>appenzeller</item>
+        <item>australian</item>
+    </string-array>
+</resources>

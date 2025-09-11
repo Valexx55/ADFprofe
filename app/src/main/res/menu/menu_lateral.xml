@@ -33,18 +33,6 @@
             android:orderInCategory="5"
             android:title="SUMAR ACTIVITY"
             />
-        <item
-            android:icon="@drawable/outline_arrow_forward_ios_24"
-            app:showAsAction="always"
-            android:orderInCategory="6"
-            android:title="BÚSQUEDA"
-           />
-        <item
-            android:icon="@drawable/outline_arrow_forward_ios_24"
-            app:showAsAction="always"
-            android:orderInCategory="7"
-            android:title="WEB ADF"
-           />
 
         <item
             android:icon="@drawable/outline_arrow_forward_ios_24"
@@ -71,24 +59,53 @@
             android:orderInCategory="11"
             android:title="PRENSA"
             />
-        <item
-            android:icon="@drawable/outline_arrow_forward_ios_24"
-            app:showAsAction="always"
-            android:orderInCategory="12"
-            android:title="INFLAR"
-            />
-        <item
-            android:icon="@drawable/outline_arrow_forward_ios_24"
-            app:showAsAction="always"
-            android:orderInCategory="13"
-            android:title="LISTA USUARIOS"
-            />
-        <item
-            android:icon="@drawable/outline_arrow_forward_ios_24"
-            app:showAsAction="always"
-            android:orderInCategory="14"
-            android:title="LISTA PRODUCTOS"
-            />
+
+
     </menu>
 </item>
+    <item android:title="EJERCICIOS INTERMEDIOS">
+        <menu>
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="6"
+                android:title="BÚSQUEDA"
+                />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="7"
+                android:title="WEB ADF"
+                />
+
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="12"
+                android:title="INFLAR"
+                />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="13"
+                android:title="LISTA USUARIOS"
+                />
+        </menu>
+    </item>
+    <item android:title="EJERCICIOS AVANZADOS">
+        <menu>
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="14"
+                android:title="LISTA PRODUCTOS"
+                />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="15"
+                android:title="FOTOS PERROS"
+                />
+        </menu>
+    </item>
 </menu>
