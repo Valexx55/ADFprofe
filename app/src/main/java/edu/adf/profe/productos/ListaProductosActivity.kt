@@ -4,16 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import edu.adf.profe.Constantes
-import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityListaProductosBinding
 import edu.adf.profe.util.RedUtil
 import kotlinx.coroutines.launch
@@ -42,7 +37,7 @@ PASOS PARA CREAR UN RECYCLERVIEW (MOSTRAR UNA COLECCIÓN/LISTA/TABLA)
 
 class ListaProductosActivity : AppCompatActivity() {
 
-    lateinit var listaProductos: ListaProductos
+    lateinit var listaProductos:  List<Producto>
     lateinit var binding: ActivityListaProductosBinding
     lateinit var adapter: ProductosAdapter
 
@@ -53,12 +48,8 @@ class ListaProductosActivity : AppCompatActivity() {
 
         //preparo RetroFit
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://my-json-server.typicode.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val productoService = retrofit.create(ProductoService::class.java)
+
 
         if (RedUtil.hayInternet(this))
         {
@@ -72,11 +63,12 @@ class ListaProductosActivity : AppCompatActivity() {
                //de la corrutina, debo usar this@ListaProductosActivity
                 //val haywifi = RedUtil.hayWifi(this@ListaProductosActivity)
                // Log.d(Constantes.ETIQUETA_LOG, "Es tipo wifi = ${haywifi} ")
+               val productoService = ProductosRetrofitHelper.getProductoServiceInstance()
                 Log.d(Constantes.ETIQUETA_LOG, "LANZNADO PETICIÓN HTTP 1")
                 listaProductos = productoService.obtenerProductos()
                 Log.d(Constantes.ETIQUETA_LOG, "RESPUESTA RX ...")
                //ocultar progress bar
-               this@ListaProductosActivity.binding.barraProgreso.visibility= View.GONE
+                this@ListaProductosActivity.binding.barraProgreso.visibility= View.GONE
                 listaProductos.forEach { Log.d(Constantes.ETIQUETA_LOG, it.toString()) }
                 mostrarListaProductos (listaProductos)
                 dibujarSlider()
@@ -96,8 +88,8 @@ class ListaProductosActivity : AppCompatActivity() {
 
 
         //obtenemos el producto más caro
-        val productoMasCaro = this.listaProductos.maxBy { p:ListaProductosItem -> p.price.toFloat() }
-        val productoMasEconomico = this.listaProductos.minBy { p : ListaProductosItem -> p.price.toFloat() }
+        val productoMasCaro = this.listaProductos.maxBy { p:Producto -> p.price.toFloat() }
+        val productoMasEconomico = this.listaProductos.minBy { p : Producto -> p.price.toFloat() }
         var precioMedio:Double = 0.0
         val tlambdas =  measureNanoTime {
              precioMedio = this.listaProductos.map { p->p.price.toFloat() }.average()
@@ -130,15 +122,17 @@ class ListaProductosActivity : AppCompatActivity() {
         this.binding.sliderPrecio.addOnChangeListener { slider, value, fromUser ->
 
             Log.d(Constantes.ETIQUETA_LOG, "Valor actual ${value} del usuario ${fromUser}")
-            var listaProductosFiltrados = ListaProductos()
-            this.listaProductos.filter { producto -> if (producto.price.toFloat()<=value) {true} else {false} }.toCollection(listaProductosFiltrados)
-            this.adapter.listaProductos = listaProductosFiltrados
+            var listaProductosFiltrados = ArrayList<Producto>()
+            //this.listaProductos.filter { producto -> if (producto.price.toFloat()<=value) {true} else {false} }.toCollection(listaProductosFiltrados)
+            var lpf = this.listaProductos.filter { producto -> if (producto.price.toFloat()<=value) {true} else {false} }
+            //this.adapter.listaProductos = listaProductosFiltrados
+            this.adapter.listaProductos = lpf
             this.adapter.notifyDataSetChanged()//"Emite una señal y RecyclerView se repinta"
         }
 
     }
 
-    private fun mostrarListaProductos(listaProductos: ListaProductos) {
+    private fun mostrarListaProductos(listaProductos: List<Producto>) {
         this.adapter = ProductosAdapter(listaProductos)
         binding.recViewProductos.adapter = this.adapter
         binding.recViewProductos.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false )
