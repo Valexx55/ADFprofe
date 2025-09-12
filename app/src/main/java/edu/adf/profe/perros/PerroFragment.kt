@@ -23,6 +23,9 @@ class PerroFragment: Fragment() {
 
         //TODO RELLENAR EL FRAGMENT CON EL CONTENIDO DEL PERRO CONCRETO
         var url_foto = arguments?.getString("URL_FOTO")
+        var leyenda = arguments?.getString("LEYENDA")
+
+        vistaPerroFragment.idleyenda.text = leyenda
         //me tengo que descargar la foto y ponérsela al imageView
         Glide.with(this)
             .load(url_foto?.toUri())

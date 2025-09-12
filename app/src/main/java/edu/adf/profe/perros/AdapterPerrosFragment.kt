@@ -20,8 +20,11 @@ class AdapterPerrosFragment(fragmentActivity: FragmentActivity): FragmentStateAd
 
         var bundle = Bundle()
         bundle.putString("URL_FOTO", url)//meto la información que quiero pintar en ese fragment
+        var txtleyenda = "${position+1} de ${this.fotosRazaPerros?.message?.size}"
+        bundle.putString("LEYENDA", txtleyenda)//meto la información que quiero pintar en ese fragment
 
         perroFragment.arguments = bundle//lo guardo en arguments (Bundle)
+
 
 
         return perroFragment
