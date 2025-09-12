@@ -10,13 +10,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
+import edu.adf.profe.databinding.ActivityGaleriaPerrosBinding
 import edu.adf.profe.util.RedUtil
 import kotlinx.coroutines.launch
 
 class GaleriaPerrosActivity : AppCompatActivity() {
+
+
+    lateinit var galeriaPerrosBinding: ActivityGaleriaPerrosBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_galeria_perros)
+        galeriaPerrosBinding = ActivityGaleriaPerrosBinding.inflate(layoutInflater)
+        setContentView(galeriaPerrosBinding.root)
         //TODO
         /*
          *1 obtener del Intent la info de la raza
@@ -42,9 +48,13 @@ class GaleriaPerrosActivity : AppCompatActivity() {
 
     }
 
-    fun mostrarFotosPerros(fotosRazaPerros: FotosRazaPerros): Unit{
-        Log.d(Constantes.ETIQUETA_LOG, fotosRazaPerros.toString() )
-        Log.d(Constantes.ETIQUETA_LOG, "HEMOS RX ${fotosRazaPerros.message.size} fotos" )
+    fun mostrarFotosPerros(listaInternetFotosPerros: FotosRazaPerros): Unit{
+        Log.d(Constantes.ETIQUETA_LOG, listaInternetFotosPerros.toString() )
+        Log.d(Constantes.ETIQUETA_LOG, "HEMOS RX ${listaInternetFotosPerros.message.size} fotos" )
         //TODO mostrar las razas
+        var adapterPerrosFragment = AdapterPerrosFragment(this)
+        adapterPerrosFragment.fotosRazaPerros = listaInternetFotosPerros
+        galeriaPerrosBinding.viewPager2.adapter = adapterPerrosFragment
+
     }
 }
