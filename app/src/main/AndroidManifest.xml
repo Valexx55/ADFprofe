@@ -16,6 +16,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".perros.GaleriaPerrosActivity"
+            android:exported="false" />
+        <activity
             android:name=".perros.PerrosActivity"
             android:exported="false" />
         <activity

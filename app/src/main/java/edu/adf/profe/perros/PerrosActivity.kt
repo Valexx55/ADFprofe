@@ -17,7 +17,6 @@ import edu.adf.profe.databinding.ActivityPerrosBinding
 class PerrosActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityPerrosBinding
-    var primeraVez = true
     var razaSeleccionada = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
