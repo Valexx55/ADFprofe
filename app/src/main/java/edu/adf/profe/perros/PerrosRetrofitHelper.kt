@@ -12,4 +12,10 @@ object PerrosRetrofitHelper {
         .baseUrl(URL_BASE_PERROS)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    fun getPerrosServiceInstance (): PerrosService
+    {
+        val perrroService =  PerrosRetrofitHelper.retrofit.create(PerrosService::class.java)
+        return perrroService
+    }
 }

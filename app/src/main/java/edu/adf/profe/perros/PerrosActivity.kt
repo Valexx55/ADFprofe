@@ -1,5 +1,6 @@
 package edu.adf.profe.perros
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -64,6 +65,9 @@ class PerrosActivity : AppCompatActivity() {
         1 TRANSITO A GALERIA PERROS ACTIVITY PASANDO EN EL INTENT LA RAZA
         2 OBTENGO EL LISTADO DE FOTOS DE ESA RAZA LLAMANDO A https://dog.ceo/api/breed/{RAZA}/images
          */
+        val intentGaleria = Intent(this, GaleriaPerrosActivity::class.java)
+        intentGaleria.putExtra("RAZA", razaSeleccionada)
+        startActivity(intentGaleria)
 
 
     }
