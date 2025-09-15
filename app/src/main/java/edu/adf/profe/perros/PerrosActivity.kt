@@ -60,11 +60,7 @@ class PerrosActivity : AppCompatActivity() {
 
     fun buscarFotos(view: View) {
         Log.d(Constantes.ETIQUETA_LOG, "A buscar Fotos de  =  $razaSeleccionada")
-        //TODO
-        /*
-        1 TRANSITO A GALERIA PERROS ACTIVITY PASANDO EN EL INTENT LA RAZA
-        2 OBTENGO EL LISTADO DE FOTOS DE ESA RAZA LLAMANDO A https://dog.ceo/api/breed/{RAZA}/images
-         */
+
         val intentGaleria = Intent(this, GaleriaPerrosActivity::class.java)
         intentGaleria.putExtra("RAZA", razaSeleccionada)
         startActivity(intentGaleria)

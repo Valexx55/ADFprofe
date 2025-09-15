@@ -14,6 +14,7 @@ import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
+import edu.adf.profe.tabs.TabsActivity
 
 /**
  * ESTA ES LA ACTIVIDAD DE INICIO
@@ -26,7 +27,7 @@ import edu.adf.profe.productos.ListaProductosActivity
  * //TODO SERIALIZABLE VS PARCELABLE X
  * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW
  * //TODO RECYCLERVIEW - listas  LISTVIEW no X
- * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub
+ * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub X
  * //TODO FRAGMENTS - VIEWPAGER - TABS
  * //TODO NOTIFICACIONES - PENDING INTENT
  * //TODO FIREBASE
@@ -90,6 +91,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 13 -> Intent(this, ListaUsuariosActivity::class.java)
                 14 -> Intent(this, ListaProductosActivity::class.java)
                 15 -> Intent(this, PerrosActivity::class.java)
+                16 -> Intent(this, TabsActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

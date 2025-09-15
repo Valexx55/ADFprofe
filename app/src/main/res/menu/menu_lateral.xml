@@ -106,6 +106,12 @@
                 android:orderInCategory="15"
                 android:title="FOTOS PERROS"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="16"
+                android:title="TABSLAYOUT"
+                />
         </menu>
     </item>
 </menu>

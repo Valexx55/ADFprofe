@@ -19,21 +19,13 @@ import kotlin.math.abs
 class GaleriaPerrosActivity : AppCompatActivity() {
 
 
-    //TODO:
-    // PONED LA RAZA DE PERRO CORRECTA EN EL LAYOUT
-    // INCLUID EN EL FRAGMENT UNA LEYENDA CON LA SERIE DE LA FOTO TIPO 1 DE 20
-    // Y QUE SE VAYA ACTUALIZANDO
+
     lateinit var galeriaPerrosBinding: ActivityGaleriaPerrosBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         galeriaPerrosBinding = ActivityGaleriaPerrosBinding.inflate(layoutInflater)
         setContentView(galeriaPerrosBinding.root)
-        //TODO
-        /*
-         *1 obtener del Intent la info de la raza
-         * 2 lanzar la petición GET con un corutina de retrofit al api de perros
-         */
         val raza = intent.getStringExtra("RAZA") ?: ""
         galeriaPerrosBinding.razaPerro.text = raza
         if (RedUtil.hayInternet(this))
@@ -58,7 +50,6 @@ class GaleriaPerrosActivity : AppCompatActivity() {
     fun mostrarFotosPerros(listaInternetFotosPerros: FotosRazaPerros): Unit{
         Log.d(Constantes.ETIQUETA_LOG, listaInternetFotosPerros.toString() )
         Log.d(Constantes.ETIQUETA_LOG, "HEMOS RX ${listaInternetFotosPerros.message.size} fotos" )
-        //TODO mostrar las razas
         var adapterPerrosFragment = AdapterPerrosFragment(this)
         adapterPerrosFragment.fotosRazaPerros = listaInternetFotosPerros
         galeriaPerrosBinding.viewPager2.adapter = adapterPerrosFragment

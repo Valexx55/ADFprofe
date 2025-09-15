@@ -21,7 +21,6 @@ class PerroFragment: Fragment() {
         //val vistaPerroFragment = inflater.inflate(R.layout.perro_fragment, container, false)
         val vistaPerroFragment = PerroFragmentBinding.inflate(inflater, container, false)
 
-        //TODO RELLENAR EL FRAGMENT CON EL CONTENIDO DEL PERRO CONCRETO
         var url_foto = arguments?.getString("URL_FOTO")
         var leyenda = arguments?.getString("LEYENDA")
 

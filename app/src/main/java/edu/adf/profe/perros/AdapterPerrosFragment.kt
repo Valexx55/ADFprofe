@@ -13,8 +13,6 @@ class AdapterPerrosFragment(fragmentActivity: FragmentActivity): FragmentStateAd
 
     override fun createFragment(position: Int): Fragment {
         var perroFragment = PerroFragment()
-        //TODO Obtener la info del perro correspondiente por la posición
-        //preparar la info que luego se cargue en el fragment -- USAMOS UN BUNDLE
         val url = this.fotosRazaPerros?.message?.get(position)
         Log.d(Constantes.ETIQUETA_LOG, "A pintar foto ${url}")
 
