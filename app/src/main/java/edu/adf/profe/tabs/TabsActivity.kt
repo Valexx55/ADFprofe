@@ -48,6 +48,8 @@ class TabsActivity : AppCompatActivity() {
         }
     }
 
+
+
 //FORMA ANTIGUA DE ESCUCHAR EL BOTÓN HACIA ATRÁS
     //A PARTIR DEL API 33, DEPRECADO
 /*

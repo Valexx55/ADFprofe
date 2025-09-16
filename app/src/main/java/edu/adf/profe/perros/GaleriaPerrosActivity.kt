@@ -2,6 +2,7 @@ package edu.adf.profe.perros
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,10 @@ class GaleriaPerrosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         galeriaPerrosBinding = ActivityGaleriaPerrosBinding.inflate(layoutInflater)
         setContentView(galeriaPerrosBinding.root)
+
+        //dibujamos el control de la flecha hacia atrás
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val raza = intent.getStringExtra("RAZA") ?: ""
         galeriaPerrosBinding.razaPerro.text = raza
         if (RedUtil.hayInternet(this))
@@ -93,5 +98,18 @@ class GaleriaPerrosActivity : AppCompatActivity() {
 
         //galeriaPerrosBinding.viewPager2.setPageTransformer(depthTransformer)
 
+    }
+
+    //programamos la función para escuchar los eventos sobre el APP bar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            android.R.id.home -> {
+                Log.d(Constantes.ETIQUETA_LOG, "Tocado el botón flecha hacia atrás de navegación")
+                finish()
+            }
+        }
+
+        return true
     }
 }
