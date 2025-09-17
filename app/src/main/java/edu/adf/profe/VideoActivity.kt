@@ -37,6 +37,7 @@ class VideoActivity : AppCompatActivity() {
         //cuando acabae el video, cerramos esta actividad
         binding.videoView.setOnCompletionListener { mediaPlayer -> finish() }
 
+        "https://itunes.apple.com/search/?media=music&term=bisbal"
 
     }
 

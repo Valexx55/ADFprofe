@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.canciones.BusquedaCancionesActivity
+import edu.adf.profe.contactos.SeleccionContactoActivity
 import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
@@ -94,6 +95,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 15 -> Intent(this, PerrosActivity::class.java)
                 16 -> Intent(this, TabsActivity::class.java)
                 17 -> Intent(this, BusquedaCancionesActivity::class.java)
+                18 -> Intent(this, SeleccionContactoActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

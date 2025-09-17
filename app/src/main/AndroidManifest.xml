@@ -16,6 +16,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".contactos.SeleccionContactoActivity"
+            android:exported="false" />
+        <activity
             android:name=".canciones.BusquedaCancionesActivity"
             android:exported="false" />
         <activity
