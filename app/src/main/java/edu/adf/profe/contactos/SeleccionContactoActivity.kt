@@ -35,8 +35,9 @@ class SeleccionContactoActivity : AppCompatActivity() {
     }
 
     private fun mostrarDatosContacto(intent: Intent) {
-        //val cursor = contentResolver.query(intent.data!!, null, null, null, null )
-        val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null )
+        val cursor = contentResolver.query(intent.data!!, null, null, null, null )
+        //ESTA LÍNEA FALLA PORQUE INTENTO LEER TODOS LOS CONTACTOS SIN PERMISOS - no un contacto particular -
+        //val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null )
         cursor!!.moveToFirst() //me pongo en la primera fila
         //y accedemos a las columnas nombre y número
         val columnaNombre = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
