@@ -82,26 +82,34 @@ class SeleccionContactoPermisosActivity : AppCompatActivity() {
     fun leerContactos() {
         consultarTodosLosTelefonos()
         mostrarContactos("")
+        //mostrarContactos("Olga")
+        //mostrarContactos("M%")
     }
 
     fun mostrarContactos (prefijo : String)
     {
         val uri_contactos = ContactsContract.Contacts.CONTENT_URI//content://com.android.contacts/contacts
-        /*val cursor_contactos = contentResolver.query(
-            uri_contactos,
-            null,
-            ContactsContract.Contacts.DISPLAY_NAME +" LIKE ?",
-            arrayOf(prefijo),
-            null
-        )*/
 
-        val cursor_contactos = contentResolver.query(
-            uri_contactos,
-            null,
-            null,
-            null,
-            null
-        )
+        val cursor_contactos = if (prefijo.isEmpty())
+        {
+             contentResolver.query(
+                uri_contactos,
+                null,
+                null,
+                null,
+                null
+            )
+        } else {
+            contentResolver.query(
+                uri_contactos,
+                null,
+                ContactsContract.Contacts.DISPLAY_NAME +" LIKE ?",
+                arrayOf(prefijo),
+                null
+            )
+        }
+
+
         cursor_contactos.use {
             if (it?.moveToFirst() == true)
             {
