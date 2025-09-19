@@ -1,20 +1,16 @@
 package edu.adf.profe
 
 import android.app.Activity
-import android.app.ComponentCaller
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import edu.adf.profe.databinding.ActivityFormularioBinding
@@ -23,7 +19,8 @@ import edu.adf.profe.databinding.ActivityFormularioBinding
 class FormularioActivity : AppCompatActivity() {
 
     //para lanzar una subactividad (un actividad que me da un resultado)
-    lateinit var lanzador: ActivityResultLauncher<Intent>
+    lateinit var lanzadorColorFavorito: ActivityResultLauncher<Intent>
+    lateinit var lanzadorImagenFormulario: ActivityResultLauncher<Intent>
     lateinit var binding: ActivityFormularioBinding
     var color: Int = 0
     lateinit var usuario:Usuario
@@ -95,7 +92,7 @@ class FormularioActivity : AppCompatActivity() {
 
 
 
-        lanzador = registerForActivityResult (
+        lanzadorColorFavorito = registerForActivityResult (
             ActivityResultContracts.StartActivityForResult() //lo que lanzo es una actividad
         ){
             //la función que recibe el resultado
@@ -111,6 +108,94 @@ class FormularioActivity : AppCompatActivity() {
             }
 
         }
+
+
+
+        lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            resultado: ActivityResult ->
+            Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria")
+            if (resultado.resultCode == RESULT_OK) {
+                Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria ok")
+                Log.d(Constantes.ETIQUETA_LOG, "RUTA FOTO =  ${resultado.data?.data}")
+                binding.imagenFormulario.setImageURI(resultado.data?.data)
+
+                //TODO probar la versión del detalle thumnail https://developer.android.com/guide/components/intents-common?hl=es-419#GetFile
+                //TODO probar escalar la imagen
+
+            } else {
+                Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria MAL")
+            }
+
+        }
+/*
+        lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
+            fun (res: ActivityResult) {
+            res
+        })
+
+        lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
+            this::aLaVueltaSeleccionFoto) //function referencia
+
+        lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            // void	onActivityResult(result:ActivityResult)
+            //it representa activityresult
+        }*/
+
+        //TODO mejora para seleccionar una foto de la galería y mostrarla en el imageview de la actividad
+        //0) programar el listener onclick sobre imageview
+        //1) Lanzar un intent implícito para seleccionar la foto
+        //2) tengo que preparar el objeto para lanar el 1) y recibir su respuesta
+        //3) a la vuelta, coger la foto y ponerla en el imageView
+        //función lambda / flecha
+        this.binding.imagenFormulario.setOnClickListener { imagen ->
+                seleccionarFoto()
+        }
+
+        /*this.binding.imagenFormulario.setOnClickListener {
+            seleccionarFoto()
+        }
+        //función anónima
+        this.binding.imagenFormulario.setOnClickListener ( fun (v: View) {
+            seleccionarFoto()
+        }
+        )
+
+        this.binding.imagenFormulario.setOnClickListener (this::seleccionarFoto2)*/
+
+
+    }//fin oncreate
+
+    fun seleccionarFoto ()
+    {
+        val intentGaleria = Intent(Intent.ACTION_PICK) //intent implicito para ir a la galeria
+        intentGaleria.type = "image/*"
+
+        if (intentGaleria.resolveActivity(packageManager)!=null)
+        {
+            Log.d(Constantes.ETIQUETA_LOG, "SÍ HAY una APP de GALERIA")
+            lanzadorImagenFormulario.launch(intentGaleria)
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "NO HAY APP de GALERÍA")
+        }
+
+
+    }
+    fun seleccionarFoto2 (v: View)
+    {
+
+    }
+
+
+
+    fun aLaVueltaSeleccionFoto (resultado: ActivityResult): Unit
+    {
+
+    }
+
+
+    fun aLaVueltaSeleccionFoto2 (resultado: Intent): Unit
+    {
+
     }
 
     fun cargarFormularioConDatosFichero (fichero: SharedPreferences):Usuario
@@ -146,7 +231,7 @@ class FormularioActivity : AppCompatActivity() {
         val intent = Intent(this, SubColorActivity::class.java)
         //startActivity(intent)
         //startActivityForResult(intent, 99)
-        lanzador.launch(intent)//aquí lanzo la subactividad
+        lanzadorColorFavorito.launch(intent)//aquí lanzo la subactividad
     }
 
     fun mostrarInfoFormulario(view: View) {
