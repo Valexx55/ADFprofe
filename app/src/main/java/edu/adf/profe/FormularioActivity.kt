@@ -3,17 +3,22 @@ package edu.adf.profe
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import edu.adf.profe.databinding.ActivityFormularioBinding
+import java.io.File
+import java.io.FileOutputStream
 
 
 class FormularioActivity : AppCompatActivity() {
@@ -109,15 +114,26 @@ class FormularioActivity : AppCompatActivity() {
 
         }
 
-
-
         lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            resultado: ActivityResult ->
+                resultado: ActivityResult ->
             Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria")
             if (resultado.resultCode == RESULT_OK) {
                 Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria ok")
                 Log.d(Constantes.ETIQUETA_LOG, "RUTA FOTO =  ${resultado.data?.data}")
                 binding.imagenFormulario.setImageURI(resultado.data?.data)
+                binding.imagenFormulario.scaleType = ImageView.ScaleType.CENTER_CROP
+                //en el propio ImageView, guardo la uri de la foto, para luego poder guardarla desde la Imagen setTag/getTag
+
+
+                val urilocal = copiarImagenALocal(resultado.data?.data!!)
+                Log.d(Constantes.ETIQUETA_LOG, "RUTA FOTO LOCAL =  ${urilocal}")
+                binding.imagenFormulario.tag = urilocal
+
+                //PEDIMOS PERMISOS PERMANTENES PARA ACCEDER A ESA FOTO DE LA GALERÍA DESPIUÉS (EN OTRO PROCESO, AL ARRANCAR EL PROGRAMA OTRA VEZ)
+                //ESTA SOLUCIÓN FALLA! EL Content Provider de DOcuimentos no nos concende acceso permanente
+                //val takeFlags = resultado.data?.flags!! and Intent.FLAG_GRANT_READ_URI_PERMISSION
+                //contentResolver.takePersistableUriPermission(resultado.data?.data!!, takeFlags)
+
 
                 //TODO probar la versión del detalle thumnail https://developer.android.com/guide/components/intents-common?hl=es-419#GetFile
                 //TODO probar escalar la imagen
@@ -127,6 +143,10 @@ class FormularioActivity : AppCompatActivity() {
             }
 
         }
+
+
+
+
 /*
         lanzadorImagenFormulario = registerForActivityResult(ActivityResultContracts.StartActivityForResult(),
             fun (res: ActivityResult) {
@@ -167,12 +187,15 @@ class FormularioActivity : AppCompatActivity() {
 
     fun seleccionarFoto ()
     {
-        val intentGaleria = Intent(Intent.ACTION_PICK) //intent implicito para ir a la galeria
+        //val intentGaleria = Intent(Intent.ACTION_PICK) //intent implicito para ir a la galeria
+        val intentGaleria = Intent(Intent.ACTION_GET_CONTENT) //intent implicito para ir a la galeria
         intentGaleria.type = "image/*"
 
         if (intentGaleria.resolveActivity(packageManager)!=null)
         {
             Log.d(Constantes.ETIQUETA_LOG, "SÍ HAY una APP de GALERIA")
+
+
             lanzadorImagenFormulario.launch(intentGaleria)
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "NO HAY APP de GALERÍA")
@@ -184,7 +207,6 @@ class FormularioActivity : AppCompatActivity() {
     {
 
     }
-
 
 
     fun aLaVueltaSeleccionFoto (resultado: ActivityResult): Unit
@@ -220,7 +242,16 @@ class FormularioActivity : AppCompatActivity() {
         val mayorEdad = fichero.getBoolean("mayorEdad", false)
         binding.checkBox.isChecked = mayorEdad
 
-        val usuarioFichero = Usuario(nombre!!, edad, sexo!!.get(0), mayorEdad, color)
+        val uriFoto = fichero.getString("uriFoto", "")
+        if (uriFoto!="")
+        {
+            binding.imagenFormulario.setImageURI(uriFoto?.toUri())
+            binding.imagenFormulario.scaleType = ImageView.ScaleType.CENTER_CROP
+        }
+
+
+
+        val usuarioFichero = Usuario(nombre!!, edad, sexo!!.get(0), mayorEdad, color, uriFoto!!)
 
        // binding.checkBox.isChecked = fichero.getBoolean("mayorEdad", false)
         return usuarioFichero
@@ -255,7 +286,14 @@ class FormularioActivity : AppCompatActivity() {
         }*/
 
         val mayorEdad: Boolean = binding.checkBox.isChecked
-        val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad, this.color)
+        val uriFoto = if (binding.imagenFormulario.tag == null)
+        {
+            "" //no tiene foto
+        } else
+        {
+            binding.imagenFormulario.tag as Uri //sí tiene foto
+        }
+        val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad, this.color, uriFoto.toString())
         //val usuario: Usuario = Usuario(nombre, edad, sexo, mayorEdad)
         Log.d(Constantes.ETIQUETA_LOG, "USUARIO = $usuario" )
         guardarUsuario(usuario)
@@ -311,6 +349,7 @@ class FormularioActivity : AppCompatActivity() {
         editor.putString ("sexo", usuario.sexo.toString())
         editor.putInt ("color", usuario.colorFavorito)
         editor.putBoolean("mayorEdad", usuario.esMayorEdad)
+        editor.putString("uriFoto", usuario.uriFoto)
         editor.apply()//o commit - guardo los cambios de verdad en el ficheros- se confirman, se hacen efectivos
 
     }
@@ -337,5 +376,20 @@ class FormularioActivity : AppCompatActivity() {
     fun borrarUsuarioPrefs(view: View) {
         borrarUsuarioFichero()
     }
+
+    fun copiarImagenALocal(uri: Uri): Uri {
+        val archivoGaleria = contentResolver.openInputStream(uri)
+        val nombreArchivo = "imagen_formulario_perfil.jpg"
+        val archivoNuevoSalida = File(filesDir, nombreArchivo)
+        val outputStream = FileOutputStream(archivoNuevoSalida)
+
+        archivoGaleria?.copyTo(outputStream)
+
+        archivoGaleria?.close()
+        outputStream.close()
+
+        return Uri.fromFile(archivoNuevoSalida) // este sí puedes guardar y reutilizar
+    }
+
 
 }
