@@ -1,21 +1,30 @@
 package edu.adf.profe.foto
 
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityFotoBinding
+import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
 
 class FotoActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityFotoBinding
+    lateinit var uriFoto:Uri
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFotoBinding.inflate(layoutInflater)
@@ -50,5 +59,37 @@ class FotoActivity : AppCompatActivity() {
 
     private fun lanzarCamara() {
         //TODO("Not yet implemented")
+        //1 CREAMOS UN FICHERO DESTINO
+        this.uriFoto = crearFicheroDestino()
+        Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = $uriFoto")
+        //2 LANZAMOS EL INTENT
+    }
+
+    /**
+     * Scoped Storage (Almacenamiento con Ámbito) — Desde Android 11 (versión "R")
+     * "A partir de Android R (Android 11), no podrás acceder al contenido de la carpeta interna compartida (/Android/data/, /Android/obb/) desde este gestor de archivos u otras apps.
+     *
+     * Con Scoped Storage, ninguna app puede acceder libremente al almacenamiento de otras apps o al directorio compartido /Android/data/, incluso aunque antes fuera posible
+     *
+     * Esto dice la teoría. Con navegadores de serie de algunos dispositivos sí se puede acceder
+     *
+     * Programáticamente se puede seguir accediendo y escribiendo sin permisos en el almacenamiento interno compartido
+     * "
+     */
+
+    private fun crearFicheroDestino():Uri {
+        val fechaActual = Date()
+        val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
+        val nombreFichero = "FOTO_ADF_$momentoActual"
+        //var rutaFoto =  "${Environment.getExternalStorageDirectory()?.path}/$nombreFichero" //ruta pública NO SE PUEDE - Security Exception
+        var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception
+        //var rutaFoto =  "${getExternalFilesDir(null)?.path}/$nombreFichero" //ruta pública/privada /storage/emulated/0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524 (EXPLORADOR) /storage/sdcard0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524
+        //var rutaFoto = "${filesDir.path}/$nombreFichero" //ruta privada ruta completa fichero =  /data/user/0/edu.adf.profe/files/FOTO_ADF_20250922_122916 (EXPLORADOR) /data/data/edu.adf.profe/files/FOTO_ADF_20250922_122916
+        Log.d(Constantes.ETIQUETA_LOG, "ruta completa fichero =  $rutaFoto ")
+
+        val ficheroFoto = File(rutaFoto)
+        ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
+        //TODO CREAR RUTA PÚBLICA
+        return ficheroFoto.toUri()
     }
 }
