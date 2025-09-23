@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
@@ -28,10 +29,25 @@ class FotoActivity : AppCompatActivity() {
     lateinit var binding:ActivityFotoBinding
     lateinit var uriFoto:Uri
 
+    val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    {
+            resultado ->
+        if (resultado.resultCode== RESULT_OK)
+        {
+            Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+
 
     }
 
@@ -70,18 +86,9 @@ class FotoActivity : AppCompatActivity() {
             val intentFoto = Intent()
             intentFoto.setAction(MediaStore.ACTION_IMAGE_CAPTURE)
             intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, this.uriFoto)
-            val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {
-                resultado ->
-                    if (resultado.resultCode== RESULT_OK)
-                    {
-                        Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
-                    } else {
-                        Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
-                    }
-
-            }
             launcherIntentFoto.launch(intentFoto)
+        } ?: run {
+            Toast.makeText(this, "NO FUE POSIBLE CREAR EL FICHERO DESTINO", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -103,7 +110,7 @@ class FotoActivity : AppCompatActivity() {
         val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
         val nombreFichero = "FOTO_ADF_$momentoActual"
         //var rutaFoto =  "${Environment.getExternalStorageDirectory()?.path}/$nombreFichero" //ruta pública NO SE PUEDE - Security Exception
-        var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception
+        var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception /storage/emulated/0/Download/FOTO_ADF_20250923_10344 (EXPLORADOR) /storage/sdcard0/Download
         //var rutaFoto =  "${getExternalFilesDir(null)?.path}/$nombreFichero" //ruta pública/privada /storage/emulated/0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524 (EXPLORADOR) /storage/sdcard0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524
         //var rutaFoto = "${filesDir.path}/$nombreFichero" //ruta privada ruta completa fichero =  /data/user/0/edu.adf.profe/files/FOTO_ADF_20250922_122916 (EXPLORADOR) /data/data/edu.adf.profe/files/FOTO_ADF_20250922_122916
         Log.d(Constantes.ETIQUETA_LOG, "ruta completa fichero =  $rutaFoto ")
