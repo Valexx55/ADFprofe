@@ -1,13 +1,16 @@
 package edu.adf.profe.foto
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
@@ -60,9 +63,26 @@ class FotoActivity : AppCompatActivity() {
     private fun lanzarCamara() {
         //TODO("Not yet implemented")
         //1 CREAMOS UN FICHERO DESTINO
-        this.uriFoto = crearFicheroDestino()
-        Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = $uriFoto")
-        //2 LANZAMOS EL INTENT
+       val uri = crearFicheroDestino()
+        uri?.let { //si uri es != null
+            this.uriFoto = it
+            Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = ${this.uriFoto}")
+            val intentFoto = Intent()
+            intentFoto.setAction(MediaStore.ACTION_IMAGE_CAPTURE)
+            intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, this.uriFoto)
+            val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {
+                resultado ->
+                    if (resultado.resultCode== RESULT_OK)
+                    {
+                        Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
+                    } else {
+                        Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
+                    }
+
+            }
+            launcherIntentFoto.launch(intentFoto)
+        }
     }
 
     /**
@@ -77,7 +97,8 @@ class FotoActivity : AppCompatActivity() {
      * "
      */
 
-    private fun crearFicheroDestino():Uri {
+    private fun crearFicheroDestino():Uri? {
+        var rutaUriFoto:Uri? = null
         val fechaActual = Date()
         val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
         val nombreFichero = "FOTO_ADF_$momentoActual"
@@ -88,8 +109,16 @@ class FotoActivity : AppCompatActivity() {
         Log.d(Constantes.ETIQUETA_LOG, "ruta completa fichero =  $rutaFoto ")
 
         val ficheroFoto = File(rutaFoto)
-        ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
+        try{
+            ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
+            rutaUriFoto = ficheroFoto.toUri()
+            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK")
+        } catch (e:Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
+        }
+
         //TODO CREAR RUTA PÚBLICA
-        return ficheroFoto.toUri()
+        return rutaUriFoto
     }
 }
