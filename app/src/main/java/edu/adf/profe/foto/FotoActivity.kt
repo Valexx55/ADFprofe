@@ -1,5 +1,6 @@
 package edu.adf.profe.foto
 
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,7 +13,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -28,6 +31,8 @@ class FotoActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityFotoBinding
     lateinit var uriFoto:Uri
+    private val viewModel: FotoViewModel by viewModels()
+
 
     val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     {
@@ -35,6 +40,8 @@ class FotoActivity : AppCompatActivity() {
         if (resultado.resultCode== RESULT_OK)
         {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
+            binding.fotoTomada.setImageURI(this.uriFoto)
+            viewModel.uriFoto = this.uriFoto
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
         }
@@ -45,10 +52,9 @@ class FotoActivity : AppCompatActivity() {
         binding = ActivityFotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-
-
+        viewModel.uriFoto?.let {
+            binding.fotoTomada.setImageURI(it)
+        }
     }
 
     fun tomarFoto(view: View) {
@@ -80,6 +86,7 @@ class FotoActivity : AppCompatActivity() {
         //TODO("Not yet implemented")
         //1 CREAMOS UN FICHERO DESTINO
        val uri = crearFicheroDestino()
+
         uri?.let { //si uri es != null
             this.uriFoto = it
             Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = ${this.uriFoto}")
@@ -104,22 +111,27 @@ class FotoActivity : AppCompatActivity() {
      * "
      */
 
+
+
     private fun crearFicheroDestino():Uri? {
         var rutaUriFoto:Uri? = null
         val fechaActual = Date()
         val momentoActual = SimpleDateFormat("yyyyMMdd_HHmmss").format(fechaActual)
-        val nombreFichero = "FOTO_ADF_$momentoActual"
+        val nombreFichero = "FOTO_ADF_$momentoActual.jpg"
         //var rutaFoto =  "${Environment.getExternalStorageDirectory()?.path}/$nombreFichero" //ruta pública NO SE PUEDE - Security Exception
-        var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception /storage/emulated/0/Download/FOTO_ADF_20250923_10344 (EXPLORADOR) /storage/sdcard0/Download
+        //var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DOWNLOADS)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception /storage/emulated/0/Download/FOTO_ADF_20250923_10344 (EXPLORADOR) /storage/sdcard0/Download
+        //var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DCIM)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception /storage/emulated/0/DCIM/FOTO_ADF_20250923_10344 (EXPLORADOR) /storage/sdcard0/DCIM
         //var rutaFoto =  "${getExternalFilesDir(null)?.path}/$nombreFichero" //ruta pública/privada /storage/emulated/0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524 (EXPLORADOR) /storage/sdcard0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524
-        //var rutaFoto = "${filesDir.path}/$nombreFichero" //ruta privada ruta completa fichero =  /data/user/0/edu.adf.profe/files/FOTO_ADF_20250922_122916 (EXPLORADOR) /data/data/edu.adf.profe/files/FOTO_ADF_20250922_122916
-        Log.d(Constantes.ETIQUETA_LOG, "ruta completa fichero =  $rutaFoto ")
+        var rutaFoto = "${filesDir.path}/$nombreFichero" //ruta privada ruta completa fichero =  /data/user/0/edu.adf.profe/files/FOTO_ADF_20250922_122916 (EXPLORADOR) /data/data/edu.adf.profe/files/FOTO_ADF_20250922_122916
+        Log.d(Constantes.ETIQUETA_LOG, "ruta privada completa fichero =  $rutaFoto ")
 
         val ficheroFoto = File(rutaFoto)
         try{
             ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
             rutaUriFoto = ficheroFoto.toUri()
-            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK")
+            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK $rutaUriFoto")
+            rutaUriFoto = FileProvider.getUriForFile(this, "edu.adf.profe", ficheroFoto)
+            Log.d(Constantes.ETIQUETA_LOG, "ruta pública $rutaUriFoto")
         } catch (e:Exception)
         {
             Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
