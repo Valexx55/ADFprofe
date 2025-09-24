@@ -31,7 +31,8 @@ class FotoActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityFotoBinding
     lateinit var uriFoto:Uri
-    private val viewModel: FotoViewModel by viewModels()
+    private val viewModel: FotoViewModel by viewModels()//obtenemos una instancia ya implementada: es delegación de propiedad, no de implementación
+    //val viewModel: FotoViewModel = ViewModelProvider(this).get(FotoViewModel::class.java)
 
 
     val launcherIntentFoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
