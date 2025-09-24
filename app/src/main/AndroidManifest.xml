@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- declaro que mi app necesita conectarse a internet -->
 
+    <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- mi app necesita acceder al estado de la red para saber si hay internet o no o de qué tipo -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <!-- indicamos que la app usa la cámara y con true o false si el dispositivo tiene que tener cámara obligatoriamente o no -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- indicamos que la app usa la cámara y con true o false si el dispositivo tiene que tener cámara obligatoriamente o no -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- permitimos que nuesta app se informe del inicio del dispositivo -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -22,6 +22,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
+        <receiver
+            android:name=".receptor.InicioMovilReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <!-- condiguramos el receptor para programar qué esucha/qué recibe/de que está pendiente-->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".foto.FotoActivity"
             android:exported="false" />
@@ -161,17 +172,14 @@
         </activity>
 
         <provider
-            android:authorities="edu.adf.profe"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="edu.adf.profe"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rutas_provider"
-                />
-
+                android:resource="@xml/rutas_provider" />
         </provider>
-
     </application>
 
 </manifest>

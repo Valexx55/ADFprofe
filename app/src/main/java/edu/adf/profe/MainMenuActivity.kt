@@ -1,11 +1,12 @@
 package edu.adf.profe
 
-import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
@@ -19,6 +20,7 @@ import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
 import edu.adf.profe.tabs.TabsActivity
+
 
 /**
  * ESTA ES LA ACTIVIDAD DE INICIO
@@ -51,10 +53,20 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     var menuVisible: Boolean = false
+    var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        Log.d(Constantes.ETIQUETA_LOG, "Volviendo de Ajustes Autonicio")
+        val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
+        ficherop.edit().putBoolean("INICIO_AUTO", true).commit()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu2)
+        val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
+        val inicio_auto = ficherop.getBoolean("INICIO_AUTO", false)
+        if (!inicio_auto) {
+            solicitarInicioAutomatico()
+        }
 
         this.drawerLayout = findViewById<DrawerLayout>(R.id.drawer)
         this.navigationView = findViewById<NavigationView>(R.id.navigationView)
@@ -70,6 +82,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val intentvideo = Intent(this, VideoActivity::class.java)
             startActivity(intentvideo)
         }
+
 
 
 
@@ -199,6 +212,25 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         this.drawerLayout.closeDrawers()
         this.menuVisible = false
         return true
+    }
+
+    private fun solicitarInicioAutomatico() {
+        val manufacturer = Build.MANUFACTURER
+        try {
+            val intent = Intent()
+            if ("xiaomi".equals(manufacturer, ignoreCase = true)) {
+                intent.setComponent(
+                    ComponentName(
+                        "com.miui.securitycenter",
+                        "com.miui.permcenter.autostart.AutoStartManagementActivity"
+                    )
+                )
+            }
+
+            launcher.launch(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
 }

@@ -31,7 +31,8 @@ import java.util.Date
 class FotoActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityFotoBinding
-    lateinit var uriFoto:Uri
+    lateinit var uriFotoPrivada:Uri
+    lateinit var uriFotoPublica:Uri
     //asociamos a esta actividad, su clase ViewModel (Modelo/estado)
     private val viewModel: FotoViewModel by viewModels()//obtenemos una instancia ya implementada: es delegación de propiedad, no de implementación
     //val viewModel: FotoViewModel = ViewModelProvider(this).get(FotoViewModel::class.java)
@@ -43,8 +44,8 @@ class FotoActivity : AppCompatActivity() {
         if (resultado.resultCode== RESULT_OK)
         {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
-            binding.fotoTomada.setImageURI(this.uriFoto)
-            viewModel.uriFoto = this.uriFoto
+            binding.fotoTomada.setImageURI(this.uriFotoPublica)
+            viewModel.uriFoto = this.uriFotoPublica
             actualizarGaleria()
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
@@ -92,11 +93,11 @@ class FotoActivity : AppCompatActivity() {
        val uri = crearFicheroDestino()
 
         uri?.let { //si uri es != null
-            this.uriFoto = it
-            Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = ${this.uriFoto}")
+            this.uriFotoPublica = it
+            Log.d(Constantes.ETIQUETA_LOG, "URI FOTO = ${this.uriFotoPublica}")
             val intentFoto = Intent()
             intentFoto.setAction(MediaStore.ACTION_IMAGE_CAPTURE)
-            intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, this.uriFoto)
+            intentFoto.putExtra(MediaStore.EXTRA_OUTPUT, this.uriFotoPublica)
             launcherIntentFoto.launch(intentFoto)
         } ?: run {
             Toast.makeText(this, "NO FUE POSIBLE CREAR EL FICHERO DESTINO", Toast.LENGTH_LONG).show()
@@ -127,29 +128,29 @@ class FotoActivity : AppCompatActivity() {
         //var rutaFoto =  "${Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_DCIM)?.path}/$nombreFichero" //ruta pública de DESCARGAS NO SE PUEDE - Security Exception /storage/emulated/0/DCIM/FOTO_ADF_20250923_10344 (EXPLORADOR) /storage/sdcard0/DCIM
         //var rutaFoto =  "${getExternalFilesDir(null)?.path}/$nombreFichero" //ruta pública/privada /storage/emulated/0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524 (EXPLORADOR) /storage/sdcard0/Android/data/edu.adf.profe/files/FOTO_ADF_20250922_124524
         var rutaFoto = "${filesDir.path}/$nombreFichero" //ruta privada ruta completa fichero =  /data/user/0/edu.adf.profe/files/FOTO_ADF_20250922_122916 (EXPLORADOR) /data/data/edu.adf.profe/files/FOTO_ADF_20250922_122916
-        Log.d(Constantes.ETIQUETA_LOG, "ruta privada completa fichero =  $rutaFoto ")
+        //Log.d(Constantes.ETIQUETA_LOG, "ruta privada completa fichero =  $rutaFoto ")
 
         val ficheroFoto = File(rutaFoto)
         try{
             ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
-            rutaUriFoto = ficheroFoto.toUri()
-            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK $rutaUriFoto")
-            rutaUriFoto = FileProvider.getUriForFile(this, "edu.adf.profe", ficheroFoto)
-            Log.d(Constantes.ETIQUETA_LOG, "ruta pública $rutaUriFoto")
+            uriFotoPrivada = ficheroFoto.toUri()
+            Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK $uriFotoPrivada")
+            uriFotoPublica = FileProvider.getUriForFile(this, "edu.adf.profe", ficheroFoto)
+            Log.d(Constantes.ETIQUETA_LOG, "ruta pública $uriFotoPublica")
         } catch (e:Exception)
         {
             Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
         }
 
         //TODO CREAR RUTA PÚBLICA
-        return rutaUriFoto
+        return uriFotoPublica
     }
 
     fun actualizarGaleria ()
     {
         MediaScannerConnection.scanFile(
             this,
-            arrayOf(this.uriFoto.path),
+            arrayOf(this.uriFotoPrivada.path),
             arrayOf("image/jpeg") // o el MIME correspondiente
         ) { path, uri ->
             Log.d("Scan", "Archivo escaneado: $path, URI: $uri")
