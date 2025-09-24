@@ -3,6 +3,7 @@ package edu.adf.profe.foto
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -31,6 +32,7 @@ class FotoActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityFotoBinding
     lateinit var uriFoto:Uri
+    //asociamos a esta actividad, su clase ViewModel (Modelo/estado)
     private val viewModel: FotoViewModel by viewModels()//obtenemos una instancia ya implementada: es delegación de propiedad, no de implementación
     //val viewModel: FotoViewModel = ViewModelProvider(this).get(FotoViewModel::class.java)
 
@@ -43,6 +45,7 @@ class FotoActivity : AppCompatActivity() {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue bien")
             binding.fotoTomada.setImageURI(this.uriFoto)
             viewModel.uriFoto = this.uriFoto
+            actualizarGaleria()
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La foto fue mal")
         }
@@ -140,5 +143,17 @@ class FotoActivity : AppCompatActivity() {
 
         //TODO CREAR RUTA PÚBLICA
         return rutaUriFoto
+    }
+
+    fun actualizarGaleria ()
+    {
+        MediaScannerConnection.scanFile(
+            this,
+            arrayOf(this.uriFoto.path),
+            arrayOf("image/jpeg") // o el MIME correspondiente
+        ) { path, uri ->
+            Log.d("Scan", "Archivo escaneado: $path, URI: $uri")
+        }
+
     }
 }

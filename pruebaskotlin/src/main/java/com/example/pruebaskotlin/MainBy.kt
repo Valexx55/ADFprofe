@@ -31,11 +31,11 @@ class UserData {
 
 
 fun main() {
-    val logger = ConsoleLogger()
+   /* val logger = ConsoleLogger()
     val appLogger = AppLogger(logger)
 
     appLogger.log("Hello World") // Delegado al ConsoleLogger
-
+*/
     val user: UserData by lazy { //delegación de propiedades : la propiedad user "te inicializas con esto" Delego la lógica de acceso (get y/o set) de esta propiedad a un objeto delegado
         UserData() // La inicialización se retrasa hasta que se acceda a la propiedad.
     }
