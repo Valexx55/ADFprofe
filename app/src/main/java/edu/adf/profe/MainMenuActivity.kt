@@ -2,6 +2,7 @@ package edu.adf.profe
 
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -82,6 +83,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val intentvideo = Intent(this, VideoActivity::class.java)
             startActivity(intentvideo)
         }
+        mostrarAPPSinstaladas()
 
 
 
@@ -232,5 +234,21 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             e.printStackTrace()
         }
     }
+    fun mostrarAPPSinstaladas ()
+    {
+        val packageManager = packageManager
+        val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
 
+        Log.d(Constantes.ETIQUETA_LOG, "hay ${apps.size} aplicaciones")
+        /*for (app in apps) {
+            Log.d("AppInfo", "Package: ${app.packageName}, Label: ${packageManager.getApplicationLabel(app)}")
+        }*/
+        //ordeno por paquete
+        val appOrdenadas = apps.sortedBy { it.packageName }
+        appOrdenadas.forEach {
+            Log.d("AppInfo", "Package: ${it.packageName}, Label: ${packageManager.getApplicationLabel(it)}")
+           // Log.d("AppInfo", "$it")
+        }
+
+    }
 }
