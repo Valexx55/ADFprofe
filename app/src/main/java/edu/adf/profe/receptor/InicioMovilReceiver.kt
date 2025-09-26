@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import edu.adf.profe.Constantes
 import edu.adf.profe.MainMenuActivity
+import edu.adf.profe.alarma.GestorAlarma
 import edu.adf.profe.notificaciones.Notificaciones
 
 class InicioMovilReceiver : BroadcastReceiver() {
@@ -15,6 +16,7 @@ class InicioMovilReceiver : BroadcastReceiver() {
         Log.d(Constantes.ETIQUETA_LOG, "En InicioMovil receiver")
         try {
             Notificaciones.lanzarNotificacion(context)
+
         }catch (e:Exception)
         {
             Log.e(Constantes.ETIQUETA_LOG, "errro al lanzar noti ", e)

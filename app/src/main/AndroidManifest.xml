@@ -9,31 +9,40 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- indicamos que la app usa la cámara y con true o false si el dispositivo tiene que tener cámara obligatoriamente o no -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- permitimos que nuesta app se informe del inicio del dispositivo -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
     <queries>
+
         <!-- Declarar que quieres hacer consultas a aplicaciones de navegador -->
         <intent>
-            <action android:name="android.intent.action.VIEW"/>
-            <data
-                android:host="http"
-                />
-        </intent>
-       <!-- <package android:name="com.android.chrome" />
-        <package android:name="org.mozilla.firefox" />
-        <package android:name="com.opera.browser" />-->
-    </queries>
+            <action android:name="android.intent.action.VIEW" />
 
+            <data android:host="http" />
+        </intent>
+        <!--
+        <package android:name="com.android.chrome" />
+        <package android:name="org.mozilla.firefox" />
+        <package android:name="com.opera.browser" />
+        -->
+    </queries>
     <!--
+ con esto, puede salir bloatware - software de relleno que aparece oculto en el listado de apps
+    a partir de las versión 11, cuando lanzamos un intent implícito o listamos las apps, hay algunas
+    que pueden ocultarse: con esto, hacemos que sean visibles
+    pixel sin capa de personalización del fabricante: menos bloatware
+    -->
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
+
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
     </queries>
--->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -45,13 +54,18 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <receiver
+            android:name=".receptor.AlarmaReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+        <receiver
             android:name=".receptor.InicioMovilReceiver"
             android:enabled="true"
             android:exported="true">
-            <!-- condiguramos el receptor para programar qué esucha/qué recibe/de que está pendiente-->
+
+            <!-- condiguramos el receptor para programar qué esucha/qué recibe/de que está pendiente -->
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -141,6 +155,7 @@
             android:name=".MainMenuActivity"
             android:exported="true">
 
+            <!-- si quito esto, la app se instala pero no se ve en el escritorio -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -18,6 +18,7 @@ import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import edu.adf.profe.alarma.GestorAlarma
 import edu.adf.profe.canciones.BusquedaCancionesActivity
 import edu.adf.profe.contactos.SeleccionContactoActivity
 import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
@@ -90,6 +91,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
         mostrarAPPSinstaladas()
         gestionarPermisosNotis ()
+        lanzarAlarma ()
 
 
 
@@ -295,5 +297,10 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
         dialogo.show()//lo muestro
+    }
+
+    fun lanzarAlarma ()
+    {
+        GestorAlarma.programarAlarma(this)
     }
 }
