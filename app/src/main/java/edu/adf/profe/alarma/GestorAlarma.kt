@@ -24,19 +24,27 @@ object GestorAlarma {
         //accedo al servicio del Sistema AlarmManager
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         //calcular el tiempo donde suena la alarma
-        val tiempo = System.currentTimeMillis()+30000//30 segundos más
+        val tiempo = System.currentTimeMillis()+(120*1000)//30 segundos más
 
         //preparo el listener de la alarma - Receiver
         val intentAlarma = Intent(context, AlarmaReceiver::class.java)
         val pendingIntentAlarma = PendingIntent.getBroadcast(context, 303, intentAlarma,
             PendingIntent.FLAG_UPDATE_CURRENT)
         //programo la alarma AlarmManager.RTC_WAKEUP --> TIEMPO EN MS DEL RELOJ DEL SISTEMA Y QUE SALTE CON EL STA BLOQUEADO
-        alarmManager.set(AlarmManager.RTC_WAKEUP, tiempo, pendingIntentAlarma)
-        //mostrarmos un mensaje informativo
-        val dateformatter = SimpleDateFormat("E dd/MM/yyyy ' a las ' hh:mm:ss")
-        val mensaje = dateformatter.format(tiempo)
-        Log.d(Constantes.ETIQUETA_LOG, "ALARMA PROGRAMADA PARA $mensaje")
-        Toast.makeText(context, "Alarma programada para $mensaje", Toast.LENGTH_LONG).show()
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, tiempo, pendingIntentAlarma)
+        try {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, tiempo, pendingIntentAlarma);
+            //alarmManager.set(AlarmManager.RTC_WAKEUP, tiempo, pendingIntentAlarma)
+            //mostrarmos un mensaje informativo
+            val dateformatter = SimpleDateFormat("E dd/MM/yyyy ' a las ' hh:mm:ss")
+            val mensaje = dateformatter.format(tiempo)
+            Log.d(Constantes.ETIQUETA_LOG, "ALARMA PROGRAMADA PARA $mensaje")
+            Toast.makeText(context, "Alarma programada para $mensaje", Toast.LENGTH_LONG).show()
+        } catch (e: Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "ERROR AL PGROAMAR ALRMA EXACTA", e)
+        }
+
 
 
     }
