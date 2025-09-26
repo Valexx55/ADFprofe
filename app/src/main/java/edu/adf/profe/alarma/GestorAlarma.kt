@@ -1,10 +1,12 @@
 package edu.adf.profe.alarma
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
@@ -24,12 +26,12 @@ object GestorAlarma {
         //accedo al servicio del Sistema AlarmManager
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         //calcular el tiempo donde suena la alarma
-        val tiempo = System.currentTimeMillis()+(120*1000)//30 segundos más
+        val tiempo = System.currentTimeMillis()+(30*1000)//30 segundos más
 
         //preparo el listener de la alarma - Receiver
         val intentAlarma = Intent(context, AlarmaReceiver::class.java)
         val pendingIntentAlarma = PendingIntent.getBroadcast(context, 303, intentAlarma,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         //programo la alarma AlarmManager.RTC_WAKEUP --> TIEMPO EN MS DEL RELOJ DEL SISTEMA Y QUE SALTE CON EL STA BLOQUEADO
         //alarmManager.set(AlarmManager.RTC_WAKEUP, tiempo, pendingIntentAlarma)
         try {

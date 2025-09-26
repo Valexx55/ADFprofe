@@ -22,6 +22,7 @@ import edu.adf.profe.alarma.GestorAlarma
 import edu.adf.profe.canciones.BusquedaCancionesActivity
 import edu.adf.profe.contactos.SeleccionContactoActivity
 import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
+import edu.adf.profe.descargarcanciones.DescargarCancionActivity
 import edu.adf.profe.foto.FotoActivity
 import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.perros.PerrosActivity
@@ -123,6 +124,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 18 -> Intent(this, SeleccionContactoActivity::class.java)
                 19 -> Intent(this, SeleccionContactoPermisosActivity::class.java)
                 20 -> Intent(this, FotoActivity::class.java)
+                21 -> Intent(this, DescargarCancionActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

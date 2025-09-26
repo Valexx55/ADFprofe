@@ -136,6 +136,12 @@
                 android:orderInCategory="20"
                 android:title="FOTO"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="21"
+                android:title="DESCARGA"
+                />
         </menu>
     </item>
 </menu>
