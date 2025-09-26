@@ -3,10 +3,13 @@ package edu.adf.profe.descargarcanciones
 import android.app.DownloadManager
 import android.content.Context
 import android.content.IntentFilter
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -44,6 +47,7 @@ class DescargarCancionActivity : AppCompatActivity() {
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val idDescarga = downloadManager.enqueue(peticion)//me pongo a la cola y me da un número
         descargaReceiver.idDescarga = idDescarga //me guardo el id de la descarga para luego comprobar si ha ido bien
+        descargaReceiver.activity = this
 
     }
     //
@@ -55,20 +59,31 @@ class DescargarCancionActivity : AppCompatActivity() {
             peticion = DownloadManager.Request(urlCancion.toUri()) //qué descargo
             peticion.setMimeType("audio/mp3")  //qué tipo mime
             peticion.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            peticion.setTitle("canción ...")
+            peticion.setTitle("canción")
             peticion.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "cancionja.mp3")
 
         return peticion
 
     }
 
-    fun actualizarEstadoDescarga (estadoDescarga: Int)
+    fun actualizarEstadoDescarga (estadoDescarga: Int, rutaLocalCancion:String)
     {
         if (estadoDescarga == DownloadManager.STATUS_FAILED)
         {
             Log.d(Constantes.ETIQUETA_LOG, "La descarga fue mal")
+
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "La descarga fue bien")
+            //mostrar el botón del play
+            val botonPLay =  findViewById<ImageButton>(R.id.botonplay)
+            botonPLay.visibility = View.VISIBLE
+            botonPLay.setOnClickListener {
+                val mp = MediaPlayer()
+                //mp.setDataSource(rutaLocalCancion)
+                mp.setDataSource(this, rutaLocalCancion.toUri())
+                mp.prepare()
+                mp.start()
+            }
         }
     }
 

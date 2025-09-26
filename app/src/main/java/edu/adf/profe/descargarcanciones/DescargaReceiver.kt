@@ -10,6 +10,7 @@ import edu.adf.profe.Constantes
 class DescargaReceiver : BroadcastReceiver() {
 
     var idDescarga: Long = -1
+    lateinit var activity: DescargarCancionActivity
 
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -27,12 +28,16 @@ class DescargaReceiver : BroadcastReceiver() {
             if (cursor.moveToFirst())
             {
                 val numColStatus = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                val numColUri = cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)
                 val status = cursor.getInt(numColStatus)
-                Log.d(Constantes.ETIQUETA_LOG, "Status descarga = $status")
+                val uri = cursor.getString(numColUri)
+                Log.d(Constantes.ETIQUETA_LOG, "Status descarga = $status URI = $uri")
+                activity.actualizarEstadoDescarga(status, uri)
             }
         }
 
         context.unregisterReceiver(this)
+
 
 
     }
