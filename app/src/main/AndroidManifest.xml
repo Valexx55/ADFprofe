@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- mi app necesita acceder al estado de la red para saber si hay internet o no o de qué tipo -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -53,10 +52,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
+        <activity
+            android:name=".biometrico.BioActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".descargarcanciones.DescargaReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <activity
             android:name=".descargarcanciones.DescargarCancionActivity"

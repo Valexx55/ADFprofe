@@ -19,6 +19,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.alarma.GestorAlarma
+import edu.adf.profe.biometrico.BioActivity
 import edu.adf.profe.canciones.BusquedaCancionesActivity
 import edu.adf.profe.contactos.SeleccionContactoActivity
 import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
@@ -125,6 +126,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 19 -> Intent(this, SeleccionContactoPermisosActivity::class.java)
                 20 -> Intent(this, FotoActivity::class.java)
                 21 -> Intent(this, DescargarCancionActivity::class.java)
+                22 -> Intent(this, BioActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }
