@@ -148,6 +148,12 @@
                 android:orderInCategory="22"
                 android:title="BIOMETRICA"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="23"
+                android:title="MAPS"
+                />
         </menu>
     </item>
 </menu>

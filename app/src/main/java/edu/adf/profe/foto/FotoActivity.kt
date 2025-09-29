@@ -88,7 +88,6 @@ class FotoActivity : AppCompatActivity() {
     }
 
     private fun lanzarCamara() {
-        //TODO("Not yet implemented")
         //1 CREAMOS UN FICHERO DESTINO
        val uri = crearFicheroDestino()
 
@@ -132,7 +131,7 @@ class FotoActivity : AppCompatActivity() {
 
         val ficheroFoto = File(rutaFoto)
         try{
-            ficheroFoto.createNewFile()//este método tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
+            ficheroFoto.createNewFile()//este métod tira una excepción, pero para KOTLIN todas las excepciones son de tipo RUNTIME o UnCHECKED - NO ME OBLIGA A GESTIONARLAS CON TRY/CATCH -
             uriFotoPrivada = ficheroFoto.toUri()
             Log.d(Constantes.ETIQUETA_LOG, "Fichero destino creado OK $uriFotoPrivada")
             uriFotoPublica = FileProvider.getUriForFile(this, "edu.adf.profe", ficheroFoto)
@@ -142,7 +141,6 @@ class FotoActivity : AppCompatActivity() {
             Log.e(Constantes.ETIQUETA_LOG, "Errro al crear el fichero destino de la foto", e)
         }
 
-        //TODO CREAR RUTA PÚBLICA
         return uriFotoPublica
     }
 

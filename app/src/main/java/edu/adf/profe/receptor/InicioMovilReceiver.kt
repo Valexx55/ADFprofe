@@ -22,9 +22,5 @@ class InicioMovilReceiver : BroadcastReceiver() {
             Log.e(Constantes.ETIQUETA_LOG, "errro al lanzar noti ", e)
         }
 
-        //TODO comprobar si puedo lanzar la actividad desde el receiver
-        //val intentMainActivity = Intent(context, MainMenuActivity::class.java)
-        //intentMainActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        //context.startActivity(intentMainActivity)//TODO REVISAR LOG LANZAMIENTO
     }
 }

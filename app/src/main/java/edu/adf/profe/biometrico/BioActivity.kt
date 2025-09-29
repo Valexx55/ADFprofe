@@ -21,7 +21,7 @@ class BioActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Llama al método para iniciar autenticación biométrica
+        // Llama al métod para iniciar autenticación biométrica
         showBiometricPrompt()
     }
 

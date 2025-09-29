@@ -64,7 +64,6 @@ object Notificaciones {
         return notificationChannel
     }
 
-    //TODO crear canal y lanzar desde el receiver inicio movil la notificación
     fun lanzarNotificacion (context:Context)
 
 

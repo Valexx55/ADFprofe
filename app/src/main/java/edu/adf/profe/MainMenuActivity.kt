@@ -26,6 +26,7 @@ import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
 import edu.adf.profe.descargarcanciones.DescargarCancionActivity
 import edu.adf.profe.foto.FotoActivity
 import edu.adf.profe.lista.ListaUsuariosActivity
+import edu.adf.profe.mapa.MapsActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
 import edu.adf.profe.tabs.TabsActivity
@@ -44,18 +45,20 @@ import edu.adf.profe.tabs.TabsActivity
  * //TODO RECYCLERVIEW - listas  LISTVIEW no X
  * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub X
  * //TODO FRAGMENTS - VIEWPAGER - TABS X
- * //TODO NOTIFICACIONES - PENDING INTENT
- * //TODO FIREBASE
+ * //TODO NOTIFICACIONES - PENDING INTENT x
+ * //TODO FIREBASE (auth y bd)
  * //TODO PERMISOS PELIGROSOS X
- * //TODO CÁMARA FOTOS / VIDEO
+ * //TODO CÁMARA FOTOS / VIDEO x
+ * //TODO Autenticación Biométrica/PIN x
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
- * //TODO SERVICIOS DEL SISTEMA (DOWNLOAD MANAGER, ALARM MANAGER)
+ * //TODO SERVICIOS DEL SISTEMA (DOWNLOAD MANAGER, ALARM MANAGER) x
  * //TODO SERVICIOS PROPIOS??
- * //TODO RECIEVERS
+ * //TODO RECIEVERS x
  * //TODO PROVIDERS X
  * //TODO SQLITE - ROOM
  * //TODO LIVE DATA?
  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
+ * //firma y PUBLICAR APPS
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -127,6 +130,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 20 -> Intent(this, FotoActivity::class.java)
                 21 -> Intent(this, DescargarCancionActivity::class.java)
                 22 -> Intent(this, BioActivity::class.java)
+                23 -> Intent(this, MapsActivity::class.java)
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

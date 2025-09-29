@@ -135,8 +135,6 @@ class FormularioActivity : AppCompatActivity() {
                 //contentResolver.takePersistableUriPermission(resultado.data?.data!!, takeFlags)
 
 
-                //TODO probar la versión del detalle thumnail https://developer.android.com/guide/components/intents-common?hl=es-419#GetFile
-                //TODO probar escalar la imagen
 
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "Volviendo de la Galeria MAL")
@@ -161,7 +159,6 @@ class FormularioActivity : AppCompatActivity() {
             //it representa activityresult
         }*/
 
-        //TODO mejora para seleccionar una foto de la galería y mostrarla en el imageview de la actividad
         //0) programar el listener onclick sobre imageview
         //1) Lanzar un intent implícito para seleccionar la foto
         //2) tengo que preparar el objeto para lanar el 1) y recibir su respuesta
