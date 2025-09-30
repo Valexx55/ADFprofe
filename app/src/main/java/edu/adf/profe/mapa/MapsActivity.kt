@@ -3,12 +3,14 @@ package edu.adf.profe.mapa
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
@@ -42,6 +44,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         {
             if (gpsActivado())
             {
+                Log.d(Constantes.ETIQUETA_LOG, "GPS ACTIVADO")
                 accederALaUbicacion()
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "GPS DESACTIVADO")
@@ -82,7 +85,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //SOLICITAMOS PERMISOS DE UBICACIÓN
         //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
-        if (ActivityCompat.checkSelfPermission(
+       /* if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
@@ -90,15 +93,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.d(Constantes.ETIQUETA_LOG, "Con permisos para la ubicación")
             if (gpsActivado())
             {
+                Log.d(Constantes.ETIQUETA_LOG, "GPS ACTIVADO")
                 accederALaUbicacion()
             } else {
+                Log.d(Constantes.ETIQUETA_LOG, "GPS DESACTIVADO")
                 solicitarActivacion()
             }
 
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "Pido permisos para la ubicación")
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
-        }
+        }*/
 
     }
 
@@ -114,10 +119,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray,
-        deviceId: Int
+        grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
             Log.d(Constantes.ETIQUETA_LOG, "Con permisos para la ubicación")
@@ -149,7 +153,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     Log.d(Constantes.ETIQUETA_LOG, "Ultima ubicación = $ultimaubicacion")
                     this@MapsActivity.fusedLocationProviderClient.removeLocationUpdates(
                         locationCallback
+
                     )
+                    this@MapsActivity.mostrarUbicacion(locationResult.lastLocation)
                 }
             }
         }
@@ -164,13 +170,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 locationCallback,
                 Looper.getMainLooper()
             )
-
+            Log.d(Constantes.ETIQUETA_LOG, "Petición realizada")
         }
     }
 
+    fun mostrarUbicacion (location: Location)
+    {
+        val ubicacionActual = LatLng(location.latitude, location.longitude)
+        this.mMap.addMarker(MarkerOptions().position(ubicacionActual).title("Estoy aquí"))
+        this.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacionActual, 12f))
+        //this.mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        this.mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+        //this.mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+    }
      fun solicitarActivacion() {
         val intentActivacionGSP = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         laucherGpsActivation.launch(intentActivacionGSP)
+    }
+
+    fun mostrarUbicacionMapa(view: View) {
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
     }
 
 }
