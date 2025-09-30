@@ -3,6 +3,7 @@ package edu.adf.profe.mapa
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityMapsBinding
+import java.util.Locale
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -174,6 +176,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    fun mostrarDireccionPostal (ubicacion:Location)
+    {
+        val geocoder = Geocoder(this, Locale("es"))
+
+        val direcciones = geocoder.getFromLocation(ubicacion.latitude, ubicacion.longitude, 1)
+
+        if (direcciones!=null && direcciones.size>0)
+        {
+            val direccion = direcciones[0]
+            val toast = "Dirección obtenida = ${direccion.getAddressLine(0)} CP = ${direccion.postalCode} LOCALIDAD = ${direccion.locality}"
+            Log.d(Constantes.ETIQUETA_LOG, toast)
+            Toast.makeText(this, toast, Toast.LENGTH_LONG).show()
+        }
+
+    }
+
     fun mostrarUbicacion (location: Location)
     {
         val ubicacionActual = LatLng(location.latitude, location.longitude)
@@ -182,7 +200,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         //this.mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
         this.mMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         //this.mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-
+        mostrarDireccionPostal(location)
     }
      fun solicitarActivacion() {
         val intentActivacionGSP = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
