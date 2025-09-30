@@ -60,7 +60,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         this.locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+        //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
     }
 
     /**
@@ -81,7 +81,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
         //SOLICITAMOS PERMISOS DE UBICACIÓN
-        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+        //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(Constantes.ETIQUETA_LOG, "Con permisos para la ubicación")
+            if (gpsActivado())
+            {
+                accederALaUbicacion()
+            } else {
+                solicitarActivacion()
+            }
+
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Pido permisos para la ubicación")
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+        }
+
     }
 
     fun gpsActivado (): Boolean
