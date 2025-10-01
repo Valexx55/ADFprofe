@@ -96,7 +96,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
         mostrarAPPSinstaladas()
         gestionarPermisosNotis ()
-        lanzarAlarma ()
+       // lanzarAlarma ()
 
 
 

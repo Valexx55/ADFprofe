@@ -110,4 +110,34 @@ object Notificaciones {
         notificationManager.notify(500, notificacion)
 
     }
+
+    fun crearNotificacionSegundoPlano(context: Context): Notification {
+        var segundo_plano: Notification? = null
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        var nb: NotificationCompat.Builder? = null
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val nc = crearCanalNotificacion( context)
+            notificationManager.createNotificationChannel(nc!!) //creo nc si ya existe??
+        }
+        nb = NotificationCompat.Builder(context, Notificaciones.NOTIFICATION_CHANNEL_ID)
+
+        nb.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        nb.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        nb.setSmallIcon(R.drawable.outline_arrow_circle_down_24) //importante blanco y fondo transparente
+        nb.setContentTitle("Comprobando si hay mensajes")
+        nb.setAutoCancel(true)
+        nb.setDefaults(Notification.DEFAULT_ALL)
+        nb.setTimeoutAfter(5000)
+
+
+        segundo_plano = nb.build()
+        Log.d("MIAPP", "Notificacion segundo plano creada")
+
+        return segundo_plano
+    }
+
+
 }

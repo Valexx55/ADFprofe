@@ -55,16 +55,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        try {
+            super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+            binding = ActivityMapsBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        this.locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment
+            mapFragment.getMapAsync(this)
+            this.locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        }catch (e: Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "Error al obtener el mapa")
+        }
+
         //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
     }
 
@@ -78,34 +84,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        try{
+            mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            Log.d(Constantes.ETIQUETA_LOG, mMap.toString())
 
-        //SOLICITAMOS PERMISOS DE UBICACIÓN
-        //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
-       /* if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d(Constantes.ETIQUETA_LOG, "Con permisos para la ubicación")
-            if (gpsActivado())
-            {
-                Log.d(Constantes.ETIQUETA_LOG, "GPS ACTIVADO")
-                accederALaUbicacion()
-            } else {
-                Log.d(Constantes.ETIQUETA_LOG, "GPS DESACTIVADO")
-                solicitarActivacion()
-            }
+            // Add a marker in Sydney and move the camera
+            val sydney = LatLng(-34.0, 151.0)
+            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 
-        } else {
-            Log.d(Constantes.ETIQUETA_LOG, "Pido permisos para la ubicación")
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
-        }*/
+            //SOLICITAMOS PERMISOS DE UBICACIÓN
+            //requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+            /* if (ActivityCompat.checkSelfPermission(
+                     this,
+                     Manifest.permission.ACCESS_FINE_LOCATION
+                 ) == PackageManager.PERMISSION_GRANTED
+             ) {
+                 Log.d(Constantes.ETIQUETA_LOG, "Con permisos para la ubicación")
+                 if (gpsActivado())
+                 {
+                     Log.d(Constantes.ETIQUETA_LOG, "GPS ACTIVADO")
+                     accederALaUbicacion()
+                 } else {
+                     Log.d(Constantes.ETIQUETA_LOG, "GPS DESACTIVADO")
+                     solicitarActivacion()
+                 }
+
+             } else {
+                 Log.d(Constantes.ETIQUETA_LOG, "Pido permisos para la ubicación")
+                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 646)
+             }*/
+        }catch (e: Exception)
+        {
+            Log.e(Constantes.ETIQUETA_LOG, "Error al obtener el mapa")
+        }
+
 
     }
 
