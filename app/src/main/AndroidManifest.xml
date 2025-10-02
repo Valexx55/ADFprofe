@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- para lanzar notificaciones -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- para lanzar un servicio en foreground -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" /> <!-- para lanzar un servicio en foreground obligatorio en API 14 para especificar el tipo de servicio -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" /> <!-- para lanzar un servicio en foreground obligatorio en API 14 para especificar el tipo de servicio -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- indicamos que la app usa la cámara y con true o false si el dispositivo tiene que tener cámara obligatoriamente o no -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- permitimos que nuesta app se informe del inicio del dispositivo -->
@@ -63,7 +64,8 @@
         <service
             android:name=".servicios.PlayService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"/>
 
         <receiver android:name=".servicios.PlayService$NotificationCloseButtonHandler" />
         <receiver android:name=".servicios.PlayService$NotificationPlayButtonHandler" />

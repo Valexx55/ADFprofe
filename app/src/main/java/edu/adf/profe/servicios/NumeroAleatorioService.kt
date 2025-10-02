@@ -24,7 +24,7 @@ class NumeroAleatorioService : Service() {
         //"nuestro receptor está pendiente de esa señal intent filter"
         localBroadcastManager.registerReceiver(finServicioReceiver, intentFilter)
 
-        val notificacionSegundoPlano = Notificaciones.crearNotificacionSegundoPlano(this)
+        val notificacionSegundoPlano = Notificaciones.crearNotificacionSegundoPlanoAlarma(this)
         startForeground(65, notificacionSegundoPlano)
 
         try{

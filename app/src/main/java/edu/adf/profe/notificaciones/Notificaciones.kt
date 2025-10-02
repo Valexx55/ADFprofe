@@ -1,6 +1,5 @@
 package edu.adf.profe.notificaciones
 
-import android.annotation.TargetApi
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -23,12 +22,18 @@ object Notificaciones {
     val NOTIFICATION_CHANNEL_ID = "UNO"
     val NOTIFICATION_CHANNEL_NAME = "CANAL_ADF"
 
+    val NOTIFICATION_CHANNEL_ID2 = "DOS"
+    val NOTIFICATION_CHANNEL_NAME2 = "CANAL_ADF_FGS_ALARMA"
+
+    val NOTIFICATION_CHANNEL_ID3 = "TRES"
+    val NOTIFICATION_CHANNEL_NAME3 = "CANAL_ADF_FGS_PLAY"
+
     //Con estas anotaciones, puedo usar cosas de la versión indicada dentro de la función sin preocuparme de la versión mínima
     //Además, con Requires valida que la función llamante gestione/asegure la versión correcta
     //Por contra, con Target no valida que la función llamante gestione/asegure la versión correcta y deja llamar sin comprobarlo
     //@TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
-    fun crearCanalNotificacion ( context: Context
+    fun crearCanalNotificacionPrincipal (context: Context
     ): NotificationChannel?
     {
         var notificationChannel : NotificationChannel? = null
@@ -64,6 +69,26 @@ object Notificaciones {
         return notificationChannel
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun crearCanalNotificacionForegroundService (context:Context, id: String, nombre:String): NotificationChannel {
+        var notificationChannel : NotificationChannel? = null
+
+
+
+            notificationChannel = NotificationChannel(
+                id,
+                nombre,
+                NotificationManager.IMPORTANCE_LOW  // IMPORTANTE: usa LOW para servicios persistentes
+            )
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(notificationChannel)
+
+        return notificationChannel
+
+    }
+
+
+
     fun lanzarNotificacion (context:Context)
 
 
@@ -75,7 +100,7 @@ object Notificaciones {
 
        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
        {
-            var notificationChannel = crearCanalNotificacion(context)
+            var notificationChannel = crearCanalNotificacionPrincipal(context)
             notificationManager.createNotificationChannel(notificationChannel!!)
        }
 
@@ -111,7 +136,7 @@ object Notificaciones {
 
     }
 
-    fun crearNotificacionSegundoPlano(context: Context): Notification {
+    fun crearNotificacionSegundoPlanoAlarma(context: Context): Notification {
         var segundo_plano: Notification? = null
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -119,10 +144,10 @@ object Notificaciones {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val nc = crearCanalNotificacion( context)
-            notificationManager.createNotificationChannel(nc!!) //creo nc si ya existe??
+            crearCanalNotificacionForegroundService (context, NOTIFICATION_CHANNEL_ID2, NOTIFICATION_CHANNEL_NAME2)
+
         }
-        nb = NotificationCompat.Builder(context, Notificaciones.NOTIFICATION_CHANNEL_ID)
+        nb = NotificationCompat.Builder(context, Notificaciones.NOTIFICATION_CHANNEL_ID2)
 
         nb.setPriority(NotificationCompat.PRIORITY_DEFAULT)
         nb.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -134,7 +159,7 @@ object Notificaciones {
 
 
         segundo_plano = nb.build()
-        Log.d("MIAPP", "Notificacion segundo plano creada")
+        Log.d(Constantes.ETIQUETA_LOG, "Notificacion segundo plano creada")
 
         return segundo_plano
     }

@@ -7,8 +7,6 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
@@ -18,10 +16,13 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
-import androidx.core.graphics.scale
 import edu.adf.profe.notificaciones.Notificaciones
 import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID
-import edu.adf.profe.notificaciones.Notificaciones.crearCanalNotificacion
+import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID2
+import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID3
+import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_NAME2
+import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_NAME3
+import edu.adf.profe.notificaciones.Notificaciones.crearCanalNotificacionForegroundService
 
 
 class PlayService : Service() {
@@ -63,6 +64,8 @@ class PlayService : Service() {
 
         private fun stop() {
             mediaPlayer!!.stop()
+            sonando=false
+            mediaPlayer=null
         }
     }
 
@@ -161,42 +164,45 @@ class PlayService : Service() {
 
             // Creo el PendingIntent para cuando se toque el boton Prev (anterior) y lo asocio a la correspondiente vista
             val buttonPrevIntent = Intent(this, NotificationPrevButtonHandler::class.java)
-            val buttonPrevPendingIntent = PendingIntent.getBroadcast(this, 0, buttonPrevIntent, 0)
+            val buttonPrevPendingIntent = PendingIntent.getBroadcast(this, 0, buttonPrevIntent,
+                PendingIntent.FLAG_IMMUTABLE)
             notificationView.setOnClickPendingIntent(
                 R.id.notification_button_prev,
                 buttonPrevPendingIntent
             )
 
+
             // Creo el PendingIntent para cuando se toque el boton Close (cierre) y lo asocio a la correspondiente vista
             val buttonCloseIntent = Intent(this, NotificationCloseButtonHandler::class.java)
-            val buttonClosePendingIntent = PendingIntent.getBroadcast(this, 0, buttonCloseIntent, 0)
+            val buttonClosePendingIntent = PendingIntent.getBroadcast(this, 0, buttonCloseIntent,
+                PendingIntent.FLAG_IMMUTABLE)
             notificationView.setOnClickPendingIntent(
                 R.id.notification_button_close,
                 buttonClosePendingIntent
             )
 
-            //Obtengo el icono de la Notificación
-            val icon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
 
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val nc = Notificaciones.crearCanalNotificacion(this)
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val nc = Notificaciones.crearCanalNotificacionPrincipal(this)
                 val notificationManager =
                     applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(nc!!) //creo nc si ya existe??
-            }
+            }*/
             // nb = NotificationCompat.Builder(this, Notificaciones.NOTIFICATION_CHANNEL_ID)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                crearCanalNotificacionForegroundService (this, NOTIFICATION_CHANNEL_ID3, NOTIFICATION_CHANNEL_NAME3)
+
+            }
+
             //Genero la Notificación
             val notification: Notification =
-                NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID3)
                     .setContentTitle("Player segundo plano")
                     .setTicker("Player segundo plano")
                     .setContentText("Música maestro")
                     .setSmallIcon(R.mipmap.ic_launcher_round) //icono peque : not plegada
-                    /*.setLargeIcon(
-                        icon.scale(128, 128, false)
-                    ) //icono grande : not desplegada*/
-                    .setContent(notificationView) //la vista personalizada, con sus PendingIntentAsociados
+                    .setCustomContentView(notificationView)
+                    //.setContent(notificationView) //la vista personalizada, con sus PendingIntentAsociados
                     .setContentIntent(pendingIntent) //la actividad a la que llamaremos si tocan la notificación
                     .build() // y se hace
 
@@ -209,7 +215,7 @@ class PlayService : Service() {
             Log.i(Constantes.ETIQUETA_LOG, "Petición de parada recibida")
 
             //elimino el servicio del "foreground"
-            stopForeground(true)
+            stopForeground(STOP_FOREGROUND_REMOVE)
             //lo detengo
             stopSelf()
             //paro la música
@@ -223,6 +229,15 @@ class PlayService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(Constantes.ETIQUETA_LOG, "Destruyendo el Servicio")
+        Toast.makeText(this, "Parando servicio", Toast.LENGTH_SHORT).show()
+        Log.i(Constantes.ETIQUETA_LOG, "Petición de parada recibida")
+
+        //elimino el servicio del "foreground"
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        //lo detengo
+        stopSelf()
+        //paro la música
+        stop()
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -272,9 +287,13 @@ class PlayService : Service() {
             Toast.makeText(context, "Close Seleccionado", Toast.LENGTH_SHORT).show()
 
             //Lanzo el intent para que se cierre el servicio
-            val stopIntent: Intent = Intent(context, PlayService::class.java)
+            /*val stopIntent: Intent = Intent(context, PlayService::class.java)
             stopIntent.setAction(Constantes.STOPFOREGROUND_ACTION)
-            context.startService(stopIntent)
+            context.startService(stopIntent)*/
+            //vamos a probar matar al serivicio desde fuera con el método
+            val intent = Intent(context, PlayService::class.java)
+            context.stopService(intent)
+            Log.d(Constantes.ETIQUETA_LOG, "DETENGO SERVICIO nueva forma con stopService")
         }
     }
 }
