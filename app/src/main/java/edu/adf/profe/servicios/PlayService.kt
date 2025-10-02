@@ -38,19 +38,33 @@ class PlayService : Service() {
      */
 
 
-    companion object{
+    companion object {
 
         var mediaPlayer: MediaPlayer? = null
+        var sonando: Boolean = false
+
         private fun play(context: Context?) {
-            mediaPlayer = MediaPlayer.create(context, R.raw.audio)
-            mediaPlayer!!.start()
+            if (!sonando) {
+
+                mediaPlayer = MediaPlayer.create(context, R.raw.audio)
+                mediaPlayer!!.start()
+                sonando = true
+                mediaPlayer!!.setOnCompletionListener {
+                    //detener el servicio y poner sonando a false
+                    sonando = false
+                    //Lanzo el intent para que se cierre el servicio
+                    val stopIntent: Intent = Intent(context, PlayService::class.java)
+                    stopIntent.setAction(Constantes.STOPFOREGROUND_ACTION)
+                    context!!.startService(stopIntent)
+
+                }
+            }
         }
 
         private fun stop() {
             mediaPlayer!!.stop()
         }
     }
-
 
 
     //Usaremos este PendingIntent cuando el usuario Clique en la Notificacion (en ningún icono a la escucha)
@@ -60,8 +74,10 @@ class PlayService : Service() {
         val notificationIntent: Intent = Intent(this, PlayActivity::class.java)
         notificationIntent.setAction(Constantes.MAIN_ACTION)
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
 
         return notificationPendingIntent
@@ -74,8 +90,10 @@ class PlayService : Service() {
         val notificationIntent: Intent = Intent(this, PlayActivity::class.java)
         notificationIntent.setAction(Constantes.MAIN_ACTION)
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intentActivity = PendingIntent.getActivity(this, 0, notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE)
+        intentActivity = PendingIntent.getActivity(
+            this, 0, notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
 
         return intentActivity
@@ -121,8 +139,10 @@ class PlayService : Service() {
 
             // Creo el PendingIntent para cuando se toque el boton PLAY y lo asocio a la correspondiente vista
             val buttonPlayIntent = Intent(this, NotificationPlayButtonHandler::class.java)
-            val buttonPlayPendingIntent = PendingIntent.getBroadcast(this, 100, buttonPlayIntent,
-                PendingIntent.FLAG_IMMUTABLE)
+            val buttonPlayPendingIntent = PendingIntent.getBroadcast(
+                this, 100, buttonPlayIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
             notificationView.setOnClickPendingIntent(
                 R.id.notification_button_play,
                 buttonPlayPendingIntent
@@ -130,8 +150,10 @@ class PlayService : Service() {
 
             // Creo el PendingIntent para cuando se toque el boton Skip (siguiente) y lo asocio a la correspondiente vista
             val buttonSkipIntent = Intent(this, NotificationSkipButtonHandler::class.java)
-            val buttonSkipPendingIntent = PendingIntent.getBroadcast(this, 100, buttonSkipIntent,
-                PendingIntent.FLAG_IMMUTABLE)
+            val buttonSkipPendingIntent = PendingIntent.getBroadcast(
+                this, 100, buttonSkipIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
             notificationView.setOnClickPendingIntent(
                 R.id.notification_button_skip,
                 buttonSkipPendingIntent
@@ -158,23 +180,25 @@ class PlayService : Service() {
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val nc =  Notificaciones.crearCanalNotificacion( this)
-                val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val nc = Notificaciones.crearCanalNotificacion(this)
+                val notificationManager =
+                    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(nc!!) //creo nc si ya existe??
             }
-           // nb = NotificationCompat.Builder(this, Notificaciones.NOTIFICATION_CHANNEL_ID)
+            // nb = NotificationCompat.Builder(this, Notificaciones.NOTIFICATION_CHANNEL_ID)
             //Genero la Notificación
-            val notification: Notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Player segundo plano")
-                .setTicker("Player segundo plano")
-                .setContentText("Música maestro")
-                .setSmallIcon(R.mipmap.ic_launcher_round) //icono peque : not plegada
-                /*.setLargeIcon(
-                    icon.scale(128, 128, false)
-                ) //icono grande : not desplegada*/
-                .setContent(notificationView) //la vista personalizada, con sus PendingIntentAsociados
-                .setContentIntent(pendingIntent) //la actividad a la que llamaremos si tocan la notificación
-                .build() // y se hace
+            val notification: Notification =
+                NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle("Player segundo plano")
+                    .setTicker("Player segundo plano")
+                    .setContentText("Música maestro")
+                    .setSmallIcon(R.mipmap.ic_launcher_round) //icono peque : not plegada
+                    /*.setLargeIcon(
+                        icon.scale(128, 128, false)
+                    ) //icono grande : not desplegada*/
+                    .setContent(notificationView) //la vista personalizada, con sus PendingIntentAsociados
+                    .setContentIntent(pendingIntent) //la actividad a la que llamaremos si tocan la notificación
+                    .build() // y se hace
 
             //lanzo el servicio haciendo visible la notificación
             //y la actividad de reproducción
@@ -253,4 +277,4 @@ class PlayService : Service() {
             context.startService(stopIntent)
         }
     }
-    }
+}
