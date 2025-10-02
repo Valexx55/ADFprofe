@@ -1,7 +1,6 @@
 package edu.adf.profe.servicios
 
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -16,11 +15,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
-import edu.adf.profe.notificaciones.Notificaciones
-import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID
-import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID2
 import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_ID3
-import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_NAME2
 import edu.adf.profe.notificaciones.Notificaciones.NOTIFICATION_CHANNEL_NAME3
 import edu.adf.profe.notificaciones.Notificaciones.crearCanalNotificacionForegroundService
 
@@ -210,7 +205,8 @@ class PlayService : Service() {
             //y la actividad de reproducción
             startForeground(103, notification)
             play(this)
-        } else if (intent_action == Constantes.STOPFOREGROUND_ACTION) {
+        }//ESTA SECCIÓN, CON LA FORMA DE DETENER stopService(intent) no se va a ejecutar
+        else if (intent_action == Constantes.STOPFOREGROUND_ACTION) {
             Toast.makeText(this, "Parando servicio", Toast.LENGTH_SHORT).show()
             Log.i(Constantes.ETIQUETA_LOG, "Petición de parada recibida")
 

@@ -59,6 +59,7 @@ import edu.adf.profe.tabs.TabsActivity
  * //TODO SQLITE - ROOM
  * //TODO LIVE DATA?
  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
+ * //TODO DESPROGRAMAR ALARMA
  * //firma y PUBLICAR APPS
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
