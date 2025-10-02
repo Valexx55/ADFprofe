@@ -29,6 +29,7 @@ import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.mapa.MapsActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
+import edu.adf.profe.servicios.PlayActivity
 import edu.adf.profe.tabs.TabsActivity
 
 
@@ -94,7 +95,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val intentvideo = Intent(this, VideoActivity::class.java)
             startActivity(intentvideo)
         }
-        mostrarAPPSinstaladas()
+       // mostrarAPPSinstaladas()
         gestionarPermisosNotis ()
        // lanzarAlarma ()
 
@@ -131,6 +132,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 21 -> Intent(this, DescargarCancionActivity::class.java)
                 22 -> Intent(this, BioActivity::class.java)
                 23 -> Intent(this, MapsActivity::class.java)
+                24 -> Intent(this, PlayActivity::class.java)
+
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
             }

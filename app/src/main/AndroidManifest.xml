@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- mi app necesita acceder al estado de la red para saber si hay internet o no o de qué tipo -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!--para lanzar notificaciones -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> <!-- para lanzar un servicio en foreground -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/><!-- para lanzar un servicio en foreground obligatorio en API 14 para especificar el tipo de servicio -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- para lanzar notificaciones -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- para lanzar un servicio en foreground -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" /> <!-- para lanzar un servicio en foreground obligatorio en API 14 para especificar el tipo de servicio -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- indicamos que la app usa la cámara y con true o false si el dispositivo tiene que tener cámara obligatoriamente o no -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- permitimos que nuesta app se informe del inicio del dispositivo -->
@@ -57,16 +56,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
+        <activity
+            android:name=".servicios.PlayActivity"
+            android:exported="false" />
+
+        <service
+            android:name=".servicios.PlayService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".servicios.PlayService$NotificationCloseButtonHandler" />
+        <receiver android:name=".servicios.PlayService$NotificationPlayButtonHandler" />
+        <receiver android:name=".servicios.PlayService$NotificationPrevButtonHandler" />
+        <receiver android:name=".servicios.PlayService$NotificationSkipButtonHandler" />
+
         <receiver
             android:name=".receptor.FinServicioReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <service
             android:name=".servicios.NumeroAleatorioService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="dataSync"/>
+            android:foregroundServiceType="dataSync" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

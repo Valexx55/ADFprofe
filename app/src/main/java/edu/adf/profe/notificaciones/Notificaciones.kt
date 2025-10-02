@@ -28,7 +28,7 @@ object Notificaciones {
     //Por contra, con Target no valida que la función llamante gestione/asegure la versión correcta y deja llamar sin comprobarlo
     //@TargetApi(Build.VERSION_CODES.O)
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun crearCanalNotificacion ( context: Context
+    fun crearCanalNotificacion ( context: Context
     ): NotificationChannel?
     {
         var notificationChannel : NotificationChannel? = null
@@ -138,6 +138,8 @@ object Notificaciones {
 
         return segundo_plano
     }
+
+
 
 
 }
