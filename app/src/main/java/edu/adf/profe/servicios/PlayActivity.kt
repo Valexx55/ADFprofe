@@ -26,7 +26,12 @@ class PlayActivity : AppCompatActivity() {
                 startService(startIntent)
             }
         })
+        //FIXME
 
+        // método
+
+        // este método
+        // OJO esto hay que revisarlo
         stopButton!!.setOnClickListener(object : View.OnClickListener { //clase anónima
             override fun onClick(v: View?) {
 

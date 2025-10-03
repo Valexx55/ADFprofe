@@ -87,9 +87,12 @@ class PlayService : Service() {
 
         val notificationIntent: Intent = Intent(this, PlayActivity::class.java)
         notificationIntent.setAction(Constantes.MAIN_ACTION)
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        //cada vez que toque a la notificación, se lanza y/o elimina una nueva activity
+        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        //cada vez que toque a la notificación, se vuelve al primer plano o se crea
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         intentActivity = PendingIntent.getActivity(
-            this, 0, notificationIntent,
+            this, 200, notificationIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
 
@@ -135,55 +138,19 @@ class PlayService : Service() {
              *
              */
 
-            // Creo el PendingIntent para cuando se toque el boton PLAY y lo asocio a la correspondiente vista
-            val buttonPlayIntent = Intent(this, NotificationPlayButtonHandler::class.java)
-            val buttonPlayPendingIntent = PendingIntent.getBroadcast(
-                this, 100, buttonPlayIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            notificationView.setOnClickPendingIntent(
-                R.id.notification_button_play,
-                buttonPlayPendingIntent
-            )
-
-            // Creo el PendingIntent para cuando se toque el boton Skip (siguiente) y lo asocio a la correspondiente vista
-            val buttonSkipIntent = Intent(this, NotificationSkipButtonHandler::class.java)
-            val buttonSkipPendingIntent = PendingIntent.getBroadcast(
-                this, 100, buttonSkipIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-            notificationView.setOnClickPendingIntent(
-                R.id.notification_button_skip,
-                buttonSkipPendingIntent
-            )
-
-            // Creo el PendingIntent para cuando se toque el boton Prev (anterior) y lo asocio a la correspondiente vista
-            val buttonPrevIntent = Intent(this, NotificationPrevButtonHandler::class.java)
-            val buttonPrevPendingIntent = PendingIntent.getBroadcast(this, 0, buttonPrevIntent,
-                PendingIntent.FLAG_IMMUTABLE)
-            notificationView.setOnClickPendingIntent(
-                R.id.notification_button_prev,
-                buttonPrevPendingIntent
-            )
+            val piPlay = crearPedingIntent(this, NotificationPlayButtonHandler::class.java, 105 )
+            val piSkip = crearPedingIntent(this, NotificationSkipButtonHandler::class.java, 110 )
+            val piClose = crearPedingIntent(this, NotificationCloseButtonHandler::class.java, 115 )
+            val piPrev = crearPedingIntent(this, NotificationPrevButtonHandler::class.java, 120 )
 
 
-            // Creo el PendingIntent para cuando se toque el boton Close (cierre) y lo asocio a la correspondiente vista
-            val buttonCloseIntent = Intent(this, NotificationCloseButtonHandler::class.java)
-            val buttonClosePendingIntent = PendingIntent.getBroadcast(this, 0, buttonCloseIntent,
-                PendingIntent.FLAG_IMMUTABLE)
-            notificationView.setOnClickPendingIntent(
-                R.id.notification_button_close,
-                buttonClosePendingIntent
-            )
+            notificationView.setOnClickPendingIntent(R.id.notification_button_play, piPlay)
+            notificationView.setOnClickPendingIntent(R.id.notification_button_close, piClose)
+            notificationView.setOnClickPendingIntent(R.id.notification_button_prev, piPrev)
+            notificationView.setOnClickPendingIntent(R.id.notification_button_skip, piSkip)
 
 
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val nc = Notificaciones.crearCanalNotificacionPrincipal(this)
-                val notificationManager =
-                    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                notificationManager.createNotificationChannel(nc!!) //creo nc si ya existe??
-            }*/
-            // nb = NotificationCompat.Builder(this, Notificaciones.NOTIFICATION_CHANNEL_ID)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 crearCanalNotificacionForegroundService (this, NOTIFICATION_CHANNEL_ID3, NOTIFICATION_CHANNEL_NAME3)
 
@@ -220,6 +187,14 @@ class PlayService : Service() {
 
 
         return START_STICKY
+    }
+
+    fun crearPedingIntent (context: Context, receptor: Class<*>, requestCode: Int): PendingIntent
+    {
+        val intent = Intent(context, receptor)
+        // OJO getBroadcast PORQUE El intent envuelto en el PendingIntent, lanza un receptor
+        val pedingIntent = PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_IMMUTABLE)
+        return pedingIntent
     }
 
     override fun onDestroy() {

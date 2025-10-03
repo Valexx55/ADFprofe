@@ -53,7 +53,7 @@ import edu.adf.profe.tabs.TabsActivity
  * //TODO Autenticación Biométrica/PIN x
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
  * //TODO SERVICIOS DEL SISTEMA (DOWNLOAD MANAGER, ALARM MANAGER) x
- * //TODO SERVICIOS PROPIOS??
+ * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
  * //TODO RECIEVERS x
  * //TODO PROVIDERS X
  * //TODO SQLITE - ROOM
