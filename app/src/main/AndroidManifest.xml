@@ -58,6 +58,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".fechayhora.SeleccionFechaYHoraActivity"
+            android:exported="false" />
+        <activity
             android:name=".alarma.AjusteAlarmaActivity"
             android:exported="false" />
         <activity

@@ -21,7 +21,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -33,6 +32,7 @@ import edu.adf.profe.canciones.BusquedaCancionesActivity
 import edu.adf.profe.contactos.SeleccionContactoActivity
 import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
 import edu.adf.profe.descargarcanciones.DescargarCancionActivity
+import edu.adf.profe.fechayhora.SeleccionFechaYHoraActivity
 import edu.adf.profe.foto.FotoActivity
 import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.mapa.MapsActivity
@@ -156,6 +156,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 23 -> Intent(this, MapsActivity::class.java)
                 24 -> Intent(this, PlayActivity::class.java)
                 25 -> Intent(this, AjusteAlarmaActivity::class.java)
+                26 -> Intent(this, SeleccionFechaYHoraActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
@@ -342,8 +343,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     {
         //definimos restricciones
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.UNMETERED) // solo Wi-Fi
-            .setRequiresBatteryNotLow(true)               // no ejecutar con batería baja
+            //.setRequiredNetworkType(NetworkType.UNMETERED) // solo Wi-Fi
+            //.setRequiresBatteryNotLow(true)               // no ejecutar con batería baja
             //.setRequiresCharging(true)                    // solo cuando esté cargando
             .build()
 
@@ -369,8 +370,29 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val tiempo = System.currentTimeMillis()+(60*1000*15)//(30*1000)//15 minutos
         val dateformatter = SimpleDateFormat("E dd/MM/yyyy ' a las ' hh:mm:ss")
         val mensaje = dateformatter.format(tiempo)
-        Log.d(Constantes.ETIQUETA_LOG, "ALARMA PROGRAMADA PARA $mensaje")
-        Toast.makeText(this, "Alarma programada para $mensaje", Toast.LENGTH_LONG).show()
+        Log.d(Constantes.ETIQUETA_LOG, "TAREA PROGRAMADA PARA $mensaje")
+        Toast.makeText(this, "TAREA PROGRAMADA para $mensaje", Toast.LENGTH_LONG).show()
 
     }
+
+    /**
+     * parece QUE NO se ejecutan las taresas programadas tras el reionicio del móvil
+     * se puedo probar esto:
+     *
+     * tener mi clase application, con este conetenido, registrada en el manifest
+     *
+     * class MyApp : Application(), Configuration.Provider {
+     *     override fun getWorkManagerConfiguration(): Configuration {
+     *         return Configuration.Builder()
+     *             .setMinimumLoggingLevel(Log.DEBUG)
+     *             .build()
+     *     }
+     * }
+     *
+     * <application
+     *     android:name=".MyApp"
+     *     ...>
+     * </application>
+     *
+     */
 }

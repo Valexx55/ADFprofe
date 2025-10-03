@@ -166,6 +166,12 @@
                 android:orderInCategory="24"
                 android:title="PLAYSERVICE"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="26"
+                android:title="SELECCIÓN FECHA/HORA"
+                />
         </menu>
     </item>
 </menu>
