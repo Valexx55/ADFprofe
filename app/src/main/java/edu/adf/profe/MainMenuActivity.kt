@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,12 @@ import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.alarma.AjusteAlarmaActivity
 import edu.adf.profe.alarma.GestorAlarma
@@ -33,6 +40,9 @@ import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
 import edu.adf.profe.servicios.PlayActivity
 import edu.adf.profe.tabs.TabsActivity
+import edu.adf.profe.worker.MiTareaProgramada
+import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -109,6 +119,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
        // mostrarAPPSinstaladas()
         gestionarPermisosNotis ()
        // lanzarAlarma ()
+        lanzarWorkManager()
 
 
 
@@ -325,5 +336,41 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     fun lanzarAlarma ()
     {
         GestorAlarma.programarAlarma(this)
+    }
+
+    fun lanzarWorkManager ()
+    {
+        //definimos restricciones
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED) // solo Wi-Fi
+            .setRequiresBatteryNotLow(true)               // no ejecutar con batería baja
+            //.setRequiresCharging(true)                    // solo cuando esté cargando
+            .build()
+
+        //pasamos datos de entrada
+        val inputData = workDataOf("USER_ID" to "12345")
+
+        //creamos el trabajo periódico (la petición) con los datos y restricciones anteriores
+        val periodicWorkRequest = PeriodicWorkRequestBuilder<MiTareaProgramada>(
+            15, TimeUnit.MINUTES // Periodicidad mínima: 15 minutos
+        )
+            .setConstraints(constraints)
+            .setInputData(inputData)
+            .build()
+
+        //encolamos la petición
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                "MiTareaProgramada",                       // Nombre único
+                ExistingPeriodicWorkPolicy.KEEP,        // No reemplazar si ya existe
+                periodicWorkRequest
+            )
+
+        val tiempo = System.currentTimeMillis()+(60*1000*15)//(30*1000)//15 minutos
+        val dateformatter = SimpleDateFormat("E dd/MM/yyyy ' a las ' hh:mm:ss")
+        val mensaje = dateformatter.format(tiempo)
+        Log.d(Constantes.ETIQUETA_LOG, "ALARMA PROGRAMADA PARA $mensaje")
+        Toast.makeText(this, "Alarma programada para $mensaje", Toast.LENGTH_LONG).show()
+
     }
 }
