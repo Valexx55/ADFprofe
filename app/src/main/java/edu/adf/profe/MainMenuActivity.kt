@@ -14,10 +14,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import edu.adf.profe.alarma.AjusteAlarmaActivity
 import edu.adf.profe.alarma.GestorAlarma
 import edu.adf.profe.biometrico.BioActivity
 import edu.adf.profe.canciones.BusquedaCancionesActivity
@@ -60,6 +62,7 @@ import edu.adf.profe.tabs.TabsActivity
  * //TODO LIVE DATA?
  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  * //TODO DESPROGRAMAR ALARMA
+ * //TODO CalendarPicker y TimePicker
  * //firma y PUBLICAR APPS
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -70,7 +73,13 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         Log.d(Constantes.ETIQUETA_LOG, "Volviendo de Ajustes Autonicio")
         val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
-        ficherop.edit().putBoolean("INICIO_AUTO", true).commit()
+        //ficherop.edit().putBoolean("INICIO_AUTO", true).commit()
+        //ponemos alarma a true la primera vez
+        ficherop.edit(true){
+            putBoolean("INICIO_AUTO", true)
+            putBoolean("ALARMA", false)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +88,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
         val inicio_auto = ficherop.getBoolean("INICIO_AUTO", false)
         if (!inicio_auto) {
+            //PRIMERA VEZ
             solicitarInicioAutomatico()
         }
 
@@ -134,6 +144,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 22 -> Intent(this, BioActivity::class.java)
                 23 -> Intent(this, MapsActivity::class.java)
                 24 -> Intent(this, PlayActivity::class.java)
+                25 -> Intent(this, AjusteAlarmaActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 

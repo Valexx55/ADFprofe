@@ -23,13 +23,22 @@ class InicioMovilReceiver : BroadcastReceiver() {
         {
             Log.e(Constantes.ETIQUETA_LOG, "errro al lanzar noti ", e)
         }*/
-        val intentService = Intent(context, NumeroAleatorioService::class.java)
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            context.startForegroundService(intentService)
+
+        val ficherop = context.getSharedPreferences("ajustes", Context.MODE_PRIVATE)
+        if (ficherop.getBoolean("ALARMA", false))
+        {
+            Log.d(Constantes.ETIQUETA_LOG, "Alarma programada, lanzo servicio")
+            val intentService = Intent(context, NumeroAleatorioService::class.java)
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+                context.startForegroundService(intentService)
+            } else {
+                context.startService(intentService)
+            }
+            Log.d(Constantes.ETIQUETA_LOG, "Servicio lanzado...")
         } else {
-            context.startService(intentService)
+            Log.d(Constantes.ETIQUETA_LOG, "No lanzo servicio de chequeo...")
         }
-        Log.d(Constantes.ETIQUETA_LOG, "Servicio lanzado...")
+
 
     }
 }

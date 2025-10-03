@@ -102,6 +102,12 @@
                 android:orderInCategory="19"
                 android:title="SEL CONTACTO PERM"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="25"
+                android:title="AJUSTES ALARMA"
+                />
         </menu>
     </item>
     <item android:title="EJERCICIOS AVANZADOS">

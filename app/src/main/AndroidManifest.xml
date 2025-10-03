@@ -58,6 +58,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".alarma.AjusteAlarmaActivity"
+            android:exported="false" />
+        <activity
             android:name=".servicios.PlayActivity"
             android:exported="false" />
 
@@ -65,13 +68,12 @@
             android:name=".servicios.PlayService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="mediaPlayback"/>
+            android:foregroundServiceType="mediaPlayback" />
 
         <receiver android:name=".servicios.PlayService$NotificationCloseButtonHandler" />
         <receiver android:name=".servicios.PlayService$NotificationPlayButtonHandler" />
         <receiver android:name=".servicios.PlayService$NotificationPrevButtonHandler" />
         <receiver android:name=".servicios.PlayService$NotificationSkipButtonHandler" />
-
         <receiver
             android:name=".receptor.FinServicioReceiver"
             android:enabled="true"
