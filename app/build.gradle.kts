@@ -41,6 +41,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        debug {
+            buildConfigField("Boolean", "ROOM_LOGGING", "true")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -52,6 +56,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

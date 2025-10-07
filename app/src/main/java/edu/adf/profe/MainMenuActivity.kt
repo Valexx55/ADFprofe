@@ -27,6 +27,7 @@ import androidx.work.workDataOf
 import com.google.android.material.navigation.NavigationView
 import edu.adf.profe.alarma.AjusteAlarmaActivity
 import edu.adf.profe.alarma.GestorAlarma
+import edu.adf.profe.basedatos.BaseDatosActivity
 import edu.adf.profe.biometrico.BioActivity
 import edu.adf.profe.canciones.BusquedaCancionesActivity
 import edu.adf.profe.contactos.SeleccionContactoActivity
@@ -157,6 +158,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 24 -> Intent(this, PlayActivity::class.java)
                 25 -> Intent(this, AjusteAlarmaActivity::class.java)
                 26 -> Intent(this, SeleccionFechaYHoraActivity::class.java)
+                27 -> Intent(this, BaseDatosActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 

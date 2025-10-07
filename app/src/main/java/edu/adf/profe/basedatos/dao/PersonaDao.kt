@@ -1,5 +1,6 @@
 package edu.adf.profe.basedatos.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,7 +22,18 @@ interface PersonaDao {
     @Delete
     suspend fun borrar(persona: Persona)
 
+    // TODO dato curioso de funcionamineto: cuando
+    // se ejecuta un método del dao, se ejecutan
+    // automáticamente los métodos que devuelven LIVEDATA
+    // y su vez, se propagan los cambios a los suscriptores
+    // de ese livedata
+
+    //
+    //@Query("SELECT * FROM personas WHERE id=1")
     @Query("SELECT * FROM personas ORDER BY nombre ASC")
-    fun obtenerTodas():List<Persona>
+    fun obtenerTodas():LiveData<List<Persona>>
     //TODO suspend probar
+
+    @Query("SELECT COUNT(*) FROM personas")
+    suspend fun countPersonas(): Int
 }
