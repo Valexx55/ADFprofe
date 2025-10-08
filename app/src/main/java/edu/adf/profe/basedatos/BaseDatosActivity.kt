@@ -23,9 +23,10 @@ import edu.adf.profe.databinding.ActivityBaseDatosBinding
 
 class BaseDatosActivity : AppCompatActivity() {
 
-    val personas:MutableList<Persona> = mutableListOf()//creamos la lista de personas vacía
+    var personas:MutableList<Persona> = mutableListOf()//creamos la lista de personas vacía
    lateinit var binding: ActivityBaseDatosBinding
    lateinit var adapterPersonas: AdapterPersonas
+
 
    //al insntaciar este atributo, se ejecuta la sección init de PersonaViewModel
    val personaViewModel:PersonaViewModel by viewModels()//aquí guardamos los datos de la pantalla
@@ -51,18 +52,37 @@ class BaseDatosActivity : AppCompatActivity() {
             personas?.let {
                 Log.d(Constantes.ETIQUETA_LOG, "Personas (${personas.size}) = $personas")
                 adapterPersonas.listaPersonas = it
-                adapterPersonas.notifyDataSetChanged()
+                //TODO deberíamos controlar si la lista se ha actualizado por borrar
+                // o por insertar y en qué posición, para así usar
+                // notifyItemRemoved(posicion_elemento_eliminado);
+                // o notifyItemInserted(posicion_elemento_insertado);
+                //y repintar sólo esa posición de la fila
+               // adapterPersonas.notifyDataSetChanged()
+                when (personaViewModel.ultimaOperacionBD)
+                {
+                    UltimaOperacionBD.INSERTAR -> {
+                        adapterPersonas.notifyItemInserted(personaViewModel.posicionAfectada)
+                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras inserción en pos $personaViewModel.posicionAfectada")
+                                                  }
+                    UltimaOperacionBD.BORRAR -> {adapterPersonas.notifyItemRemoved (personaViewModel.posicionAfectada)
+                    Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras inserción en pos $personaViewModel.posicionAfectada")}
+                    UltimaOperacionBD.NINGUNA -> {
+                        adapterPersonas.notifyDataSetChanged()
+                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada sin inserción ni borrado")
+                    }
+                }
+                personaViewModel.ultimaOperacionBD = UltimaOperacionBD.NINGUNA//actualizamos
             }
         })
 
     }
 
     fun insertarPersona(view: View) {
-        personaViewModel.insertar(Persona(nombre="Andrés", edad = 25))
+        personaViewModel.insertar(Persona(nombre="Andrés", edad = 25), personaViewModel.personas.value!!.size)
         personaViewModel.contarPersonas()
     }
 
-    val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
         override fun onMove(
             recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
         ): Boolean {
@@ -71,17 +91,26 @@ class BaseDatosActivity : AppCompatActivity() {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position] // Método que debes crear en tu adaptador
-            // Aquí es donde eliminamos el ítem
-            personaViewModel.borrar(persona)
+            if (direction == ItemTouchHelper.RIGHT)
+            {
+                Log.d(Constantes.ETIQUETA_LOG, "Swiped right - favorito")
+                adapterPersonas.notifyItemChanged(position)//repintamos el azul a su original
+            } else {
+                Log.d(Constantes.ETIQUETA_LOG, "Swiped left - eliminar")
+                val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position] // Método que debes crear en tu adaptador
+                // Aquí es donde eliminamos el ítem
+                personaViewModel.borrar(persona, position)
 
-            // Mostrar Snackbar para deshacer la eliminación
-            Snackbar.make(this@BaseDatosActivity.binding.recview, "Persona eliminada", Snackbar.LENGTH_LONG)
-                .setAction("Deshacer") {
-                    // Si el usuario quiere deshacer, simplemente reinsertamos el ítem
-                    personaViewModel.insertar(persona)
-                }
-                .show()
+                // Mostrar Snackbar para deshacer la eliminación
+                Snackbar.make(this@BaseDatosActivity.binding.recview, "Persona eliminada", Snackbar.LENGTH_LONG)
+                    .setAction("Deshacer") {
+                        // Si el usuario quiere deshacer, simplemente reinsertamos el ítem
+                        personaViewModel.insertar(persona, position)
+                    }
+                    .show()
+            }
+
+
         }
 
         override fun onChildDraw(
@@ -138,6 +167,62 @@ class BaseDatosActivity : AppCompatActivity() {
 
                     // Dibujar texto a la izquierda del ícono
                     val textX = iconLeft - textWidth - 20f
+                    val textY = itemView.top + itemView.height / 2f + 15f // Ajuste vertical
+
+                    c.drawText(text, textX, textY, textPaint)
+                }
+            }
+
+            else if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE && dX > 0) {
+                Log.d(Constantes.ETIQUETA_LOG, "Está girando a la derecha")
+                val itemView = viewHolder.itemView
+                val paint = Paint()
+                paint.color = Color.BLUE
+
+                val margenIzquierdo = itemView.left.toFloat()
+                val margenDerecho =itemView.left.toFloat() + dX
+                val margenSuperior = itemView.top.toFloat()
+                val margenInferior = itemView.bottom.toFloat()
+
+                Log.d(Constantes.ETIQUETA_LOG, "MIZ = $margenIzquierdo MD = $margenDerecho MSUP = $margenSuperior MINF = $margenInferior")
+
+                // Dibuja el fondo azul
+                c.drawRect(
+                    margenIzquierdo, // izquierda del fondo
+                    margenSuperior,
+                    margenDerecho,      // derecha del fondo
+                    margenInferior,
+                    paint
+                )
+
+                // Carga el icono
+                val favoriteIcon =
+                    ContextCompat.getDrawable(recyclerView.context, R.drawable.baseline_favorite_24)
+                val iconMargin = 32
+                val iconSize = 64
+
+                favoriteIcon?.let {
+                    val iconTop = itemView.top + (itemView.height - iconSize) / 2
+                    val iconLeft = itemView.left + iconMargin
+                    val iconRight = itemView.left + iconMargin + iconSize
+                    val iconBottom = iconTop + iconSize
+
+                    it.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                    it.draw(c)
+
+                    // 3. Texto "favorito"
+                    val text = "favorito"
+                    val textPaint = Paint()
+                    textPaint.color = Color.WHITE
+                    textPaint.textSize = 40f
+                    textPaint.isAntiAlias = true
+                    textPaint.typeface = Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD_ITALIC)
+
+                    // Calcular ancho del texto
+                    val textWidth = textPaint.measureText(text)
+
+                    // Dibujar texto a la izquierda del ícono
+                    val textX = itemView.left + iconMargin + iconSize + 20f //iconRight - textWidth - 20f
                     val textY = itemView.top + itemView.height / 2f + 15f // Ajuste vertical
 
                     c.drawText(text, textX, textY, textPaint)

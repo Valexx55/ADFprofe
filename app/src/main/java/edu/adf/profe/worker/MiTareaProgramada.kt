@@ -83,6 +83,8 @@ class MiTareaProgramada(context: Context, workerParams: WorkerParameters): Worke
         val timestamp = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date())
         Log.d(Constantes.ETIQUETA_LOG, "[$timestamp] Ejecutando trabajo MiTareaProgramada: $userId")
 
+       // Notificaciones.lanzarNotificacion(applicationContext)
+
         return Result.success()
     }
 }
