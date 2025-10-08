@@ -42,9 +42,9 @@ android {
             )
         }
 
-        debug {
-            buildConfigField("Boolean", "ROOM_LOGGING", "true")
-        }
+       // debug {
+       //     buildConfigField("Boolean", "ROOM_LOGGING", "true")
+       // }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
