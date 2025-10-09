@@ -58,6 +58,15 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".authfirebase.RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authfirebase.AuthenticationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authfirebase.MenuAuthActivity"
+            android:exported="false" />
+        <activity
             android:name=".basedatos.BaseDatosActivity"
             android:exported="false" />
         <activity

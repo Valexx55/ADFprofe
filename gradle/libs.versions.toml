@@ -26,6 +26,7 @@ roomCommon = "2.7.2"
 roomCompiler = "2.7.2"
 roomKtx = "2.7.2"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
