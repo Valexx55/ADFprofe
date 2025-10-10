@@ -58,6 +58,9 @@
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
         <activity
+            android:name=".realtimedatabase.InsertarClientesFirebaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".authfirebase.RegistroActivity"
             android:exported="false" />
         <activity

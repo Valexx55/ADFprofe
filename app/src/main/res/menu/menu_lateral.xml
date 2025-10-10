@@ -184,6 +184,12 @@
                 android:orderInCategory="28"
                 android:title="MENU LOGIN"
                 />
+            <item
+                android:icon="@drawable/outline_arrow_forward_ios_24"
+                app:showAsAction="always"
+                android:orderInCategory="29"
+                android:title="FIREBASE DATABASE"
+                />
         </menu>
     </item>
 </menu>

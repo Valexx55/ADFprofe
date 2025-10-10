@@ -87,4 +87,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))//BOM bills of material - gestionamos las versiones de forma centralizada
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
 }

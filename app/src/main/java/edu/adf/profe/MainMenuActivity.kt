@@ -40,6 +40,7 @@ import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.mapa.MapsActivity
 import edu.adf.profe.perros.PerrosActivity
 import edu.adf.profe.productos.ListaProductosActivity
+import edu.adf.profe.realtimedatabase.InsertarClientesFirebaseActivity
 import edu.adf.profe.servicios.PlayActivity
 import edu.adf.profe.tabs.TabsActivity
 import edu.adf.profe.worker.MiTareaProgramada
@@ -163,6 +164,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 26 -> Intent(this, SeleccionFechaYHoraActivity::class.java)
                 27 -> Intent(this, BaseDatosActivity::class.java)
                 28 -> Intent(this, MenuAuthActivity::class.java)
+                29 -> Intent(this, InsertarClientesFirebaseActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
