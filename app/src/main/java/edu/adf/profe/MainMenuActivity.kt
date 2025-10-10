@@ -54,31 +54,16 @@ import java.util.concurrent.TimeUnit
  * EN UN FUTURO, PONDREMOS UN MENÚ HAMBURGUESA / LATERAL
  * DE MOMENTO, LO HACEMOS CON INTENTS
  *
- * //TODO TERMINAR PRENSA APP X
- * //TODO INFLAR X
- * //TODO SERIALIZABLE VS PARCELABLE X
- * //TODO hacer que el Usuario pueda seleccionar una FOTo y que se visualice en el IMAGEVIEW X
- * //TODO RECYCLERVIEW - listas  LISTVIEW no X
- * //TODO HTTP API RETROFIT - PREVIO CORUTINAS KT - COLECCIONES -KT - git hub X
- * //TODO FRAGMENTS - VIEWPAGER - TABS X
- * //TODO NOTIFICACIONES - PENDING INTENT x
- * //TODO FIREBASE (auth y bd)
- * //TODO PERMISOS PELIGROSOS X
- * //TODO CÁMARA FOTOS / VIDEO x
- * //TODO Autenticación Biométrica/PIN x
+
+ * //TODO FIREBASE (auth y bd) --> falta revisar el delete por campo no clave y el update
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
- * //TODO SERVICIOS DEL SISTEMA (DOWNLOAD MANAGER, ALARM MANAGER) x
- * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
- * //TODO RECIEVERS x
- * //TODO PROVIDERS X
- * //TODO SQLITE - ROOM
- * //TODO LIVE DATA?
- * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
- * //TODO DESPROGRAMAR ALARMA
- * //TODO CalendarPicker y TimePicker
+  * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
+  * //TODO SQLITE - ROOM --> añadir más entidades a nuestro esquema
+  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  * //TODO personalizar Fuentes tipos de letra
  * //TODO firma y PUBLICAR APPS
  * //TODO themebuilder material / colores / diseñar el tema
+ * // TODO proyecto API MAPA no de google con consulta al API de clima
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
