@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="alfa_boton_web">0.85</dimen>
+    <dimen name="espacio_inter_formulario">16dp</dimen>
 </resources>

@@ -8,8 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityInsertarClientesFirebaseBinding
@@ -70,6 +73,7 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
             var lista = datos.value as Map<String, Map<String, Any>>
             var entradas = lista.entries
             var ncliens = entradas.size
+
             Log.d(Constantes.ETIQUETA_LOG, "Hay $ncliens clientes")
 
             var cliente: Cliente
@@ -113,6 +117,7 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         Log.d(Constantes.ETIQUETA_LOG, "Cliente eliminado")
                         listaClientes.removeAt(listaClientes.size-1)
+                        Toast.makeText(this, "CLIENTE ELIMINADO", Toast.LENGTH_LONG).show()
                     }
                     .addOnFailureListener { e ->
                         Log.e(Constantes.ETIQUETA_LOG, "Error: ${e.message}")
@@ -121,11 +126,55 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
             }
         } else {
             Log.d(Constantes.ETIQUETA_LOG, "Sin clientes que borrar")
+            Toast.makeText(this, "Sin clientes que borrar/n Clique mostrar primero", Toast.LENGTH_LONG).show()
         }
 
 
 
     }
-    fun borrarPorNombre (nombre:String){}
+    fun borrarPorNombre (nombre:String){
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("clientes")
+        //FIXME no salta el evento addListenerForSingleValueEvent / revisar el funcionamiento: no borra
+        // Consulta: buscar clientes con nombre "Juan"
+        dbRef.orderByChild("nombre").equalTo(nombre)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (clienteSnapshot in snapshot.children) {
+                            // Eliminar cada cliente que coincida
+                            clienteSnapshot.ref.removeValue()
+                                .addOnSuccessListener {
+                                    Log.d("Firebase", "Cliente eliminado: ${clienteSnapshot.key}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("Firebase", "Error al eliminar: ${e.message}")
+                                }
+                        }
+                    } else {
+                        Log.d("Firebase", "No se encontraron clientes con nombre $nombre")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Firebase", "Error en la consulta: ${error.message}")
+                }
+            })
+
+    }
+
+    fun borrarUltimoPorNombre(view: View) {
+
+        if (listaClientes.size>0)
+        {
+            val nombre = listaClientes.get(listaClientes.size-1).nombre
+            Log.d(Constantes.ETIQUETA_LOG, "Borrar por nombre = $nombre")
+            borrarPorNombre(nombre)
+
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Sin clientes que borrar")
+            Toast.makeText(this, "Sin clientes que borrar/n Clique mostrar primero", Toast.LENGTH_LONG).show()
+        }
+    }
 
 }
