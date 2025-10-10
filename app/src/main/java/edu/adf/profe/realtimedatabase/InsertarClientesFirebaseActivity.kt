@@ -21,6 +21,7 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
 
     lateinit var databaseReference: DatabaseReference //es el objeto para manejar la bd
     lateinit var binding: ActivityInsertarClientesFirebaseBinding
+    var listaClientes = ArrayList<Cliente>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +62,7 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
 
     fun mostrarClientesFB(view: View) {
         Log.d(Constantes.ETIQUETA_LOG, "Mostrar clientes FB")
+        //this.databaseReference.child("clientes").child("clave").get()//con esto accedemos a un dato concreto por su clave
         this.databaseReference.child("clientes").get().addOnSuccessListener { datos ->
 
             var clave = datos.key
@@ -69,7 +71,7 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
             var entradas = lista.entries
             var ncliens = entradas.size
             Log.d(Constantes.ETIQUETA_LOG, "Hay $ncliens clientes")
-            var listaClientes = ArrayList<Cliente>()
+
             var cliente: Cliente
             //para cada cliente, obtenemos los datos
             entradas.forEach { (claveId, valor) ->
@@ -93,4 +95,37 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun borrarUltimoPorClave (view: View){
+
+        if (listaClientes.size>0)
+        {
+            val claveUltimo = listaClientes.get(listaClientes.size-1).clave
+
+            Log.d(Constantes.ETIQUETA_LOG, "Clave ultimo = $claveUltimo")
+
+            claveUltimo.let {
+
+                Log.d(Constantes.ETIQUETA_LOG, "A eliminar cliente con id clave $claveUltimo")
+                val refCli =  FirebaseDatabase.getInstance(URL_REAL_TIME_DATABASE).getReference("clientes/$claveUltimo")
+
+                refCli.removeValue()
+                    .addOnSuccessListener {
+                        Log.d(Constantes.ETIQUETA_LOG, "Cliente eliminado")
+                        listaClientes.removeAt(listaClientes.size-1)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e(Constantes.ETIQUETA_LOG, "Error: ${e.message}")
+                    }
+
+            }
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Sin clientes que borrar")
+        }
+
+
+
+    }
+    fun borrarPorNombre (nombre:String){}
+
 }
