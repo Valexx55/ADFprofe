@@ -56,6 +56,7 @@ import java.util.concurrent.TimeUnit
  *
 
  * //TODO FIREBASE (auth y bd) --> falta revisar el delete por campo no clave y el update
+ * //TODO FIREBASE messagin --> notificaciones por servidor
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
   * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
   * //TODO SQLITE - ROOM --> añadir más entidades a nuestro esquema
