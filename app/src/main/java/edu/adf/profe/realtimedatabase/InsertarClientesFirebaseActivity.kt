@@ -8,11 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.databinding.ActivityInsertarClientesFirebaseBinding
@@ -132,34 +129,44 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
 
 
     }
+
+    /*
+    ojo porque para borrar por nombre u otro campo, hay que crear en la base de datos
+    un índice previmanete, para poder consultar por ese campo, en la sección de rules tipo así
+
+    {
+  "rules": {
+    ".read": "now < 1762642800000",  // 2025-11-9
+    ".write": "now < 1762642800000",  // 2025-11-9
+    "clientes": {
+      ".indexOn": ["nombre"]    // Agrega un índice para el campo 'nombre'
+    }
+
+  }
+}
+     */
     fun borrarPorNombre (nombre:String){
 
-        val dbRef = FirebaseDatabase.getInstance().getReference("clientes")
-        //FIXME no salta el evento addListenerForSingleValueEvent / revisar el funcionamiento: no borra
-        // Consulta: buscar clientes con nombre "Juan"
-        dbRef.orderByChild("nombre").equalTo(nombre)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (clienteSnapshot in snapshot.children) {
-                            // Eliminar cada cliente que coincida
-                            clienteSnapshot.ref.removeValue()
-                                .addOnSuccessListener {
-                                    Log.d("Firebase", "Cliente eliminado: ${clienteSnapshot.key}")
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("Firebase", "Error al eliminar: ${e.message}")
-                                }
-                        }
-                    } else {
-                        Log.d("Firebase", "No se encontraron clientes con nombre $nombre")
-                    }
-                }
+        val dbRef = FirebaseDatabase.getInstance(URL_REAL_TIME_DATABASE).getReference("clientes")
+        // Configurar la consulta para obtener clientes con un nombre específico
+        val query = dbRef.orderByChild("nombre").equalTo(nombre)
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("Firebase", "Error en la consulta: ${error.message}")
-                }
-            })
+        query.get().addOnSuccessListener { snapshot ->
+            snapshot.children.forEach { childSnapshot ->
+                // Eliminar cada cliente que coincida con el nombre
+                childSnapshot.ref.removeValue()
+                    .addOnSuccessListener {
+                        Log.d(Constantes.ETIQUETA_LOG, "Cliente ${childSnapshot.key} eliminado.")
+                    }
+                    .addOnFailureListener {
+                        Log.d(Constantes.ETIQUETA_LOG, "Error al eliminar cliente")
+                    }
+            }
+        }.addOnFailureListener {
+
+            Log.e(Constantes.ETIQUETA_LOG, " Error al realizar la consulta. $it")
+        }
+
 
     }
 

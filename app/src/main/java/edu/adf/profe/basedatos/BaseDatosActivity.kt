@@ -230,4 +230,27 @@ class BaseDatosActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun generarNumeroAleatorio(): Int {
+        return (1..100).random()
+    }
+
+    // para generar nombrea aleatorios
+    fun generarNombre(): String {
+        val silabas = listOf(
+            "ma", "ri", "an", "jo", "se", "la", "lu", "mi", "el", "no",
+            "da", "na", "so", "le", "pe", "ro", "car", "al", "be", "vi"
+        )
+
+        val cantidadSilabas = (2..3).random() // nombres de 2 o 3 sílabas
+
+        val nombre = StringBuilder()
+        repeat(cantidadSilabas) {
+            nombre.append(silabas.random())
+        }
+
+        // Capitalizar la primera letra
+        return nombre.toString().replaceFirstChar { it.uppercaseChar() }
+    }
+
 }
