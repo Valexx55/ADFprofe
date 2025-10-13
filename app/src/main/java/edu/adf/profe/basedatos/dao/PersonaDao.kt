@@ -17,7 +17,7 @@ import edu.adf.profe.basedatos.entity.Persona
 interface PersonaDao {
 
     @Insert
-    suspend fun insertar(persona: Persona)
+    suspend fun insertar(persona: Persona):Long
 
     @Delete
     suspend fun borrar(persona: Persona)

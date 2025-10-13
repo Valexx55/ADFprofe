@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import edu.adf.profe.Constantes
 import edu.adf.profe.basedatos.UltimaOperacionBD
 import edu.adf.profe.basedatos.db.AppDatabase
+import edu.adf.profe.basedatos.entity.Empleo
 import edu.adf.profe.basedatos.entity.Persona
 import edu.adf.profe.basedatos.repository.Repositorio
 import kotlinx.coroutines.launch
@@ -20,8 +21,11 @@ class PersonaViewModel(application: Application):AndroidViewModel(application) {
     var posicionAfectada:Int = -1
 
     init {
-        val dao = AppDatabase.getDatabase(application).personaDao()
-        repository = Repositorio(dao)
+
+        val personaDao = AppDatabase.getDatabase(application).personaDao()
+        val empleoDao = AppDatabase.getDatabase(application).empleoDao()
+        val cocheDao = AppDatabase.getDatabase(application).cocheDao()
+        repository = Repositorio(personaDao, empleoDao, cocheDao)
         personas = repository.todasLasPersonas
         ultimaOperacionBD = UltimaOperacionBD.NINGUNA
     }
@@ -33,6 +37,16 @@ class PersonaViewModel(application: Application):AndroidViewModel(application) {
     fun insertar(persona: Persona, pos:Int) {
         viewModelScope.launch {
             repository.insertar(persona)
+            ultimaOperacionBD = UltimaOperacionBD.INSERTAR
+            posicionAfectada = pos
+        }
+
+
+    }
+
+    fun insertarPersonaYEmpleo(persona: Persona, pos:Int, empleo: Empleo) {
+        viewModelScope.launch {
+            repository.insertarPersonaYEmpleo(persona, empleo)
             ultimaOperacionBD = UltimaOperacionBD.INSERTAR
             posicionAfectada = pos
         }

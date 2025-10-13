@@ -17,9 +17,12 @@ import com.google.android.material.snackbar.Snackbar
 import edu.adf.profe.Constantes
 import edu.adf.profe.R
 import edu.adf.profe.basedatos.adapter.AdapterPersonas
+import edu.adf.profe.basedatos.entity.Empleo
 import edu.adf.profe.basedatos.entity.Persona
+import edu.adf.profe.basedatos.entity.TipoContrato
 import edu.adf.profe.basedatos.viewmodel.PersonaViewModel
 import edu.adf.profe.databinding.ActivityBaseDatosBinding
+import java.util.Date
 
 class BaseDatosActivity : AppCompatActivity() {
 
@@ -78,8 +81,15 @@ class BaseDatosActivity : AppCompatActivity() {
     }
 
     fun insertarPersona(view: View) {
-        personaViewModel.insertar(Persona(nombre="Andrés", edad = 25), personaViewModel.personas.value!!.size)
+        personaViewModel.insertar(Persona(nombre =generarNombre(), edad =generarNumeroAleatorio()), personaViewModel.personas.value!!.size)
         personaViewModel.contarPersonas()
+    }
+
+    fun insertarPersonaYEmpleo(view: View) {
+        val personaAux = Persona(nombre =generarNombre(), edad =generarNumeroAleatorio())
+        val empleoAux = Empleo(0, 0, "BARRANDERO", Date(), 1500.0, TipoContrato.TEMPORAL)
+        personaViewModel.insertarPersonaYEmpleo(personaAux, personaViewModel.personas.value!!.size, empleoAux)
+
     }
 
     val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
