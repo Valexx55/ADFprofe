@@ -60,6 +60,13 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
 
     }
 
+    /*+
+    Este método consulta todos los registros de la base de datos remota y los almacena
+    en una lista local.
+
+    Esta lista, se usa para las acciones de borrado por nombre y actualización, de manera
+    que si no se ejecuta antes esta función, las de borrar y actualizar no marcharán
+     */
     fun mostrarClientesFB(view: View) {
         Log.d(Constantes.ETIQUETA_LOG, "Mostrar clientes FB")
         //this.databaseReference.child("clientes").child("clave").get()//con esto accedemos a un dato concreto por su clave
@@ -184,4 +191,46 @@ class InsertarClientesFirebaseActivity : AppCompatActivity() {
         }
     }
 
+
+    fun actualizarPorId (view: View)
+    {
+        if (listaClientes.size>0)
+        {
+            var cliente = listaClientes.get(listaClientes.size-1)
+            val dbRef = FirebaseDatabase.getInstance(URL_REAL_TIME_DATABASE).getReference("clientes")
+            // Configurar la consulta para obtener clientes con un nombre específico
+            cliente.edad = cliente.edad+1
+            dbRef.child(cliente.clave).setValue(cliente)
+                .addOnSuccessListener {
+                Log.d(Constantes.ETIQUETA_LOG, "Cliente actualizado")
+                Toast.makeText(this, "Cliente actualizado", Toast.LENGTH_LONG).show()
+                }
+                .addOnFailureListener{
+                    Log.e(Constantes.ETIQUETA_LOG, "Error al actualizar cliente $it", it)
+                    Toast.makeText(this, "Error al actualizar cliente", Toast.LENGTH_LONG).show()
+                }
+
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Sin clientes para actualizar")
+            Toast.makeText(this, "Sin clientes que actualizar/n Clique mostrar primero", Toast.LENGTH_LONG).show()
+        }
+
+
+
+
+    }
+
+    //TODO actualizar por nombre
+    /*
+
+database.child("users").child(userId).setValue(user)
+    .addOnSuccessListener {
+        // Write was successful!
+        // ...
+    }
+    .addOnFailureListener {
+        // Write failed
+        // ...
+    }
+     */
 }
