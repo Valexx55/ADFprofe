@@ -22,9 +22,10 @@ data class Empleo(
     val fechaInicio: Date,
     val salario: Double,
     val tipoContrato: TipoContrato
-)
-
-enum class TipoContrato {
-    TEMPORAL,
-    INDEFINIDO
+){
+    enum class TipoContrato {
+        TEMPORAL,
+        INDEFINIDO
+    }
 }
+

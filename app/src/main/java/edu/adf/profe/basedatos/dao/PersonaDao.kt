@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import edu.adf.profe.basedatos.entity.Persona
+import edu.adf.profe.basedatos.entity.PersonaConDetalles
 
 /**
  * En esta clase describimos las operaciones que
@@ -17,7 +18,7 @@ import edu.adf.profe.basedatos.entity.Persona
 interface PersonaDao {
 
     @Insert
-    suspend fun insertar(persona: Persona):Long
+    suspend fun insertar(persona: Persona):Long//AÑADIENDO la devolución del tipo LONG, se obtiene el id del último registros insertado
 
     @Delete
     suspend fun borrar(persona: Persona)
@@ -30,8 +31,11 @@ interface PersonaDao {
 
     //
     //@Query("SELECT * FROM personas WHERE id=1")
-    @Query("SELECT * FROM personas ORDER BY nombre ASC")
-    fun obtenerTodas():LiveData<List<Persona>>
+    //@Query("SELECT * FROM personas ORDER BY nombre ASC")
+    //@Query("SELECT * FROM personas ORDER BY id ASC")
+    @Query("SELECT * FROM personas ORDER BY id ASC")
+    fun obtenerTodas():LiveData<List<PersonaConDetalles>>
+    //fun obtenerTodas():LiveData<List<Persona>>
     //TODO suspend probar
 
     @Query("SELECT COUNT(*) FROM personas")

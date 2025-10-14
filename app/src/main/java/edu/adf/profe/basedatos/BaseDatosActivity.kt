@@ -19,14 +19,15 @@ import edu.adf.profe.R
 import edu.adf.profe.basedatos.adapter.AdapterPersonas
 import edu.adf.profe.basedatos.entity.Empleo
 import edu.adf.profe.basedatos.entity.Persona
-import edu.adf.profe.basedatos.entity.TipoContrato
+import edu.adf.profe.basedatos.entity.PersonaConDetalles
 import edu.adf.profe.basedatos.viewmodel.PersonaViewModel
 import edu.adf.profe.databinding.ActivityBaseDatosBinding
 import java.util.Date
 
 class BaseDatosActivity : AppCompatActivity() {
 
-    var personas:MutableList<Persona> = mutableListOf()//creamos la lista de personas vacía
+  //  var personas:MutableList<Persona> = mutableListOf()//creamos la lista de personas vacía
+   var personas:MutableList<PersonaConDetalles> = mutableListOf()//creamos la lista de personas vacía
    lateinit var binding: ActivityBaseDatosBinding
    lateinit var adapterPersonas: AdapterPersonas
 
@@ -49,7 +50,8 @@ class BaseDatosActivity : AppCompatActivity() {
 
         //ligamos las actualizaciones automáticas de la lista
 
-        personaViewModel.personas.observe(this, {
+       // personaViewModel.personas.observe(this, {
+        personaViewModel.personasDetalles.observe(this, {
             personas ->
             //Log.d(Constantes.ETIQUETA_LOG, "Personas = $personas")
             personas?.let {
@@ -60,15 +62,17 @@ class BaseDatosActivity : AppCompatActivity() {
                 // notifyItemRemoved(posicion_elemento_eliminado);
                 // o notifyItemInserted(posicion_elemento_insertado);
                 //y repintar sólo esa posición de la fila
-               // adapterPersonas.notifyDataSetChanged()
-                when (personaViewModel.ultimaOperacionBD)
+                //adapterPersonas.notifyDataSetChanged()
+               when (personaViewModel.ultimaOperacionBD)
                 {
                     UltimaOperacionBD.INSERTAR -> {
                         adapterPersonas.notifyItemInserted(personaViewModel.posicionAfectada)
-                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras inserción en pos $personaViewModel.posicionAfectada")
+                        //adapterPersonas.notifyDataSetChanged()
+                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras INSERCIÓN en pos ${personaViewModel.posicionAfectada}")
                                                   }
-                    UltimaOperacionBD.BORRAR -> {adapterPersonas.notifyItemRemoved (personaViewModel.posicionAfectada)
-                    Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras inserción en pos $personaViewModel.posicionAfectada")}
+                    UltimaOperacionBD.BORRAR -> {
+                        adapterPersonas.notifyItemRemoved (personaViewModel.posicionAfectada)
+                    Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras BORRADO en pos ${personaViewModel.posicionAfectada}")}
                     UltimaOperacionBD.NINGUNA -> {
                         adapterPersonas.notifyDataSetChanged()
                         Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada sin inserción ni borrado")
@@ -81,14 +85,14 @@ class BaseDatosActivity : AppCompatActivity() {
     }
 
     fun insertarPersona(view: View) {
-        personaViewModel.insertar(Persona(nombre =generarNombre(), edad =generarNumeroAleatorio()), personaViewModel.personas.value!!.size)
+        personaViewModel.insertar(Persona(nombre =generarNombre(), edad =generarNumeroAleatorio()), personaViewModel.personasDetalles.value!!.size)
         personaViewModel.contarPersonas()
     }
 
     fun insertarPersonaYEmpleo(view: View) {
         val personaAux = Persona(nombre =generarNombre(), edad =generarNumeroAleatorio())
-        val empleoAux = Empleo(0, 0, "BARRANDERO", Date(), 1500.0, TipoContrato.TEMPORAL)
-        personaViewModel.insertarPersonaYEmpleo(personaAux, personaViewModel.personas.value!!.size, empleoAux)
+        val empleoAux = Empleo(0, 0, "BARRANDERO", Date(), 1500.0, Empleo.TipoContrato.TEMPORAL)
+        personaViewModel.insertarPersonaYEmpleo(personaAux, personaViewModel.personasDetalles.value!!.size, empleoAux)
 
     }
 
@@ -107,7 +111,7 @@ class BaseDatosActivity : AppCompatActivity() {
                 adapterPersonas.notifyItemChanged(position)//repintamos el azul a su original
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "Swiped left - eliminar")
-                val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position] // Método que debes crear en tu adaptador
+                val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position].persona // Método que debes crear en tu adaptador
                 // Aquí es donde eliminamos el ítem
                 personaViewModel.borrar(persona, position)
 

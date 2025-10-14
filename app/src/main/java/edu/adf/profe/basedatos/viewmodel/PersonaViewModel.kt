@@ -10,13 +10,15 @@ import edu.adf.profe.basedatos.UltimaOperacionBD
 import edu.adf.profe.basedatos.db.AppDatabase
 import edu.adf.profe.basedatos.entity.Empleo
 import edu.adf.profe.basedatos.entity.Persona
+import edu.adf.profe.basedatos.entity.PersonaConDetalles
 import edu.adf.profe.basedatos.repository.Repositorio
 import kotlinx.coroutines.launch
 
 class PersonaViewModel(application: Application):AndroidViewModel(application) {
 
     private val repository: Repositorio
-    val personas: LiveData<List<Persona>>
+    //val personas: LiveData<List<Persona>>
+    val personasDetalles: LiveData<List<PersonaConDetalles>>
     lateinit var ultimaOperacionBD:UltimaOperacionBD
     var posicionAfectada:Int = -1
 
@@ -26,7 +28,8 @@ class PersonaViewModel(application: Application):AndroidViewModel(application) {
         val empleoDao = AppDatabase.getDatabase(application).empleoDao()
         val cocheDao = AppDatabase.getDatabase(application).cocheDao()
         repository = Repositorio(personaDao, empleoDao, cocheDao)
-        personas = repository.todasLasPersonas
+        personasDetalles = repository.todasLasPersonas
+        //personas = repository.todasLasPersonas
         ultimaOperacionBD = UltimaOperacionBD.NINGUNA
     }
 
