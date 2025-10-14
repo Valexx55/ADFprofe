@@ -111,7 +111,9 @@ class BaseDatosActivity : AppCompatActivity() {
                 adapterPersonas.notifyItemChanged(position)//repintamos el azul a su original
             } else {
                 Log.d(Constantes.ETIQUETA_LOG, "Swiped left - eliminar")
-                val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position].persona // Método que debes crear en tu adaptador
+                val persona = this@BaseDatosActivity.adapterPersonas.listaPersonas[position].persona
+                val empleo = this@BaseDatosActivity.adapterPersonas.listaPersonas[position].empleo
+                // Método que debes crear en tu adaptador
                 // Aquí es donde eliminamos el ítem
                 personaViewModel.borrar(persona, position)
 
@@ -119,7 +121,7 @@ class BaseDatosActivity : AppCompatActivity() {
                 Snackbar.make(this@BaseDatosActivity.binding.recview, "Persona eliminada", Snackbar.LENGTH_LONG)
                     .setAction("Deshacer") {
                         // Si el usuario quiere deshacer, simplemente reinsertamos el ítem
-                        personaViewModel.insertar(persona, position)
+                        personaViewModel.insertarPersonaYEmpleo(persona, position, empleo!!)
                     }
                     .show()
             }
