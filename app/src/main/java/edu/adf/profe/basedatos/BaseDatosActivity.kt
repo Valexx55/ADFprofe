@@ -42,7 +42,7 @@ class BaseDatosActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        adapterPersonas = AdapterPersonas(personas)
+        adapterPersonas = AdapterPersonas(personas, ::clickFila)
         binding.recview.adapter = adapterPersonas
         binding.recview.layoutManager = LinearLayoutManager(this)
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
@@ -269,4 +269,9 @@ class BaseDatosActivity : AppCompatActivity() {
         return nombre.toString().replaceFirstChar { it.uppercaseChar() }
     }
 
+
+    fun clickFila (personaConDetalles: PersonaConDetalles)
+    {
+        Log.d(Constantes.ETIQUETA_LOG, "Tocado fila $personaConDetalles desde la Activity :)")
+    }
 }
