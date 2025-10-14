@@ -10,6 +10,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,8 @@ import edu.adf.profe.basedatos.entity.Persona
 import edu.adf.profe.basedatos.entity.PersonaConDetalles
 import edu.adf.profe.basedatos.viewmodel.PersonaViewModel
 import edu.adf.profe.databinding.ActivityBaseDatosBinding
+import edu.adf.profe.util.LogUtil
+import kotlinx.coroutines.launch
 import java.util.Date
 
 class BaseDatosActivity : AppCompatActivity() {
@@ -272,6 +275,11 @@ class BaseDatosActivity : AppCompatActivity() {
 
     fun clickFila (personaConDetalles: PersonaConDetalles)
     {
-        Log.d(Constantes.ETIQUETA_LOG, "Tocado fila $personaConDetalles desde la Activity :)")
+        Log.d(Constantes.ETIQUETA_LOG, " ${LogUtil.getLogInfo()} Tocado fila $personaConDetalles")
+        lifecycleScope.launch {
+            var par = personaViewModel.obtenerCochesPersona(personaConDetalles.persona.id)
+            Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} Persona con id = ${par.first}")
+            Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} Coches = ${par.second}")
+        }
     }
 }

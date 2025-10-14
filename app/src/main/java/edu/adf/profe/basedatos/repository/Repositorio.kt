@@ -44,4 +44,9 @@ class Repositorio (private val personaDao: PersonaDao, private val empleoDao: Em
     {
         cocheDao.deleteCoche(coche)
     }
+
+    suspend fun leerCochesPersona(personaId:Int):List<Coche>
+    {
+        return cocheDao.getCochesDePersona(personaId.toLong())
+    }
 }

@@ -13,5 +13,6 @@ class PersonaVH(val filaPersona: FilaPersonaBinding): RecyclerView.ViewHolder(fi
         this.filaPersona.nombre.text = personaConDetalles.persona.nombre //persona.nombre
         this.filaPersona.edad.text = personaConDetalles.persona.edad.toString()
         this.filaPersona.nombreEmpleo.text = personaConDetalles.empleo?.nombre;
+       // this.itemView.tag = personaConDetalles.persona.id.toString() // otra idea para luego saber con gettag el id de la persona tocada
     }
 }

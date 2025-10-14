@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import edu.adf.profe.Constantes
 import edu.adf.profe.basedatos.UltimaOperacionBD
 import edu.adf.profe.basedatos.db.AppDatabase
+import edu.adf.profe.basedatos.entity.Coche
 import edu.adf.profe.basedatos.entity.Empleo
 import edu.adf.profe.basedatos.entity.Persona
 import edu.adf.profe.basedatos.entity.PersonaConDetalles
@@ -69,4 +70,12 @@ class PersonaViewModel(application: Application):AndroidViewModel(application) {
             Log.d(Constantes.ETIQUETA_LOG, "numpersonas  $nper")
         }
     }
+
+    suspend fun obtenerCochesPersona(personaId:Int):Pair<Int, List<Coche>>
+    {
+           var listaCoches = repository.leerCochesPersona(personaId)
+           return personaId to listaCoches
+    }
+
+
 }
