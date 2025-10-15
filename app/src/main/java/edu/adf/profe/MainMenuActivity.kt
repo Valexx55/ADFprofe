@@ -64,6 +64,7 @@ import java.util.concurrent.TimeUnit
  * //TODO firma y PUBLICAR APPS
  * //TODO themebuilder material / colores / diseñar el tema
  * // TODO proyecto API MAPA no de google con consulta al API de clima
+ * //TODO FLOW  vs LiveData
 
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
