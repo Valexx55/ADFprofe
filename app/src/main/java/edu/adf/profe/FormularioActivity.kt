@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
@@ -38,6 +41,10 @@ class FormularioActivity : AppCompatActivity() {
 
         binding = ActivityFormularioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        //programos el menú contextual sobre la imagen
+        registerForContextMenu(binding.imagenFormulario)
         //he ocultado la barra desde el tema del manifest específico para esta actividad
 
         //si hay datos en el fichero
@@ -184,6 +191,23 @@ class FormularioActivity : AppCompatActivity() {
 
 
     }//fin oncreate
+
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        menu?.add(Menu.NONE, 1, 1, "Borrar")
+
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        Log.d(Constantes.ETIQUETA_LOG, "MENÚ TOCADO ${item.title}")
+        binding.imagenFormulario.setImageResource(R.drawable.ic_launcher_background)
+        return super.onOptionsItemSelected(item)
+    }
 
     fun seleccionarFoto ()
     {
