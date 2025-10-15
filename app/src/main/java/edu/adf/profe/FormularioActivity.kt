@@ -164,8 +164,11 @@ class FormularioActivity : AppCompatActivity() {
         //2) tengo que preparar el objeto para lanar el 1) y recibir su respuesta
         //3) a la vuelta, coger la foto y ponerla en el imageView
         //función lambda / flecha
-        this.binding.imagenFormulario.setOnClickListener { imagen ->
+        /*this.binding.imagenFormulario.setOnClickListener { imagen ->
                 seleccionarFoto()
+        }*/
+        this.binding.imagenCargarFoto.setOnClickListener{
+            seleccionarFoto()
         }
 
         /*this.binding.imagenFormulario.setOnClickListener {
