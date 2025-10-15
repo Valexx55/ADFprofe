@@ -125,6 +125,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             else -> {
                 findViewById<ImageButton>(R.id.botonReinicio).visibility = View.VISIBLE
                 ganador()
+                pintarReinicioEnMenu()
                 //
                 haGanado = true
             }
