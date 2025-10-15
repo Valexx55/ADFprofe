@@ -55,16 +55,16 @@ import java.util.concurrent.TimeUnit
  * DE MOMENTO, LO HACEMOS CON INTENTS
  *
 
- * //TODO FIREBASE (auth y bd) --> falta revisar el delete por campo no clave y el update
  * //TODO FIREBASE messagin --> notificaciones por servidor
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
   * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
-  * //TODO SQLITE - ROOM --> añadir más entidades a nuestro esquema
+  * //TODO SQLITE - ROOM -->  RELACIÓN N:m? listener único para recycler? mostrarCoches en otra actividad/fragment? / STATEFLOW? / inserte coches?
   * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  * //TODO personalizar Fuentes tipos de letra
  * //TODO firma y PUBLICAR APPS
  * //TODO themebuilder material / colores / diseñar el tema
  * // TODO proyecto API MAPA no de google con consulta al API de clima
+
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 

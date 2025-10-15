@@ -54,36 +54,39 @@ class BaseDatosActivity : AppCompatActivity() {
         //ligamos las actualizaciones automáticas de la lista
 
        // personaViewModel.personas.observe(this, {
-        personaViewModel.personasDetalles.observe(this, {
-            personas ->
-            //Log.d(Constantes.ETIQUETA_LOG, "Personas = $personas")
-            personas?.let {
-                Log.d(Constantes.ETIQUETA_LOG, "Personas (${personas.size}) = $personas")
-                adapterPersonas.listaPersonas = it
-                //TODO deberíamos controlar si la lista se ha actualizado por borrar
-                // o por insertar y en qué posición, para así usar
-                // notifyItemRemoved(posicion_elemento_eliminado);
-                // o notifyItemInserted(posicion_elemento_insertado);
-                //y repintar sólo esa posición de la fila
-                //adapterPersonas.notifyDataSetChanged()
-               when (personaViewModel.ultimaOperacionBD)
-                {
-                    UltimaOperacionBD.INSERTAR -> {
-                        adapterPersonas.notifyItemInserted(personaViewModel.posicionAfectada)
-                        //adapterPersonas.notifyDataSetChanged()
-                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras INSERCIÓN en pos ${personaViewModel.posicionAfectada}")
-                                                  }
-                    UltimaOperacionBD.BORRAR -> {
-                        adapterPersonas.notifyItemRemoved (personaViewModel.posicionAfectada)
-                    Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras BORRADO en pos ${personaViewModel.posicionAfectada}")}
-                    UltimaOperacionBD.NINGUNA -> {
-                        adapterPersonas.notifyDataSetChanged()
-                        Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada sin inserción ni borrado")
+        lifecycleScope.launch {
+            personaViewModel.personasDetalles.observe(this@BaseDatosActivity, {
+                    personas ->
+                //Log.d(Constantes.ETIQUETA_LOG, "Personas = $personas")
+                personas?.let {
+                    Log.d(Constantes.ETIQUETA_LOG, "Personas (${personas.size}) = $personas")
+                    adapterPersonas.listaPersonas = it
+                    //TODO deberíamos controlar si la lista se ha actualizado por borrar
+                    // o por insertar y en qué posición, para así usar
+                    // notifyItemRemoved(posicion_elemento_eliminado);
+                    // o notifyItemInserted(posicion_elemento_insertado);
+                    //y repintar sólo esa posición de la fila
+                    //adapterPersonas.notifyDataSetChanged()
+                    when (personaViewModel.ultimaOperacionBD)
+                    {
+                        UltimaOperacionBD.INSERTAR -> {
+                            adapterPersonas.notifyItemInserted(personaViewModel.posicionAfectada)
+                            //adapterPersonas.notifyDataSetChanged()
+                            Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras INSERCIÓN en pos ${personaViewModel.posicionAfectada}")
+                        }
+                        UltimaOperacionBD.BORRAR -> {
+                            adapterPersonas.notifyItemRemoved (personaViewModel.posicionAfectada)
+                            Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada tras BORRADO en pos ${personaViewModel.posicionAfectada}")}
+                        UltimaOperacionBD.NINGUNA -> {
+                            adapterPersonas.notifyDataSetChanged()
+                            Log.d(Constantes.ETIQUETA_LOG, "Lista actualizada sin inserción ni borrado")
+                        }
                     }
+                    personaViewModel.ultimaOperacionBD = UltimaOperacionBD.NINGUNA//actualizamos
                 }
-                personaViewModel.ultimaOperacionBD = UltimaOperacionBD.NINGUNA//actualizamos
-            }
-        })
+            })
+        }
+
 
     }
 
