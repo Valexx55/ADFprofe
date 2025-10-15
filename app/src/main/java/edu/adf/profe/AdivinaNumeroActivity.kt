@@ -5,6 +5,8 @@ import android.app.ActivityOptions
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -12,12 +14,9 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import kotlin.random.Random
 import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 
 /**
@@ -42,6 +41,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
     var haPerdido: Boolean =false
     lateinit var cajaNumeroUsuario: EditText
 
+    lateinit var menuBar:Menu
 
     override fun onCreate(saquito: Bundle?) {
         super.onCreate(saquito)
@@ -74,6 +74,12 @@ class AdivinaNumeroActivity : AppCompatActivity() {
 
 
 
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menuBar = menu!! //me guardo la referencia para poder usarlo depués
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onSaveInstanceState(saquito: Bundle) {
@@ -132,10 +138,28 @@ class AdivinaNumeroActivity : AppCompatActivity() {
             {
                 findViewById<ImageButton>(R.id.botonReinicio).visibility = View.VISIBLE
                 informarGameOver()
+                pintarReinicioEnMenu()
                 //findViewById<Button>(R.id.botonReinicio).visibility = View.VISIBLE
             }
         }
 
+    }
+
+    private fun pintarReinicioEnMenu() {
+        this.menuBar.add(Menu.NONE, 1, Menu.NONE, "Reinicio")
+            .setIcon(R.drawable.outline_autorenew_24_negro)
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId)
+        {
+            1 -> {
+                reiniciarPartida(null)
+                this.menuBar.clear()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun informarGameOver()
@@ -180,7 +204,7 @@ class AdivinaNumeroActivity : AppCompatActivity() {
         return numeroSecretoLocal
     }
 
-    fun reiniciarPartida(view: View) {
+    fun reiniciarPartida(view: View?) {
         //recreate()//esto reinicia la pantalla, pero llama a onSaveInstanceState y en este caso, no me interesa, porque la partida ha terminado y no quiero guardar nada
         finish()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
