@@ -26,7 +26,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.messaging.FirebaseMessaging
@@ -121,7 +120,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
        // lanzarAlarma ()
         lanzarWorkManager()
 
-        Log.d(Constantes.ETIQUETA_LOG, " GOOGLE SERVICE DISPONIBLES = ${GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)}")
+
+        //Log.d(Constantes.ETIQUETA_LOG, " GOOGLE SERVICE DISPONIBLES = ${GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)}")
 
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

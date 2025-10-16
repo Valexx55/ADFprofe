@@ -15,6 +15,7 @@ class MiNotificacionFirebaseService : FirebaseMessagingService()  {
      * FCM registration token is initially generated so this is where you would retrieve the token.
      */
     override fun onNewToken(token: String) {
+        super.onNewToken(token)//dejamos una llamada al padre por si aca...
         Log.d(Constantes.ETIQUETA_LOG, " ${LogUtil.getLogInfo()} Refreshed token: $token")
 
         // If you want to send messages to this application instance or
@@ -22,4 +23,6 @@ class MiNotificacionFirebaseService : FirebaseMessagingService()  {
         // FCM registration token to your app server.
         //sendRegistrationToServer(token)
     }
+
+
 }

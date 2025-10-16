@@ -1,0 +1,97 @@
+la guía oficial es ésta, pero no está completa
+
+https://firebase.google.com/docs/cloud-messaging/get-started?platform=android&hl=es-419
+
+0) TENEMOS QUE TENER FIREBASE CONFIGURADO EN NUESTRA APP
+https://firebase.google.com/docs/android/setup?hl=es-419
+
+1) DEPENDECIAS:
+HAY QUE AÑADIR 2 (TENIENDO YA EL BOM)
+
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-messaging")
+
+2) CREAMOS UN SERVICIO PERO EN VEZ DE HEREDEAR DE SERVICE, HEREDAMOS DE
+
+import com.google.firebase.messaging.FirebaseMessagingService
+
+class MiNotificacionFirebaseService : FirebaseMessagingService()
+
+Este servicio, es el que en segundo plano (backgorund) gestiona la petición
+y recepción de notificaciones
+
+3) ELEGIMOS CANAL, ICONO Y COLOR DE LA NOTIFICACION con estas configuraciones en el MANIFEST
+
+<!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more. -->
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_icon"
+    android:resource="@drawable/ic_stat_ic_notification" />
+<!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+     notification message. See README(https://goo.gl/6BKBk7) for more. -->
+<meta-data
+    android:name="com.google.firebase.messaging.default_notification_color"
+    android:resource="@color/colorAccent" />
+
+    <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="@string/default_notification_channel_id" />
+
+4) AÑADIMOS PERMISO POST_NOTIFICATIONS Y LO SOLICITAMOS EN EJECUCIÓN PARA VERSIONES
+SUPERIOR A ANDROID 13
+
+https://firebase.google.com/docs/cloud-messaging/get-started?platform=android&hl=es-419#request-permission13
+
+5) CADA CLIENTE/MOVIL/ INSTANCIA DE NUESTRA APP NECESITA UN TOKEN QUE OBITIENE AL REGISTRARSE
+CON FIREBASE COMO CLIENTE.
+
+//ESTO LO PONEMOS EN LA CLASE MAIN ... OBTENEMOS UN TOKEN
+FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+    if (!task.isSuccessful) {
+        Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+        return@OnCompleteListener
+    }
+
+    // Get new FCM registration token
+    val token = task.result
+
+    // Log and toast
+    val msg = getString(R.string.msg_token_fmt, token)
+    Log.d(TAG, msg)
+    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+})
+
+-- OPCIONAL
+//con este otro, podemos asegurar que el token se ha generado bien programando este
+método en el servicio del punto 2
+
+
+override fun onNewToken(token: String) {
+    super.onNewToken(token)//dejamos una llamada al padre por si aca...
+    Log.d(TAG, "Refreshed token: $token")
+
+}
+
+6) PARA QUE ESTO FUNCIONE, HEMOS DEBIDO IMPORTAR LOS SERVICIOS DE GOOGLE (EN NUESTRO CASO
+LO HICIMOS PARA LA INTEGRACIÓN CON GOOGLE MAPS)
+
+esta sección en el gradle del proyecto plugin {
+
+...
+id("com.google.gms.google-services") version "4.4.3" apply false
+}
+
+esta línea en el gradle del módulo
+
+plugin {
+
+...
+id("com.google.gms.google-services")
+}
+
+7) TODO ESTO CONFIGURADO, ACTUALIZADO Y SINCORINZADO EL GRADLE DEL PROYECTO E INSTALADA LA APLICACIÓN
+EN EL DISPOSITIVO; YA SÓLO QUEDA LANZAR EL MENSAJE DESDE FIREBASE PARA QUE LLEGUE A LAS APLICACIONES
+MÓVILES Y LO HACEMOS DESDE LA CONSOLA (EN NUESTRO PROYECTO/CONSOLA FIREBASE --> MESSAGING --> CREAR CAMAPAÑA)
+
+PODEMOS USAR UNA APP DE FIREBASE PARA GESTIONAR EL MENSAJE QUE QUEREMOS ENVIAR
+O DESDE LA PROPIA WEB DE FIREBASE
