@@ -1,5 +1,6 @@
 package edu.adf.profe
 
+import android.Manifest
 import android.annotation.TargetApi
 import android.content.ComponentName
 import android.content.DialogInterface
@@ -15,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
@@ -24,7 +26,10 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import edu.adf.profe.alarma.AjusteAlarmaActivity
 import edu.adf.profe.alarma.GestorAlarma
 import edu.adf.profe.authfirebase.MenuAuthActivity
@@ -43,6 +48,7 @@ import edu.adf.profe.productos.ListaProductosActivity
 import edu.adf.profe.realtimedatabase.InsertarClientesFirebaseActivity
 import edu.adf.profe.servicios.PlayActivity
 import edu.adf.profe.tabs.TabsActivity
+import edu.adf.profe.util.LogUtil
 import edu.adf.profe.worker.MiTareaProgramada
 import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
@@ -56,6 +62,7 @@ import java.util.concurrent.TimeUnit
  *
 
  * //TODO FIREBASE messagin --> notificaciones por servidor
+ * //TODO FIREBASE login con Cuenta de GOOGLE
  * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
   * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
   * //TODO SQLITE - ROOM -->  RELACIÓN N:m? listener único para recycler? mostrarCoches en otra actividad/fragment? / STATEFLOW? / inserte coches?
@@ -92,6 +99,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         if (!inicio_auto) {
             //PRIMERA VEZ
             solicitarInicioAutomatico()
+            askNotificationPermission() //por notificaciones FIREBASE
         }
 
         this.drawerLayout = findViewById<DrawerLayout>(R.id.drawer)
@@ -112,6 +120,27 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         gestionarPermisosNotis ()
        // lanzarAlarma ()
         lanzarWorkManager()
+
+        Log.d(Constantes.ETIQUETA_LOG, " GOOGLE SERVICE DISPONIBLES = ${GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)}")
+
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(Constantes.ETIQUETA_LOG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            } else {
+                // Get new FCM registration token
+                val token = task.result
+
+                // Log and toast
+                val msg = "TOKEN CREADO PARA NOTIFICACIONES = $token"// getString(R.string.msg_token_fmt, token)
+                Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()}  $msg")
+                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                //Log.d(Constantes.ETIQUETA_LOG, "Token registro FBCM $token")
+            }
+
+
+        })
 
 
 
@@ -390,4 +419,30 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
      * </application>
      *
      */
+
+
+    // Declare the launcher at the top of your Activity/Fragment:
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.d(Constantes.ETIQUETA_LOG, "Permisos notificaciones concedidos")
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Permisos notificaciones NO concedidos")
+        }
+    }
+
+    /**
+     * Método para preguntar por notificaciones (para firebase) a partir de la versión 13 Tiramisú
+     */
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
 }

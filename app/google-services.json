@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "462840026979",
+    "firebase_url": "https://adfprofe-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "adfprofe",
     "storage_bucket": "adfprofe.firebasestorage.app"
   },

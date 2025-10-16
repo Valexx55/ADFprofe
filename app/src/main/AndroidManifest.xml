@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
+
     <!-- declaro que mi app necesita conectarse a internet -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- mi app necesita acceder al estado de la red para saber si hay internet o no o de qué tipo -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -56,7 +57,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
-        tools:targetApi="31">
+        tools:targetApi="31" >
+
+
         <activity
             android:name=".realtimedatabase.InsertarClientesFirebaseActivity"
             android:exported="false" />
@@ -141,7 +144,7 @@
         <receiver
             android:name=".receptor.InicioMovilReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
 
             <!-- condiguramos el receptor para programar qué esucha/qué recibe/de que está pendiente -->
             <intent-filter>
@@ -208,7 +211,7 @@
         <activity
             android:name=".WebViewActivity"
             android:exported="true"
-            android:label="WEB ADF">
+            android:label="WEB ADF" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -234,7 +237,7 @@
             android:label="@string/titulo_actividad_suma" />
         <activity
             android:name=".MainMenuActivity"
-            android:exported="true">
+            android:exported="true" >
 
             <!-- si quito esto, la app se instala pero no se ve en el escritorio -->
             <intent-filter>
@@ -261,7 +264,7 @@
         <activity
             android:name=".ImcActivity"
             android:exported="true"
-            android:label="ACTIVIDAD IMC">
+            android:label="ACTIVIDAD IMC" >
 
             <!-- <intent-filter> -->
 
@@ -275,7 +278,7 @@
         </activity>
         <activity
             android:name=".VersionActivity"
-            android:exported="true">
+            android:exported="true" >
 
             <!-- esto es un comentario en XML / HTML -->
 
@@ -294,11 +297,37 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="edu.adf.profe"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/rutas_provider" />
         </provider>
+
+        <service
+            android:name=".notificacionesfirebase.MiNotificacionFirebaseService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/baseline_play_circle_24" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/azulclaro" />
+
+        <meta-data
+            android:name="comgoogle.firebase.messaging.default_notification_channel_id"
+            android:value="canal_fbcm" />
     </application>
 
 </manifest>
