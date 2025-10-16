@@ -135,7 +135,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 // Log and toast
                 val msg = "TOKEN CREADO PARA NOTIFICACIONES = $token"// getString(R.string.msg_token_fmt, token)
                 Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()}  $msg")
-                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                 //Log.d(Constantes.ETIQUETA_LOG, "Token registro FBCM $token")
             }
 

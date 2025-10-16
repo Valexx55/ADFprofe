@@ -325,9 +325,6 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/azulclaro" />
 
-        <meta-data
-            android:name="comgoogle.firebase.messaging.default_notification_channel_id"
-            android:value="canal_fbcm" />
     </application>
 
 </manifest>
