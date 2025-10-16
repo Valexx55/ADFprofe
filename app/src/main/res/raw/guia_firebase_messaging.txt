@@ -20,7 +20,7 @@ class MiNotificacionFirebaseService : FirebaseMessagingService()
 Este servicio, es el que en segundo plano (backgorund) gestiona la petición
 y recepción de notificaciones
 
-3) ELEGIMOS CANAL, ICONO Y COLOR DE LA NOTIFICACION con estas configuraciones en el MANIFEST
+3) ELEGIMOS ICONO Y COLOR DE LA NOTIFICACION con estas configuraciones en el MANIFEST
 
 <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more. -->
@@ -33,9 +33,8 @@ y recepción de notificaciones
     android:name="com.google.firebase.messaging.default_notification_color"
     android:resource="@color/colorAccent" />
 
-    <meta-data
-        android:name="com.google.firebase.messaging.default_notification_channel_id"
-        android:value="@string/default_notification_channel_id" />
+NO PONEMOS UN CANAL PORQUE SE CREAR AUTOMÁTICAMENTE AL LANZAR LA NOTIFICACIÓN
+
 
 4) AÑADIMOS PERMISO POST_NOTIFICATIONS Y LO SOLICITAMOS EN EJECUCIÓN PARA VERSIONES
 SUPERIOR A ANDROID 13
