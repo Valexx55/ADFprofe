@@ -6,11 +6,13 @@ import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -61,17 +63,21 @@ import java.util.concurrent.TimeUnit
  * DE MOMENTO, LO HACEMOS CON INTENTS
  *
 
- * //TODO FIREBASE messagin --> notificaciones por servidor
- * //TODO FIREBASE login con Cuenta de GOOGLE
- * //TODO GPS Y MAPAS // bLUETHOHT¿¿ // NFC dni??
-  * //TODO SERVICIOS PROPIOS started service / foreground service / intent service / binded
-  * //TODO SQLITE - ROOM -->  RELACIÓN N:m? listener único para recycler? mostrarCoches en otra actividad/fragment? / STATEFLOW? / inserte coches?
-  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
- * //TODO personalizar Fuentes tipos de letra
- * //TODO firma y PUBLICAR APPS
- * //TODO themebuilder material / colores / diseñar el tema
- * // TODO proyecto API MAPA no de google con consulta al API de clima
+
+
+
+  * //TODO bLUETHOHT¿¿ // NFC dni??
+  * //TODO SERVICIOS PROPIOS intent service / binded
+  * //TODO SQLITE - ROOM -->  RELACIÓN N:m?
  * //TODO FLOW  vs LiveData
+  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
+ * //TODO firma y PUBLICAR APPS
+ * // TODO proyecto API MAPA no de google con consulta al API de clima
+ * //TODO VISTAS JETPACK COMPOSE
+  * //TODO splash screen - pantalla de inicio
+ * // TODO transiones / animaciones
+ *
+
 
  */
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -220,7 +226,10 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //VAMOS A LANZAR LA ACTIVIDAD IMC
         //val intent = Intent(this, ImcActivity::class.java)
         //startActivity(intent)=*/
-
+        //dibujamos con fuente iconográfica
+        val fuente = Typeface.createFromAsset(assets, "fuentepatas.ttf")
+        val mensaje = findViewById<TextView>(R.id.logopatas)
+        mensaje.typeface = fuente
     }
 
 /*

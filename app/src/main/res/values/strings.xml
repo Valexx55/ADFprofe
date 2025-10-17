@@ -15,5 +15,6 @@
     <string name="boton_no">NO</string>
     <string name="boton_neutro">CANCELAR</string>
     <string name="mensaje_web_visita">VISITAR WEB</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
+    <string name="logopatas" translatable="false">\u0061 \u0064 \u0066</string>
 </resources>

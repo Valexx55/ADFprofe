@@ -1,0 +1,39 @@
+//enlace a la docu oficial para integrar
+//con una de gmail la autentición
+
+https://firebase.google.com/docs/auth/android/firebaseui?hl=es-419
+
+1) NOS VAMOS A LA CONSOLA Y HACEMOS AUTHENTICATION (si ya tenemos el
+servicio para nuestro proyecto) y pestaña MÉTODOS DE ACCESO
+
+2) AGREGAR NUEVO PROVEEDOR -- GOOGLE
+
+3) GENERAMOS HUELLA DIGITAL. HAY VARIAS FORMAS, PERO ESTA PARECE LA MÁS SENCILLA
+
+    Desde cmd, en la carpeta raíz del proyecto, ejecutamos
+
+        a) gradle.bat
+
+        y luego
+
+        b) gradlew signingReport
+
+        (también se puede ejecutar este último directamente, pero necesitas tener configurado el JAVA_HOME)
+
+    Estos comandos, imprimen un informe por pantalla y buscamos la línea SHA1
+
+    SHA1: 97:22:57:A1:40:78:E7:E3:4C:73:F9:DC:5B:8F:07:B6:BA:C2:0A:01
+
+    ÉSA es nuestra huella digital (id de nuestra app)
+
+
+3.1) Y LA PONEMOS EN LA CONFIGURACIÓN DEL PROYECTO (ruedita) COMO ATRIBUTO DE LA HUELLA DIGITAL
+GENERADA EN EL PUNTO ANTERIOR (en la parte baja del proyecto)
+
+4) Con esto, descargamos el nuevo fichero google_services.json y lo copiamos en nuestra
+carpeta local app (sustituyendo al anterior si lo hubiere)
+
+5) En la DOCUMENTACIÓN referida al inicio - concretamente en esta sección -
+enlace https://firebase.google.com/docs/auth/android/firebaseui?hl=es-419#sign_in
+
+copiamos y pegamos el código en nuestra actividad para loguearnos / salir y borrar el usuario en el servidor

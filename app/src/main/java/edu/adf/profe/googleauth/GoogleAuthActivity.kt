@@ -84,11 +84,13 @@ class GoogleAuthActivity : AppCompatActivity() {
             }
     }
     fun borrarUsuarioServidor(view: View) {
+        //OJO PARA PODER BORRAR , HAY QUE ESTAR LOGUEADO . SI DAMOS ANTES EL SALIR, NO SE EJECUTA BIEN EL BORRADO DEL SERVIDOR
+        //
         AuthUI.getInstance()
             .delete(this)
             .addOnCompleteListener {
                 // ...
-                Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} BORRAMOS OK")
+                Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} BORRAMOS COMPLETADO")
             }
     }
 
