@@ -40,6 +40,7 @@ import edu.adf.profe.contactos.SeleccionContactoPermisosActivity
 import edu.adf.profe.descargarcanciones.DescargarCancionActivity
 import edu.adf.profe.fechayhora.SeleccionFechaYHoraActivity
 import edu.adf.profe.foto.FotoActivity
+import edu.adf.profe.googleauth.GoogleAuthActivity
 import edu.adf.profe.lista.ListaUsuariosActivity
 import edu.adf.profe.mapa.MapsActivity
 import edu.adf.profe.perros.PerrosActivity
@@ -181,6 +182,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 27 -> Intent(this, BaseDatosActivity::class.java)
                 28 -> Intent(this, MenuAuthActivity::class.java)
                 29 -> Intent(this, InsertarClientesFirebaseActivity::class.java)
+                30 -> Intent(this, GoogleAuthActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 

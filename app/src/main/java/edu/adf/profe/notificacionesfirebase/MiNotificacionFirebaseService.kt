@@ -1,16 +1,8 @@
 package edu.adf.profe.notificacionesfirebase
 
-import android.R
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import edu.adf.profe.Constantes
-import edu.adf.profe.MainMenuActivity
 import edu.adf.profe.util.LogUtil
 
 
@@ -32,6 +24,17 @@ class MiNotificacionFirebaseService : FirebaseMessagingService()  {
         //sendRegistrationToServer(token)
     }
 
+    /**
+     *
+     *
+     *            PARECE QUE EN SEGUNDO PLANO SÍ SE RECIBEN LAS NOTIFICACIONES
+     *            NO ASÍ EN PRIMER PLANO
+     *
+     *            QUEDARÍA PROBAR EL ENVÍO DE MENSAJES VÍA API
+     *            Y COMBINARLO CON EL MÉTOD O onMessageReceived
+     */
+
+    /*
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} ID mensaje = ${message.messageId}")
         Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()} TIPO mensaje = ${message.messageType}")
@@ -70,6 +73,6 @@ class MiNotificacionFirebaseService : FirebaseMessagingService()  {
 
 
     }
-
+*/
 
 }
