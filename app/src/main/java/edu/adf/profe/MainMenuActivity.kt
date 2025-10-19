@@ -72,10 +72,12 @@ import java.util.concurrent.TimeUnit
  * //TODO FLOW  vs LiveData
   * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  * //TODO firma y PUBLICAR APPS
- * // TODO proyecto API MAPA no de google con consulta al API de clima
- * //TODO VISTAS JETPACK COMPOSE
+ * // TODO proyecto API MAPA no de google con consulta al API de clima en varios módulos
+ * // TODO VISTAS JETPACK COMPOSE
   * //TODO splash screen - pantalla de inicio
  * // TODO transiones / animaciones
+ * // TODO APp shortcuts
+ * //
  *
 
 
