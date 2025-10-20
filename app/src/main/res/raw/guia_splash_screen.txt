@@ -130,3 +130,57 @@ en la práctica, no ha tenido ningún efecto en las pruebas
             }
         }
     }
+
+ /////PARA AGREGAR COMPATIBILIDAD EN LAS VERSIONES ANTERIORES A LA 12
+ Y QUE TAMBIÉN APAREZCA LA SPLASH (PROBADO EN ANDROID 10)
+
+1) tener la librería splash screen importada (igual que antes)
+
+2) definir un tema provisional para la actividad principal, de modo
+que esté vinculada a ella y sobreescriba el tema de la aplicación
+En ella ,defino los elementos de la animación para versiones
+anteriores a la 12, aunque con limitaciones (ver comentarios=
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+
+        <item name="windowSplashScreenBackground">@color/grissuave</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">10000</item>
+        <!-- No parece que afecte. Aún con un icono transparente-->
+        <item name="windowSplashScreenIconBackgroundColor">@color/minaranja</item>
+        <!-- No se puede incluir con o sin prefijo android:-->
+        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>-->
+
+
+        <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
+    En la definición de esa actividad en el manifest, se debe ligar el tema
+
+     android:theme="@style/Theme.App.Starting"
+
+2) Este tema no hereda de Theme.AppCompat (como sí lo hace material)
+por lo que hay que resturar programáticamente el tema original en
+la primera línea de código (pese a que el fichero anterior aporta el
+atributo postSplashScreenTheme
+
+override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme) // Actualizamos el tema al tema normal (eliminamos el usado para la splash screen en versiones anteriores)
+
+3) Opcionalmente, puedo obtener una referencia a la splashscreen así
+
+
+        //Esto es una splashScreen vacía en versiones anteriores a 12
+        //pero se le puede definir callbacks y listeners también
+        /*
+
+        val splashScreen = installSplashScreen()//en la versión 12 estaría rellena
+
+        splashScreen.setKeepOnScreenCondition {
+            // Mantiene visible la splash mientras tu app carga datos.
+            viewModel.isLoading
+        } */
+
+4) hay una limitación en la animación de salida y es que sólo puede usarse
+en versiones 12 o posteriores

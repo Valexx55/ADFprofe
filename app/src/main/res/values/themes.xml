@@ -2,19 +2,17 @@
 
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <!-- Set the splash screen background, animated icon, and animation
-        duration. -->
-        <item name="android:windowBackground">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenBackground">@color/minaranja</item>
 
-        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
-             drawable. One of these is required. -->
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <!-- Required for animated icons. -->
-        <item name="windowSplashScreenAnimationDuration">3000</item>
+        <item name="windowSplashScreenBackground">@color/grissuave</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">10000</item>
+        <!-- No parece que afecte. Aún con un icono transparente-->
+        <item name="windowSplashScreenIconBackgroundColor">@color/minaranja</item>
+        <!-- No se puede incluir con o sin prefijo android:-->
+        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>-->
 
-        <!-- Set the theme of the Activity that directly follows your splash
-        screen. This is required. -->
+
+        <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
     <style name="AppTheme" parent="Theme.Material3.Light">

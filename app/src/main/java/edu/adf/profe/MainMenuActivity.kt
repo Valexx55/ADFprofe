@@ -26,7 +26,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.work.Constraints
@@ -106,12 +105,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppTheme) // cambia al tema real de la app
+        setTheme(R.style.AppTheme) // Actualizamos el tema al tema normal (eliminamos el usado para la splash screen en versiones anteriores)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu2)
 
-        //para veersiones anteriores
-        val splashScreen = installSplashScreen()
+
 
         //VER COMENTARIOS estas dos funciones sobre Splash Screen
         retardo()
@@ -153,16 +151,21 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w(Constantes.ETIQUETA_LOG, "Fetching FCM registration token failed", task.exception)
+                Log.w(
+                    Constantes.ETIQUETA_LOG,
+                    "Fetching FCM registration token failed",
+                    task.exception
+                )
                 return@OnCompleteListener
             } else {
                 // Get new FCM registration token
                 val token = task.result
 
                 // Log and toast
-                val msg = "TOKEN CREADO PARA NOTIFICACIONES = $token"// getString(R.string.msg_token_fmt, token)
+                val msg =
+                    "TOKEN CREADO PARA NOTIFICACIONES = $token"// getString(R.string.msg_token_fmt, token)
                 Log.d(Constantes.ETIQUETA_LOG, "${LogUtil.getLogInfo()}  $msg")
-               // Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+                // Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                 //Log.d(Constantes.ETIQUETA_LOG, "Token registro FBCM $token")
             }
 
@@ -487,6 +490,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     fun retardo ()
     {
         // Set up an OnPreDrawListener to the root view.
+        //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
+        //Ese content existe siempre, todos nuestros layouts montan en este Frame y sigue estando en JetPack Compose
         val content = findViewById<View>(android.R.id.content)
         content.viewTreeObserver.addOnPreDrawListener(
             object : ViewTreeObserver.OnPreDrawListener {
@@ -512,6 +517,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
      */
     fun animacionSalidaSplash ()
     {
+        //sólo para versiones anteriores
+        //también podría obtener la instancia con val splashScreen = installSplashScreen()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 // Create your custom animation.
@@ -531,5 +538,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 slideUp.start()
             }
         }
+        /*
+        * splashScreen.setOnExitAnimationListener { splashScreenView ->
+    splashScreenView.iconView.animate()
+        .alpha(0f)
+        .setDuration(300L)
+        .withEndAction {
+            splashScreenView.remove()
+        }
+}*/
     }
 }
