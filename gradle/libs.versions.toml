@@ -25,6 +25,7 @@ lifecycleLivedata = "2.9.3"
 roomCommon = "2.7.2"
 roomCompiler = "2.7.2"
 roomKtx = "2.7.2"
+coreSplashscreen = "1.0.1"
 
 
 
@@ -51,6 +52,7 @@ androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
 
 [plugins]

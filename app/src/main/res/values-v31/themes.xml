@@ -1,25 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <!-- Set the splash screen background, animated icon, and animation
-        duration. -->
-        <item name="android:windowBackground">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenBackground">@color/minaranja</item>
-
-        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
-             drawable. One of these is required. -->
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <!-- Required for animated icons. -->
-        <item name="windowSplashScreenAnimationDuration">3000</item>
-
-        <!-- Set the theme of the Activity that directly follows your splash
-        screen. This is required. -->
-        <item name="postSplashScreenTheme">@style/AppTheme</item>
-    </style>
     <style name="AppTheme" parent="Theme.Material3.Light">
-        <!--<item name="android:windowBackground">@mipmap/ic_launcher</item>-->
+        <item name="android:windowSplashScreenBackground">@color/grissuave</item>
         <!-- <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimationDuration">10000</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/minaranja</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>
         <!-- esta fuente se usa en botones, textviews y la mayoría de textos de la app -->
         <item name="android:fontFamily">@font/bbhfont</item>
 
@@ -71,20 +59,4 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
-    <style name="Base.Theme.AdfProfe" parent="Theme.Material3.DayNight">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="colorPrimary" >@color/miazul</item>
-        <item name="colorOnSurface">@color/minaranja</item>
-
-    </style>
-    <!--<style name="Theme.AdfProfe" parent="Base.Theme.AdfProfe" />-->
-    <style name="Theme.AdfProfe" parent="AppTheme" />
-    <style name="Theme.AdfProfe.SinBarra" parent="Theme.Material3.DayNight.NoActionBar" />
-
-    <!-- res/values/styles.xml -->
-    <style name="FuenteMenuLateral" parent="TextAppearance.AppCompat.Body1">
-        <item name="fontFamily">@font/bbhfont</item>
-    </style>
-
 </resources>

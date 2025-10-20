@@ -1,6 +1,7 @@
 package edu.adf.profe
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.annotation.TargetApi
 import android.content.ComponentName
 import android.content.DialogInterface
@@ -12,15 +13,20 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewTreeObserver
+import android.view.animation.AnticipateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.animation.doOnEnd
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.work.Constraints
@@ -100,8 +106,20 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme) // cambia al tema real de la app
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu2)
+
+        //para veersiones anteriores
+        val splashScreen = installSplashScreen()
+
+        //VER COMENTARIOS estas dos funciones sobre Splash Screen
+        retardo()
+        animacionSalidaSplash()
+
+
+
+
         val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
         val inicio_auto = ficherop.getBoolean("INICIO_AUTO", false)
         if (!inicio_auto) {
@@ -455,6 +473,62 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 PackageManager.PERMISSION_GRANTED
             ) {
                  requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    /**
+    Por defecto, cuando ya se ha dibujado la Actividad Principal, la Splash Screen
+    desaparece. Sin emabargo, al programar esta función Predraw no se pinta ningún
+    fotograma, hasta que no esta función no devuelta true. Por ejemplo
+    en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
+    la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
+     */
+    fun retardo ()
+    {
+        // Set up an OnPreDrawListener to the root view.
+        val content = findViewById<View>(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    // Check whether the initial data is ready.
+                    Thread.sleep(6000)
+                    return if (true) {
+                        // The content is ready. Start drawing.
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        // The content isn't ready. Suspend.
+                        false
+                    }
+                }
+            })
+    }
+
+    /**
+    * La salidad de la SplashScreen, puede ser animada. De modo, que podemos
+     * definir un listener al finalizar su tiempo y cargar una animación
+     * como ésta
+     */
+    fun animacionSalidaSplash ()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                // Create your custom animation.
+                val slideUp = ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.TRANSLATION_X,
+                    0f,
+                    -splashScreenView.width.toFloat()
+                )
+                slideUp.interpolator = AnticipateInterpolator()
+                slideUp.duration = 20000L
+
+                // Call SplashScreenView.remove at the end of your custom animation.
+                slideUp.doOnEnd { splashScreenView.remove() }
+
+                // Run your animation.
+                slideUp.start()
             }
         }
     }
