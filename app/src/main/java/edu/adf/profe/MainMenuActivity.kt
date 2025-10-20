@@ -26,6 +26,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.work.Constraints
@@ -112,8 +113,18 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
         //VER COMENTARIOS estas dos funciones sobre Splash Screen
-        retardo()
-        animacionSalidaSplash()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            Log.d(Constantes.ETIQUETA_LOG, "Estoy en V12 o superior")
+            retardoModerno()
+        } else {
+            Log.d(Constantes.ETIQUETA_LOG, "Estoy en V12 o superior")
+            retardoAntiguo()
+            animacionSalidaSplash()
+        }
+
+
+
 
 
 
@@ -487,7 +498,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
     la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
      */
-    fun retardo ()
+    fun retardoAntiguo ()
     {
         // Set up an OnPreDrawListener to the root view.
         //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
@@ -508,6 +519,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     }
                 }
             })
+    }
+
+    fun retardoModerno ()
+    {
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition {
+            Thread.sleep(5000)
+            true }
     }
 
     /**

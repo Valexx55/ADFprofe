@@ -184,3 +184,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 4) hay una limitación en la animación de salida y es que sólo puede usarse
 en versiones 12 o posteriores
+
+5) para manejar la duración del retardo, la forma con el preRender es válida todas las apis
+pero se recomienda para la 12, usar el
+
+splashScreen.setKeepOnScreenCondition (ver implementación de las 2 en MainMenuActivity
