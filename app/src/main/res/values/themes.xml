@@ -15,6 +15,7 @@
         <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
+
     <style name="AppTheme" parent="Theme.Material3.Light">
         <!--<item name="android:windowBackground">@mipmap/ic_launcher</item>-->
         <!-- <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
@@ -85,4 +86,22 @@
         <item name="fontFamily">@font/bbhfont</item>
     </style>
 
+        <style name="Theme.Transiciones" parent="Theme.AdfProfe">
+            <item name="android:windowContentTransitions">true</item>
+            <!--<item name="android:windowSharedElementEnterTransition"> @transition/change_image_transform</item>
+            <item name="android:windowSharedElementExitTransition"> @transition/change_image_transform</item>-->
+            <item name="android:windowEnterTransition">@transition/slide</item>
+            <item name="android:windowExitTransition">@transition/slide</item>
+            <!--<item name="android:windowEnterTransition">@transition/explode</item>
+            <item name="android:windowExitTransition">@transition/explode</item>-->
+            <!--  Estados Reingreso-Retorno   -->
+            <item name="android:windowReenterTransition">@transition/fade</item>
+            <item name="android:windowReturnTransition">@transition/fade</item>
+            <!--  para que no empiece la de entrada hasta que acabe la de salida y vice  -->
+            <item name="android:windowAllowEnterTransitionOverlap">false</item>
+            <item name="android:windowAllowReturnTransitionOverlap">false</item>
+            <!--  Habilitar superposición de los elementos compartidos entre transiciones  -->
+            <item name="android:windowSharedElementsUseOverlay">true</item>
+
+        </style>
 </resources>

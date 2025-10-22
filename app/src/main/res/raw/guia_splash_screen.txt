@@ -189,3 +189,18 @@ en versiones 12 o posteriores
 pero se recomienda para la 12, usar el
 
 splashScreen.setKeepOnScreenCondition (ver implementación de las 2 en MainMenuActivity
+
+
+NOTA FINAL::
+
+HACIENDO LA CONFIRUACIÓN DE COMPATIBILIDAD, PERDEMOS EL COLOR DE FONDO Y LA IMAGEN AL PIE
+QUE SÍ PERMITE LA VERSIÓN 12.
+
+SE PUEDE DEFINIR OTRO Theme.SplashScreen EN LA CARPETA V31
+Y ASÍ CARGAR OTRA PANTALLA MÁS RICA. Pero distintos usuarios
+verían distintas pantallas según su versión
+
+
+SI TENEMOS UNA SPLASH SCREEN PROPIA, ES CONVENINETE ELIMINARLA
+Y HACERLA COMPATIBLE CON LA V12, PUESTO QUE PODRÍAN SALIR LAS DOS
+ANIMACIONES Y RETARDAR EL INICIO

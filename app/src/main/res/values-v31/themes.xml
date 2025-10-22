@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- con esto, hago una splash especial para las versiones mayor o igual que 12,
+    pero por compatiblidad, lo dejamos comentado. En 12, podemos poner
+    un color de fondo al icono y una imagen en la parte inferior.
+    Son extras que no tengo en versiones anteriores -->
+    <!--
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+
+        <item name="android:windowSplashScreenBackground">@color/grissuave</item>-->
+        <!-- <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->
+        <!--<item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimationDuration">10000</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/minaranja</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/imagen_derrota</item>
+-->
+        <!-- No parece que afecte. S/e programáticamente sí que hay setearlo-->
+        <!--<item name="postSplashScreenTheme">@style/AppTheme</item>-->
+   <!-- </style>-->
     <style name="AppTheme" parent="Theme.Material3.Light">
         <item name="android:windowSplashScreenBackground">@color/grissuave</item>
         <!-- <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>-->

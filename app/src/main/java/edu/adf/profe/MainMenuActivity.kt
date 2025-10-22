@@ -1,7 +1,6 @@
 package edu.adf.profe
 
 import android.Manifest
-import android.animation.ObjectAnimator
 import android.annotation.TargetApi
 import android.content.ComponentName
 import android.content.DialogInterface
@@ -15,13 +14,12 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.animation.AnticipateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.doOnEnd
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -39,6 +37,9 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.messaging.FirebaseMessaging
 import edu.adf.profe.alarma.AjusteAlarmaActivity
 import edu.adf.profe.alarma.GestorAlarma
+import edu.adf.profe.animaciones.AndroidPequeActivity
+import edu.adf.profe.animaciones.AnimationActivity
+import edu.adf.profe.animaciones.RippleYDesaparecerActivity
 import edu.adf.profe.authfirebase.MenuAuthActivity
 import edu.adf.profe.basedatos.BaseDatosActivity
 import edu.adf.profe.biometrico.BioActivity
@@ -72,15 +73,15 @@ import java.util.concurrent.TimeUnit
 
 
 
-  * //TODO bLUETHOHT¿¿ // NFC dni??
-  * //TODO SERVICIOS PROPIOS intent service / binded
-  * //TODO SQLITE - ROOM -->  RELACIÓN N:m?
- * //TODO FLOW  vs LiveData
-  * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
+ * //TODO bLUETHOHT¿¿ // NFC dni??
+ * //TODO SERVICIOS PROPIOS intent service / binded
+ * //TODO SQLITE - ROOM -->  RELACIÓN N:m?
+ * //FLOW  vs LiveData : Flow dentro de corrutinas y sólo mejora en 2 casos: si tienes que hacer operaciones sobre el flujo (streams/transformaciones) o flujo constante de datos
+ * //TODO apuntes JETPCK COMPOSE Y MONETIZACIÓN, DISEÑO Y SEGURIDAD
  * //TODO firma y PUBLICAR APPS
  * // TODO proyecto API MAPA no de google con consulta al API de clima en varios módulos
  * // TODO VISTAS JETPACK COMPOSE
-  * //TODO splash screen - pantalla de inicio
+ * //FIXME revisar la versión noche en dispositivos 31 o más
  * // TODO transiones / animaciones
  * // TODO APp shortcuts
  * //
@@ -93,12 +94,12 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     var menuVisible: Boolean = false
-    var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    var launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         Log.d(Constantes.ETIQUETA_LOG, "Volviendo de Ajustes Autonicio")
         val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
         //ficherop.edit().putBoolean("INICIO_AUTO", true).commit()
         //ponemos alarma a true la primera vez
-        ficherop.edit(true){
+        ficherop.edit(true) {
             putBoolean("INICIO_AUTO", true)
             putBoolean("ALARMA", false)
         }
@@ -107,26 +108,19 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme) // Actualizamos el tema al tema normal (eliminamos el usado para la splash screen en versiones anteriores)
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.S)
+        {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            Log.d(Constantes.ETIQUETA_LOG, "PONIENDO TEMA NOCHE")
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu2)
 
 
 
-        //VER COMENTARIOS estas dos funciones sobre Splash Screen
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        {
-            Log.d(Constantes.ETIQUETA_LOG, "Estoy en V12 o superior")
-            retardoModerno()
-        } else {
-            Log.d(Constantes.ETIQUETA_LOG, "Estoy en V12 o superior")
-            retardoAntiguo()
-            animacionSalidaSplash()
-        }
 
-
-
-
-
+        retardoAntiguo()
+        animacionSalidaSplash()
 
 
         val ficherop = getSharedPreferences("ajustes", MODE_PRIVATE)
@@ -143,17 +137,17 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //en esta actividad (this) escuchamos la selección sobre el menú Navigation
         //this.navigationView.setNavigationItemSelectedListener(this)
 
-       // intentCompartir()
+        // intentCompartir()
         val fichero = getSharedPreferences(Constantes.FICHERO_PREFERENCIAS_INICIO, MODE_PRIVATE)
-        val saltarVideo: Boolean =  fichero.getBoolean("SALTAR_VIDEO", false)
+        val saltarVideo: Boolean = fichero.getBoolean("SALTAR_VIDEO", false)
         if (!saltarVideo)//==false
         {
             val intentvideo = Intent(this, VideoActivity::class.java)
             startActivity(intentvideo)
         }
-       // mostrarAPPSinstaladas()
-        gestionarPermisosNotis ()
-       // lanzarAlarma ()
+        // mostrarAPPSinstaladas()
+        gestionarPermisosNotis()
+        // lanzarAlarma ()
         lanzarWorkManager()
 
 
@@ -186,20 +180,24 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
 
-        this.navigationView.setNavigationItemSelectedListener (fun (item: MenuItem): Boolean {
+        this.navigationView.setNavigationItemSelectedListener(fun(item: MenuItem): Boolean {
             Log.d(Constantes.ETIQUETA_LOG, "Opción ${item.order} seleccionada")
 
-            var intent:Intent = when(item.order) {
+            var intent: Intent = when (item.order) {
                 2 -> Intent(this, AdivinaNumeroActivity::class.java)
                 3 -> Intent(this, ImcActivity::class.java)
                 4 -> Intent(this, CuadrosActivity::class.java)
                 5 -> Intent(this, SumaActivity::class.java)
                 6 -> Intent(this, BusquedaActivity::class.java)
                 7 -> {
-                    val intentImplicito = Intent(Intent.ACTION_VIEW, "https://adf-formacion.es/".toUri())//intent implicito
+                    val intentImplicito = Intent(
+                        Intent.ACTION_VIEW,
+                        "https://adf-formacion.es/".toUri()
+                    )//intent implicito
                     Intent.createChooser(intentImplicito, "Elige APP para ver ADF WEB")
                     //Intent(this, WebViewActivity::class.java)//intent explícito
                 }
+
                 8 -> Intent(this, SpinnerActivity::class.java)
                 9 -> Intent(this, FormularioActivity::class.java)
                 10 -> Intent(this, Ejercicio1VacasActivity::class.java)
@@ -223,6 +221,9 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 28 -> Intent(this, MenuAuthActivity::class.java)
                 29 -> Intent(this, InsertarClientesFirebaseActivity::class.java)
                 30 -> Intent(this, GoogleAuthActivity::class.java)
+                31 -> Intent(this, RippleYDesaparecerActivity::class.java)
+                32 -> Intent(this, AndroidPequeActivity::class.java)
+                33 -> Intent(this, AnimationActivity::class.java)
 
                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
@@ -235,24 +236,24 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             return true //en una lambda, no hace poner return
         })
         //con función lambda
-       /* this.navigationView.setNavigationItemSelectedListener{
-            Log.d(Constantes.ETIQUETA_LOG, "Opción ${it.order} seleccionada")
+        /* this.navigationView.setNavigationItemSelectedListener{
+             Log.d(Constantes.ETIQUETA_LOG, "Opción ${it.order} seleccionada")
 
-            var intent:Intent = when(it.order) {
-                2 -> Intent(this, AdivinaNumeroActivity::class.java)
-                3 -> Intent(this, ImcActivity::class.java)
-                4 -> Intent(this, CuadrosActivity::class.java)
-                5 -> Intent(this, SumaActivity::class.java)
-                else /*1*/ -> Intent(this, VersionActivity::class.java)
+             var intent:Intent = when(it.order) {
+                 2 -> Intent(this, AdivinaNumeroActivity::class.java)
+                 3 -> Intent(this, ImcActivity::class.java)
+                 4 -> Intent(this, CuadrosActivity::class.java)
+                 5 -> Intent(this, SumaActivity::class.java)
+                 else /*1*/ -> Intent(this, VersionActivity::class.java)
 
-            }
+             }
 
-            startActivity(intent)//voy a otra pantalla
+             startActivity(intent)//voy a otra pantalla
 
-            this.drawerLayout.closeDrawers()
-            this.menuVisible = false
-            true //en una lambda, no hace poner return
-        }*/
+             this.drawerLayout.closeDrawers()
+             this.menuVisible = false
+             true //en una lambda, no hace poner return
+         }*/
 
         this.supportActionBar?.setDisplayHomeAsUpEnabled(true)//dibuja el incono de menú sólo la flecha
         this.supportActionBar?.setHomeAsUpIndicator(R.drawable.outline_menu_24)//le digo que me dibuje la hamburguesa
@@ -266,31 +267,29 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         mensaje.typeface = fuente
     }
 
-/*
-    fun intentCompartir()
-    {
-        val intentEnviarTexto = Intent(Intent.ACTION_SEND)//ENVIAR
-        intentEnviarTexto.type="text/plain"//TIPO MIME  de qué tipo es la información -- "extensión"
-        intentEnviarTexto.putExtra(Intent.EXTRA_TEXT, "Hola desde Android :)")
-        startActivity(Intent.createChooser(intentEnviarTexto, "Enviar mensaje con ..."))
-    }*/
+    /*
+        fun intentCompartir()
+        {
+            val intentEnviarTexto = Intent(Intent.ACTION_SEND)//ENVIAR
+            intentEnviarTexto.type="text/plain"//TIPO MIME  de qué tipo es la información -- "extensión"
+            intentEnviarTexto.putExtra(Intent.EXTRA_TEXT, "Hola desde Android :)")
+            startActivity(Intent.createChooser(intentEnviarTexto, "Enviar mensaje con ..."))
+        }*/
 
     //este métod o se invoca al tocar la hamburguesa
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId)
-        {
+        when (item.itemId) {
             android.R.id.home -> {
                 Log.d(Constantes.ETIQUETA_LOG, "Botón Hamburguesa tocado")
-                if (this.menuVisible)
-                {
+                if (this.menuVisible) {
                     //cerrar
                     this.drawerLayout.closeDrawers()
-                   this.menuVisible=false
+                    this.menuVisible = false
                 } else {
                     this.drawerLayout.openDrawer(GravityCompat.START)
-                   this.menuVisible=true
+                    this.menuVisible = true
                 }
-               // this.menuVisible = !this.menuVisible
+                // this.menuVisible = !this.menuVisible
             }
         }
         return super.onOptionsItemSelected(item)
@@ -299,7 +298,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d(Constantes.ETIQUETA_LOG, "Opción ${item.order} seleccionada")
 
-        var intent:Intent = when(item.order) {
+        var intent: Intent = when (item.order) {
             2 -> Intent(this, AdivinaNumeroActivity::class.java)
             3 -> Intent(this, ImcActivity::class.java)
             4 -> Intent(this, CuadrosActivity::class.java)
@@ -311,15 +310,15 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(intent)//voy a otra pantalla
 
         // más avanzando, con genéricos <>
-       /* var objeto:Class<out Activity> = when(item.order) { //Class<*>
-            2 ->  AdivinaNumeroActivity::class.java
-            3 ->  ImcActivity::class.java
-            4 -> CuadrosActivity::class.java
-            else /*1*/ -> VersionActivity::class.java
+        /* var objeto:Class<out Activity> = when(item.order) { //Class<*>
+             2 ->  AdivinaNumeroActivity::class.java
+             3 ->  ImcActivity::class.java
+             4 -> CuadrosActivity::class.java
+             else /*1*/ -> VersionActivity::class.java
 
-        }
-        val miIntent: Intent = Intent(this, objeto)
-        startActivity(miIntent) */
+         }
+         val miIntent: Intent = Intent(this, objeto)
+         startActivity(miIntent) */
 
 
 
@@ -346,8 +345,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             e.printStackTrace()
         }
     }
-    fun mostrarAPPSinstaladas ()
-    {
+
+    fun mostrarAPPSinstaladas() {
         val packageManager = packageManager
         val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
 
@@ -358,21 +357,22 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         //ordeno por paquete
         val appOrdenadas = apps.sortedBy { it.packageName }
         appOrdenadas.forEach {
-            Log.d("AppInfo", "Package: ${it.packageName}, Label: ${packageManager.getApplicationLabel(it)}")
-           // Log.d("AppInfo", "$it")
+            Log.d(
+                "AppInfo",
+                "Package: ${it.packageName}, Label: ${packageManager.getApplicationLabel(it)}"
+            )
+            // Log.d("AppInfo", "$it")
         }
 
     }
 
-    fun gestionarPermisosNotis ()
-    {
+    fun gestionarPermisosNotis() {
         val areNotificationsEnabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
 
         if (!areNotificationsEnabled) {
             // Mostrar un diálogo al usuario explicando por qué necesita habilitar las notificaciones
             mostrarDialogoActivarNotis()
-        }
-        else {
+        } else {
             Log.d(Constantes.ETIQUETA_LOG, "Notis desactivadas")
         }
     }
@@ -385,7 +385,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             .setMessage("Para que la app funcione, debe ir a ajustes y activar las notificaciones")
             //.setMessage("¿Desea Salir?")
             .setIcon(R.drawable.imagen_derrota)
-            .setPositiveButton("IR"){ dialogo, opcion ->
+            .setPositiveButton("IR") { dialogo, opcion ->
                 Log.d(Constantes.ETIQUETA_LOG, "Opción positiva salir =  $opcion")
                 val intent = Intent().apply {
                     action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
@@ -394,7 +394,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 startActivity(intent)
 
             }
-            .setNegativeButton("CANCELAR"){ dialogo: DialogInterface, opcion: Int ->
+            .setNegativeButton("CANCELAR") { dialogo: DialogInterface, opcion: Int ->
                 Log.d(Constantes.ETIQUETA_LOG, "Opción negativa  =  $opcion")
                 dialogo.dismiss()
             }
@@ -403,13 +403,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         dialogo.show()//lo muestro
     }
 
-    fun lanzarAlarma ()
-    {
+    fun lanzarAlarma() {
         GestorAlarma.programarAlarma(this)
     }
 
-    fun lanzarWorkManager ()
-    {
+    fun lanzarWorkManager() {
         //definimos restricciones
         val constraints = Constraints.Builder()
             //.setRequiredNetworkType(NetworkType.UNMETERED) // solo Wi-Fi
@@ -436,7 +434,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 periodicWorkRequest
             )
 
-        val tiempo = System.currentTimeMillis()+(60*1000*15)//(30*1000)//15 minutos
+        val tiempo = System.currentTimeMillis() + (60 * 1000 * 15)//(30*1000)//15 minutos
         val dateformatter = SimpleDateFormat("E dd/MM/yyyy ' a las ' hh:mm:ss")
         val mensaje = dateformatter.format(tiempo)
         Log.d(Constantes.ETIQUETA_LOG, "TAREA PROGRAMADA PARA $mensaje")
@@ -486,7 +484,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
                 PackageManager.PERMISSION_GRANTED
             ) {
-                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
@@ -498,8 +496,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     en este caso, estamos causando un retardo de 6 segundos y hasta que no acabe
     la actividad no empieza a pintarse y mientras, se ve sólo la Splash Screen
      */
-    fun retardoAntiguo ()
-    {
+    fun retardoAntiguo() {
         // Set up an OnPreDrawListener to the root view.
         //OJO android.R.id.content apunta al FrameLayout que contiene toda la interfaz de tu Activity.
         //Ese content existe siempre, todos nuestros layouts montan en este Frame y sigue estando en JetPack Compose
@@ -508,7 +505,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             object : ViewTreeObserver.OnPreDrawListener {
                 override fun onPreDraw(): Boolean {
                     // Check whether the initial data is ready.
-                    Thread.sleep(6000)
+                    Thread.sleep(50)
                     return if (true) {
                         // The content is ready. Start drawing.
                         content.viewTreeObserver.removeOnPreDrawListener(this)
@@ -521,24 +518,23 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             })
     }
 
-    fun retardoModerno ()
-    {
+    fun retardoModerno() {
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition {
             Thread.sleep(5000)
-            true }
+            true
+        }
     }
 
     /**
-    * La salidad de la SplashScreen, puede ser animada. De modo, que podemos
+     * La salidad de la SplashScreen, puede ser animada. De modo, que podemos
      * definir un listener al finalizar su tiempo y cargar una animación
      * como ésta
      */
-    fun animacionSalidaSplash ()
-    {
+    fun animacionSalidaSplash() {
         //sólo para versiones anteriores
         //también podría obtener la instancia con val splashScreen = installSplashScreen()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 // Create your custom animation.
                 val slideUp = ObjectAnimator.ofFloat(
@@ -556,15 +552,17 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 // Run your animation.
                 slideUp.start()
             }
+        }*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                splashScreenView.iconView!!.animate()
+                    .alpha(0f)
+                    .setDuration(3000L)
+                    .withEndAction {
+                        splashScreenView.remove()
+                    }
+            }
         }
-        /*
-        * splashScreen.setOnExitAnimationListener { splashScreenView ->
-    splashScreenView.iconView.animate()
-        .alpha(0f)
-        .setDuration(300L)
-        .withEndAction {
-            splashScreenView.remove()
-        }
-}*/
     }
 }
