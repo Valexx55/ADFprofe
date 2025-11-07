@@ -57,6 +57,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdfProfe"
         tools:targetApi="31">
+
+
         <activity
             android:name=".animaciones.AnimationActivity"
             android:exported="false" />
@@ -263,6 +265,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".CuadrosActivity"
